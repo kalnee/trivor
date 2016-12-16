@@ -1,12 +1,16 @@
 {
   "name": "scraper",
   "version": "1.0.0",
-  "description": "Web scraper intended to find and list verb conjugation.",
-  "main": "index.js",
+  "description": "Web scraper intended to collect language information",
+  "main": "irregular-verbs.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "engine": {
+    "node": "6.5.x",
+    "npm": "3.10.x"
+  },
+  "author": "danielfc",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^0.22.0",
