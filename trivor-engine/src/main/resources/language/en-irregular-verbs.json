@@ -128,7 +128,7 @@
     "simpleParticiple": "dug"
 }, {
     "present": "dive",
-    "simplePast": "dived/dove (AmE)",
+    "simplePast": "dived/dove",
     "simpleParticiple": "dived"
 }, {
     "present": "do",
@@ -140,8 +140,8 @@
     "simpleParticiple": "drawn"
 }, {
     "present": "dream",
-    "simplePast": "dreamt /dreamed",
-    "simpleParticiple": "dreamt /dreamed"
+    "simplePast": "dreamt/dreamed",
+    "simpleParticiple": "dreamt/dreamed"
 }, {
     "present": "drink",
     "simplePast": "drank",
@@ -199,7 +199,7 @@
     "simplePast": "forgot",
     "simpleParticiple": "forgotten"
 }, {
-    "present": "forego /forgo",
+    "present": "forego/forgo",
     "simplePast": "forewent",
     "simpleParticiple": "foregone"
 }, {
@@ -217,7 +217,7 @@
 }, {
     "present": "get",
     "simplePast": "got",
-    "simpleParticiple": "got (BrE) /gotten (AmE)"
+    "simpleParticiple": "got/gotten"
 }, {
     "present": "give",
     "simplePast": "gave",
@@ -288,16 +288,16 @@
     "simpleParticiple": "led"
 }, {
     "present": "lean",
-    "simplePast": "leant /leaned",
-    "simpleParticiple": "leant /leaned"
+    "simplePast": "leant/leaned",
+    "simpleParticiple": "leant/leaned"
 }, {
     "present": "leap",
-    "simplePast": "leapt /leaped",
-    "simpleParticiple": "leapt /leaped"
+    "simplePast": "leapt/leaped",
+    "simpleParticiple": "leapt/leaped"
 }, {
     "present": "learn",
-    "simplePast": "learnt /learned",
-    "simpleParticiple": "learnt /learned"
+    "simplePast": "learnt/learned",
+    "simpleParticiple": "learnt/learned"
 }, {
     "present": "leave",
     "simplePast": "left",
@@ -316,8 +316,8 @@
     "simpleParticiple": "lain"
 }, {
     "present": "light",
-    "simplePast": "lit /lighted",
-    "simpleParticiple": "lit /lighted"
+    "simplePast": "lit/lighted",
+    "simpleParticiple": "lit/lighted"
 }, {
     "present": "lose",
     "simplePast": "lost",
@@ -336,8 +336,8 @@
     "simpleParticiple": "met"
 }, {
     "present": "misspell",
-    "simplePast": "misspelt /misspelled",
-    "simpleParticiple": "misspelt /misspelled"
+    "simplePast": "misspelt/misspelled",
+    "simpleParticiple": "misspelt/misspelled"
 }, {
     "present": "mistake",
     "simplePast": "mistook",
@@ -405,7 +405,7 @@
 }, {
     "present": "saw",
     "simplePast": "sawed",
-    "simpleParticiple": "sawn /sawed"
+    "simpleParticiple": "sawn/sawed"
 }, {
     "present": "say",
     "simplePast": "said",
@@ -485,7 +485,7 @@
 }, {
     "present": "slay",
     "simplePast": "slew",
-    "simpleParticiple": "slayed /slain"
+    "simpleParticiple": "slayed/slain"
 }, {
     "present": "slide",
     "simplePast": "slid",
@@ -500,8 +500,8 @@
     "simpleParticiple": "slit"
 }, {
     "present": "smell",
-    "simplePast": "smelt /smelled",
-    "simpleParticiple": "smelt /smelled"
+    "simplePast": "smelt/smelled",
+    "simpleParticiple": "smelt/smelled"
 }, {
     "present": "smite",
     "simplePast": "smote",
@@ -509,27 +509,27 @@
 }, {
     "present": "sow",
     "simplePast": "sowed",
-    "simpleParticiple": "sown /sowed"
+    "simpleParticiple": "sown/sowed"
 }, {
     "present": "speak",
     "simplePast": "spoke",
     "simpleParticiple": "spoken"
 }, {
     "present": "speed",
-    "simplePast": "sped /speeded",
-    "simpleParticiple": "sped /speeded"
+    "simplePast": "sped/speeded",
+    "simpleParticiple": "sped/speeded"
 }, {
     "present": "spell",
-    "simplePast": "spelt /spelled",
-    "simpleParticiple": "spelt /spelled"
+    "simplePast": "spelt/spelled",
+    "simpleParticiple": "spelt/spelled"
 }, {
     "present": "spend",
     "simplePast": "spent",
     "simpleParticiple": "spent"
 }, {
     "present": "spill",
-    "simplePast": "spilt /spilled",
-    "simpleParticiple": "spilt /spilled"
+    "simplePast": "spilt/spilled",
+    "simpleParticiple": "spilt/spilled"
 }, {
     "present": "spin",
     "simplePast": "spun",
@@ -544,8 +544,8 @@
     "simpleParticiple": "split"
 }, {
     "present": "spoil",
-    "simplePast": "spoilt /spoiled",
-    "simpleParticiple": "spoilt /spoiled"
+    "simplePast": "spoilt/spoiled",
+    "simpleParticiple": "spoilt/spoiled"
 }, {
     "present": "spread",
     "simplePast": "spread",
@@ -597,7 +597,7 @@
 }, {
     "present": "swell",
     "simplePast": "swelled",
-    "simpleParticiple": "swelled /swollen"
+    "simpleParticiple": "swelled/swollen"
 }, {
     "present": "swim",
     "simplePast": "swam",
@@ -628,7 +628,7 @@
     "simpleParticiple": "thought"
 }, {
     "present": "thrive",
-    "simplePast": "thrived /throve",
+    "simplePast": "thrived/throve",
     "simpleParticiple": "thrived"
 }, {
     "present": "throw",
@@ -656,20 +656,20 @@
     "simpleParticiple": "upset"
 }, {
     "present": "wake",
-    "simplePast": "woke /waked",
-    "simpleParticiple": "woken /waked"
+    "simplePast": "woke/waked",
+    "simpleParticiple": "woken/waked"
 }, {
     "present": "wear",
     "simplePast": "wore",
     "simpleParticiple": "worn"
 }, {
     "present": "weave",
-    "simplePast": "wove /weaved",
-    "simpleParticiple": "woven /weaved"
+    "simplePast": "wove/weaved",
+    "simpleParticiple": "woven/weaved"
 }, {
     "present": "wed",
-    "simplePast": "wedded /wed",
-    "simpleParticiple": "wedded /wed"
+    "simplePast": "wedded/wed",
+    "simpleParticiple": "wedded/wed"
 }, {
     "present": "weep",
     "simplePast": "wept",
