@@ -1,4 +1,4 @@
-package com.kalnee.trivor.engine.models;
+package com.kalnee.trivor.engine.documents;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "subtitles")
-public class SubtitleModel {
+public class Subtitle {
 
   @Id
   private BigInteger id;
@@ -24,7 +24,7 @@ public class SubtitleModel {
 
   private List<String> phrases;
 
-  public SubtitleModel(Long imdbId, String name, Integer season, Integer episode, Integer year,
+  public Subtitle(Long imdbId, String name, Integer season, Integer episode, Integer year,
       List<String> phrases) {
     this.imdbId = imdbId;
     this.name = name;
@@ -34,7 +34,7 @@ public class SubtitleModel {
     this.phrases = phrases;
   }
 
-  SubtitleModel() {}
+  Subtitle() {}
 
   public BigInteger getId() {
     return id;

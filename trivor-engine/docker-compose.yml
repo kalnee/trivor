@@ -1,0 +1,23 @@
+version: "2"
+services:
+  mongodata:
+    image: mongo:3.0.4
+    volumes:
+      - /data/db
+    command: --break-mongo
+  mongo:
+    image: mongo:3.0.4
+    volumes_from:
+      - mongodata
+    ports:
+      - 27017:27017
+    command: --smallfiles --rest
+  trivor-engine-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: java -jar trivor-engine-0.0.1-SNAPSHOT.jar
+    ports:
+      - 8080:8080
+    links:
+      - mongo
