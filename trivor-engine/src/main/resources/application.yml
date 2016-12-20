@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: trivor-engine
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
