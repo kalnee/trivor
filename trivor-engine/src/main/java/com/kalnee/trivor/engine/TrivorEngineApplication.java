@@ -22,12 +22,18 @@ public class TrivorEngineApplication {
   InitializingBean seedMongoDB(SubtitleRepository subtitleRepository) {
     return () -> {
       subtitleRepository.deleteAll();
-      subtitleRepository.insert(new Subtitle(100L, "Flash", 1, 10, 2013,
-          Arrays.asList("That's nice.", "Don't move, please.", "Nobody's gonna see my feet.")));
-      subtitleRepository.insert(new Subtitle(100L, "Flash", 1, 11, 2013,
-          Arrays.asList("Why are you insisting on doing this?", "Come on!", "What?")));
-      subtitleRepository.insert(new Subtitle(1200L, "Dexter", 2, 4, 2011,
-          Arrays.asList("I want to kill again.", "Should I?", "Oh, yeah!")));
+      subtitleRepository.insert(
+          new Subtitle(100L, "Flash", 1, 10, 2013,
+          Arrays.asList("That's nice.", "Don't move, please.", "Nobody's gonna see my feet."))
+      );
+      subtitleRepository.insert(
+          new Subtitle(100L, "Flash", 1, 11, 2013,
+          Arrays.asList("Why are you insisting on doing this?", "Come on!", "What?"))
+      );
+      subtitleRepository.insert(
+          new Subtitle(1200L, "Dexter", 2, 4, 2011,
+          Arrays.asList("I want to kill again.", "Should I?", "Oh, yeah!"))
+      );
     };
   }
 

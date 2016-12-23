@@ -5,5 +5,11 @@ spring:
     name: trivor-engine
   data:
     mongodb:
-      host: mongo
+      host: localhost
       port: 27017
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    credentials:
+      instanceProfile: false

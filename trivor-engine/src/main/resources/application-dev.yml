@@ -1,0 +1,10 @@
+app:
+  env: dev
+spring:
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
+sqs:
+  queue:
+    insights: trivor-insights-${app.env}
