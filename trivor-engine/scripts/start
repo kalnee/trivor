@@ -1,0 +1,7 @@
+#!/bin/sh
+
+./gradlew build -x test
+
+docker-compose stop
+docker-compose build
+docker-compose up

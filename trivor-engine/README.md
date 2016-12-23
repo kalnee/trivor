@@ -4,7 +4,6 @@
 
 ## Usage
 
-- `$ ./gradew build`
-- `$ docker-compose up -d` (if a new jar is generated, run `docker-compose build` before)
+- `$ ./scripts/start
 
 This command will spin up the `trivor-engine` API and mongodb containers. The API is accessible via `http://localhost:8080`.
