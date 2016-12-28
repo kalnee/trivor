@@ -1,7 +1,12 @@
 package com.kalnee.trivor.engine;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import com.kalnee.trivor.engine.nlp.POSTagger;
+import com.kalnee.trivor.engine.nlp.SentenceDetector;
+import com.kalnee.trivor.engine.nlp.SimpleTokenizer;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 
 import com.kalnee.trivor.engine.documents.Subtitle;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
+
+import static java.util.stream.Collectors.toList;
 
 @SpringBootApplication
 public class TrivorEngineApplication {
@@ -38,13 +45,22 @@ public class TrivorEngineApplication {
   }
 
   @Bean
-  CommandLineRunner runner(SubtitleRepository subtitleRepository) {
+  CommandLineRunner runner(SubtitleRepository subtitleRepository,
+      SentenceDetector sentenceDetector, SimpleTokenizer tokenizer, POSTagger tagger) {
     return (args) -> {
 			System.err.println("Phrases that use contractions:");
 			subtitleRepository.findByYear(2013).stream()
 				.flatMap(s -> s.getPhrases().stream())
 				.filter(s -> s.contains("'"))
 				.forEach(System.err::println);
+
+        sentenceDetector.detect("  Jez, I've become a bad man!. He said \"This is a test\". ").forEach(s -> {
+            List<String> tokens = tokenizer.tokenize(s);
+            System.out.println(tokens);
+
+            List<String> tags = tagger.tag(tokens);
+            System.out.println(tags);
+        });
 		};
   }
 }
