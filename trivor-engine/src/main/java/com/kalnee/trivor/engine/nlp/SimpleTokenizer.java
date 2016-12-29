@@ -5,42 +5,44 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import opennlp.tools.tokenize.Tokenizer;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import opennlp.tools.sentdetect.SentenceDetectorME;
-import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.tokenize.Tokenizer;
+import opennlp.tools.tokenize.TokenizerME;
+import opennlp.tools.tokenize.TokenizerModel;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class SimpleTokenizer {
 
-	private static final Log LOGGER = LogFactory.getLog(SimpleTokenizer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTokenizer.class);
 
 	private final Resource model;
+	private Tokenizer tokenizer;
 
 	@Autowired
 	public SimpleTokenizer(@Value("classpath:nlp/models/en-token.bin") Resource model) {
 		this.model = model;
 	}
-
-	public List<String> tokenize(String sentence) {
+	
+	@PostConstruct
+	private void setupModel() {
 		try (InputStream modelStream = model.getInputStream()) {
 			TokenizerModel tokenizerModel = new TokenizerModel(modelStream);
-			Tokenizer tokenizer = new TokenizerME(tokenizerModel);
-
-			String tokens[] = tokenizer.tokenize(sentence);
-
-			return Arrays.asList(tokens);
+			tokenizer = new TokenizerME(tokenizerModel);
 		} catch (IOException e) {
 			LOGGER.error("an error occurred while getting tokens", e);
 			throw new IllegalStateException(e);
 		}
+	}
+
+	public List<String> tokenize(String sentence) {
+		return Arrays.asList(tokenizer.tokenize(sentence));
 	}
 }

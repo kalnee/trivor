@@ -5,44 +5,49 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import opennlp.tools.postag.POSModel;
-import opennlp.tools.postag.POSTaggerME;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import opennlp.tools.tokenize.Tokenizer;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
+import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class POSTagger {
 
-	private static final Log LOGGER = LogFactory.getLog(POSTagger.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(POSTagger.class);
 
 	private final Resource model;
+	private POSTaggerME tagger;
 
 	@Autowired
 	public POSTagger(@Value("classpath:nlp/models/en-pos-perceptron.bin") Resource model) {
 		this.model = model;
 	}
-
-	public List<String> tag(List<String> tokens) {
+	
+	@PostConstruct
+	private void setupModel() {
 		try (InputStream modelStream = model.getInputStream()) {
 			POSModel posModel = new POSModel(modelStream);
-			POSTaggerME tagger = new POSTaggerME(posModel);
-
-			String tags[] = tagger.tag(tokens.toArray(new String[tokens.size()]));
-
-			System.out.println(Arrays.toString(tagger.probs()));
-
-			return Arrays.asList(tags);
+			tagger = new POSTaggerME(posModel);
 		} catch (IOException e) {
 			LOGGER.error("an error occurred while tagging tokens", e);
 			throw new IllegalStateException(e);
 		}
+	}
+
+	public List<String> tag(List<String> tokens) {
+		String tags[] = tagger.tag(tokens.toArray(new String[tokens.size()]));
+		return Arrays.asList(tags);
+	}
+
+	public String tag(String token) {
+		String tags[] = tagger.tag(new String[] { token });
+		return tags[0];
 	}
 }
