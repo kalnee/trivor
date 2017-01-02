@@ -1,4 +1,4 @@
-package com.kalnee.trivor.engine.documents;
+package com.kalnee.trivor.engine.models;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -12,7 +12,7 @@ public class Subtitle {
   @Id
   private BigInteger id;
 
-  private Long imdbId;
+  private String imdbId;
 
   private String name;
 
@@ -22,16 +22,16 @@ public class Subtitle {
 
   private Integer year;
 
-  private List<String> phrases;
+  private List<Sentence> sentences;
 
-  public Subtitle(Long imdbId, String name, Integer season, Integer episode, Integer year,
-      List<String> phrases) {
+  public Subtitle(String imdbId, String name, Integer season, Integer episode, Integer year,
+      List<Sentence> sentences) {
     this.imdbId = imdbId;
     this.name = name;
     this.season = season;
     this.episode = episode;
     this.year = year;
-    this.phrases = phrases;
+    this.sentences = sentences;
   }
 
   Subtitle() {}
@@ -44,11 +44,11 @@ public class Subtitle {
     this.id = id;
   }
 
-  public Long getImdbId() {
+  public String getImdbId() {
     return imdbId;
   }
 
-  public void setImdbId(Long imdbId) {
+  public void setImdbId(String imdbId) {
     this.imdbId = imdbId;
   }
 
@@ -84,18 +84,18 @@ public class Subtitle {
     this.year = year;
   }
 
-  public List<String> getPhrases() {
-    return phrases;
+  public List<Sentence> getSentences() {
+    return sentences;
   }
 
-  public void setPhrases(List<String> phrases) {
-    this.phrases = phrases;
+  public void setSentences(List<Sentence> sentences) {
+    this.sentences = sentences;
   }
 
   @Override
   public String toString() {
     return "SubtitleModel{" + "id=" + id + ", imdbId=" + imdbId + ", name='" + name + '\''
-        + ", season=" + season + ", episode=" + episode + ", year=" + year + ", phrases=" + phrases
+        + ", season=" + season + ", episode=" + episode + ", year=" + year + ", sentences=" + sentences
         + '}';
   }
 }

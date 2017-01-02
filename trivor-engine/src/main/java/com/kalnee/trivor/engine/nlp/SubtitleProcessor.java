@@ -5,17 +5,23 @@ import static java.util.stream.Collectors.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import com.kalnee.trivor.engine.models.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
+import com.kalnee.trivor.engine.models.Sentence;
+import com.kalnee.trivor.engine.models.Subtitle;
+import com.kalnee.trivor.engine.repositories.SubtitleRepository;
 
 @Component
 public class SubtitleProcessor {
@@ -31,15 +37,18 @@ public class SubtitleProcessor {
 	private final SentenceDetector sentenceDetector;
 	private final SimpleTokenizer tokenizer;
 	private final POSTagger tagger;
+	private final SubtitleRepository repository;
 	private String content;
 
 	@Autowired
-	public SubtitleProcessor(@Value("classpath:language/subtitle.srt") Resource subtitle,
-			SentenceDetector sentenceDetector, SimpleTokenizer tokenizer, POSTagger tagger) {
+	public SubtitleProcessor(@Value("classpath:language/subtitle2.srt") Resource subtitle,
+			SentenceDetector sentenceDetector, SimpleTokenizer tokenizer, POSTagger tagger,
+			SubtitleRepository repository) {
 		this.subtitle = subtitle;
 		this.sentenceDetector = sentenceDetector;
 		this.tokenizer = tokenizer;
 		this.tagger = tagger;
+		this.repository = repository;
 	}
 
 	private void preProcess() throws IOException {
@@ -58,19 +67,32 @@ public class SubtitleProcessor {
 		preProcess();
 
 		LOGGER.info("############# PROCESS ###########");
-		final List<String> sentences = sentenceDetector.detect(content);
-		LOGGER.info(String.format("%d sentences were found.", sentences.size()));
+		final List<String> detectedSentences = sentenceDetector.detect(content);
+		LOGGER.info(String.format("%d sentences were found.", detectedSentences.size()));
 
-		sentences.forEach(s -> {
-			List<String> tokens = tokenizer.tokenize(s);
-			List<String> tags = tagger.tag(tokens);
-			System.out.println(s);
+		final List<Sentence> sentences = detectedSentences.stream().map(s -> {
+			List<String> rawTokens = tokenizer.tokenize(s);
+			List<String> tags = tagger.tag(rawTokens);
+			List<Double> probs = tagger.probs();
+
+			System.out.println("\n" + s);
 			System.out.println(tags.stream().collect(joining(" ")));
-		});
+			System.out.println(probs.stream().map(Object::toString).collect(joining(" ")));
 
-		LOGGER.info("Most frequent words:");
+			List<Token> tokens = new ArrayList<>();
 
-		Map<String, Long> words = sentences.stream().flatMap(s -> Stream.of(s.split(" ")))
+			for (int i = 0; i < rawTokens.size(); i++) {
+				tokens.add(new Token(rawTokens.get(i), tags.get(i), probs.get(i)));
+			}
+
+			return new Sentence(s, tokens);
+		}).collect(toList());
+
+		repository.insert(new Subtitle("200e22a", "Gilmore Girls", 1, 1, 2006, sentences));
+
+		LOGGER.info("####### MOST FREQUENT WORDS ##########");
+
+		Map<String, Long> words = detectedSentences.stream().flatMap(s -> Stream.of(s.split(" ")))
 				.filter(w -> w.matches("([a-zA-Z]{2,})"))
 				.map(String::toLowerCase)
 				.collect(groupingBy(Function.identity(), counting()));
