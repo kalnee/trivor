@@ -1,5 +1,7 @@
 server:
   port: 8080
+app:
+  env: dev
 spring:
   application:
     name: trivor-engine
@@ -13,3 +15,6 @@ cloud:
       static: us-east-1
     credentials:
       instanceProfile: false
+sqs:
+  queue:
+    insights: trivor-insights-${app.env}

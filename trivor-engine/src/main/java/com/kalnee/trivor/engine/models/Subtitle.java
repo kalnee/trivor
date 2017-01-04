@@ -6,96 +6,134 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.kalnee.trivor.engine.insights.Insight;
+
 @Document(collection = "subtitles")
 public class Subtitle {
 
-  @Id
-  private BigInteger id;
+	@Id
+	private BigInteger id;
 
-  private String imdbId;
+	private String imdbId;
 
-  private String name;
+	private String name;
 
-  private Integer season;
+	private Integer season;
 
-  private Integer episode;
+	private Integer episode;
 
-  private Integer year;
+	private Integer year;
 
-  private List<Sentence> sentences;
+	private Integer duration;
 
-  public Subtitle(String imdbId, String name, Integer season, Integer episode, Integer year,
-      List<Sentence> sentences) {
-    this.imdbId = imdbId;
-    this.name = name;
-    this.season = season;
-    this.episode = episode;
-    this.year = year;
-    this.sentences = sentences;
-  }
+	private List<Sentence> sentences;
 
-  Subtitle() {}
+	private List<Insight> insights;
 
-  public BigInteger getId() {
-    return id;
-  }
+	public Subtitle(String imdbId, String name, Integer season, Integer episode,
+			Integer year, Integer duration, List<Sentence> sentences) {
+		this.imdbId = imdbId;
+		this.name = name;
+		this.season = season;
+		this.episode = episode;
+		this.year = year;
+		this.duration = duration;
+		this.sentences = sentences;
+	}
 
-  public void setId(BigInteger id) {
-    this.id = id;
-  }
+	public Subtitle(String imdbId, String name, Integer season, Integer episode,
+			Integer year, Integer duration, List<Sentence> sentences,
+			List<Insight> insights) {
+		this.imdbId = imdbId;
+		this.name = name;
+		this.season = season;
+		this.episode = episode;
+		this.year = year;
+		this.duration = duration;
+		this.sentences = sentences;
+		this.insights = insights;
+	}
 
-  public String getImdbId() {
-    return imdbId;
-  }
+	Subtitle() {
+	}
 
-  public void setImdbId(String imdbId) {
-    this.imdbId = imdbId;
-  }
+	public BigInteger getId() {
+		return id;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public void setId(BigInteger id) {
+		this.id = id;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	public String getImdbId() {
+		return imdbId;
+	}
 
-  public Integer getSeason() {
-    return season;
-  }
+	public void setImdbId(String imdbId) {
+		this.imdbId = imdbId;
+	}
 
-  public void setSeason(Integer season) {
-    this.season = season;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public Integer getEpisode() {
-    return episode;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public void setEpisode(Integer episode) {
-    this.episode = episode;
-  }
+	public Integer getSeason() {
+		return season;
+	}
 
-  public Integer getYear() {
-    return year;
-  }
+	public void setSeason(Integer season) {
+		this.season = season;
+	}
 
-  public void setYear(Integer year) {
-    this.year = year;
-  }
+	public Integer getEpisode() {
+		return episode;
+	}
 
-  public List<Sentence> getSentences() {
-    return sentences;
-  }
+	public void setEpisode(Integer episode) {
+		this.episode = episode;
+	}
 
-  public void setSentences(List<Sentence> sentences) {
-    this.sentences = sentences;
-  }
+	public Integer getYear() {
+		return year;
+	}
 
-  @Override
-  public String toString() {
-    return "SubtitleModel{" + "id=" + id + ", imdbId=" + imdbId + ", name='" + name + '\''
-        + ", season=" + season + ", episode=" + episode + ", year=" + year + ", sentences=" + sentences
-        + '}';
-  }
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
+
+	public List<Sentence> getSentences() {
+		return sentences;
+	}
+
+	public void setSentences(List<Sentence> sentences) {
+		this.sentences = sentences;
+	}
+
+	public List<Insight> getInsights() {
+		return insights;
+	}
+
+	public void setInsights(List<Insight> insights) {
+		this.insights = insights;
+	}
+
+	@Override
+	public String toString() {
+		return "Subtitle{" + "id=" + id + ", imdbId='" + imdbId + '\'' + ", name='" + name
+				+ '\'' + ", season=" + season + ", episode=" + episode + ", year=" + year
+				+ ", duration=" + duration + ", sentences=" + sentences + ", insights="
+				+ insights + '}';
+	}
 }
