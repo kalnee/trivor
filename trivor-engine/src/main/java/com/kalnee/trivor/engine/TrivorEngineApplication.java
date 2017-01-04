@@ -25,7 +25,7 @@ public class TrivorEngineApplication {
   InitializingBean seedMongoDB(SubtitleRepository subtitleRepository) {
 		return () -> {
 			subtitleRepository.deleteAll();
-			subtitleRepository.insert(new Subtitle("d231sw", "Flash", 1, 10, 2013,
+			subtitleRepository.insert(new Subtitle("d231sw", "Flash", 1, 10, 2013, 40,
 					Arrays.asList(new Sentence("I want to kill you.", Arrays.asList(
 							new Token("I", "PRP", 0.99), new Token("want", "VB", 0.99),
 							new Token("to", "TO", 0.99), new Token("kill", "VB", 0.99),
@@ -34,15 +34,7 @@ public class TrivorEngineApplication {
   }
 
   @Bean
-  CommandLineRunner runner(SubtitleRepository subtitleRepository, SubtitleProcessor subtitleProcessor) {
-    return (args) -> {
-			System.err.println("Phrases that use contractions:");
-			subtitleRepository.findByYear(2013).stream()
-				.flatMap(s -> s.getSentences().stream())
-				.filter(s -> s.getSentence().contains("'"))
-				.forEach(System.err::println);
-
-        subtitleProcessor.process();
-		};
+  CommandLineRunner runner(SubtitleProcessor subtitleProcessor) {
+    return (args) -> subtitleProcessor.process();
   }
 }

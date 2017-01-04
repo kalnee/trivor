@@ -1,17 +1,20 @@
 package com.kalnee.trivor.engine.nlp;
 
-import static java.util.stream.Collectors.*;
+import static java.util.regex.Pattern.MULTILINE;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import com.kalnee.trivor.engine.models.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import com.kalnee.trivor.engine.insights.FrequentWordsInsight;
+import com.kalnee.trivor.engine.insights.Insight;
+import com.kalnee.trivor.engine.insights.PaceInsight;
+import com.kalnee.trivor.engine.insights.SentencesInsight;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
+import com.kalnee.trivor.engine.models.Token;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
+import com.kalnee.trivor.engine.utils.DateTimeUtils;
 
 @Component
 public class SubtitleProcessor {
@@ -32,6 +41,8 @@ public class SubtitleProcessor {
 	private static final String SUBTITLE_DIALOG_REGEX = "^\\s*-\\s*";
 	private static final String SUBTITLE_HTML_REGEX = "<(.*)>\\s*";
 	private static final String SUBTITLE_CC_REGEX = "\\[.*\\]\\s*";
+	private static final String SUBTITLE_URL_REGEX = ".*www\\..*\\.com.*";
+	private static final String SUBTITLE_SONG_REGEX = "^♪.*$";
 
 	private final Resource subtitle;
 	private final SentenceDetector sentenceDetector;
@@ -39,9 +50,10 @@ public class SubtitleProcessor {
 	private final POSTagger tagger;
 	private final SubtitleRepository repository;
 	private String content;
+	private Integer duration;
 
 	@Autowired
-	public SubtitleProcessor(@Value("classpath:language/subtitle2.srt") Resource subtitle,
+	public SubtitleProcessor(@Value("classpath:language/subtitle.srt") Resource subtitle,
 			SentenceDetector sentenceDetector, SimpleTokenizer tokenizer, POSTagger tagger,
 			SubtitleRepository repository) {
 		this.subtitle = subtitle;
@@ -52,34 +64,53 @@ public class SubtitleProcessor {
 	}
 
 	private void preProcess() throws IOException {
-		LOGGER.info("############# PRE-PROCESS ###########");
-		content = new BufferedReader(new InputStreamReader(subtitle.getInputStream()))
-				.lines().filter(line -> !line.matches(SUBTITLE_INDEX_REGEX))
+		try (InputStream stream = subtitle.getInputStream()) {
+			final String lines = new BufferedReader(
+				new InputStreamReader(stream)).lines().collect(joining(System.lineSeparator())
+			);
+
+			content = Stream.of(lines.split(System.lineSeparator()))
+				.filter(line -> !line.matches(SUBTITLE_INDEX_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_TIME_REGEX))
-				.map(line -> line.replaceAll(SUBTITLE_DIALOG_REGEX, ""))
-				.map(line -> line.replaceAll(SUBTITLE_HTML_REGEX, ""))
-				.map(line -> line.replaceAll(SUBTITLE_CC_REGEX, ""))
+				.filter(line -> !line.matches(SUBTITLE_SONG_REGEX))
+				.filter(line -> !line.matches(SUBTITLE_URL_REGEX))
+				.map(line -> line.replaceAll(SUBTITLE_DIALOG_REGEX, EMPTY))
+				.map(line -> line.replaceAll(SUBTITLE_HTML_REGEX, EMPTY))
+				.map(line -> line.replaceAll(SUBTITLE_CC_REGEX, EMPTY))
 				.collect(joining(" "));
-		LOGGER.info("#############");
+
+			final List<String> times = Stream.of(lines.split(System.lineSeparator()))
+				.filter(line -> line.matches(SUBTITLE_TIME_REGEX))
+				.map(this::findDuration)
+				.collect(toList());
+			final String lastTime = times.get(times.size() - 1);
+
+			duration = DateTimeUtils.minutes(lastTime);
+		}
+	}
+
+	private String findDuration(String content) {
+		final Matcher matcher = Pattern.compile(SUBTITLE_TIME_REGEX, MULTILINE).matcher(content);
+		String time = EMPTY;
+
+		if (matcher.find()) {
+			time = matcher.group(matcher.groupCount());
+		}
+
+		return time.substring(0, time.indexOf(","));
 	}
 
 	public void process() throws IOException {
 		preProcess();
 
-		LOGGER.info("############# PROCESS ###########");
 		final List<String> detectedSentences = sentenceDetector.detect(content);
-		LOGGER.info(String.format("%d sentences were found.", detectedSentences.size()));
 
 		final List<Sentence> sentences = detectedSentences.stream().map(s -> {
-			List<String> rawTokens = tokenizer.tokenize(s);
-			List<String> tags = tagger.tag(rawTokens);
-			List<Double> probs = tagger.probs();
+			final List<String> rawTokens = tokenizer.tokenize(s);
+			final List<String> tags = tagger.tag(rawTokens);
+			final List<Double> probs = tagger.probs();
 
-			System.out.println("\n" + s);
-			System.out.println(tags.stream().collect(joining(" ")));
-			System.out.println(probs.stream().map(Object::toString).collect(joining(" ")));
-
-			List<Token> tokens = new ArrayList<>();
+			final List<Token> tokens = new ArrayList<>();
 
 			for (int i = 0; i < rawTokens.size(); i++) {
 				tokens.add(new Token(rawTokens.get(i), tags.get(i), probs.get(i)));
@@ -88,17 +119,24 @@ public class SubtitleProcessor {
 			return new Sentence(s, tokens);
 		}).collect(toList());
 
-		repository.insert(new Subtitle("200e22a", "Gilmore Girls", 1, 1, 2006, sentences));
+		LOGGER.info("############# GENERATING INSIGHTS ###########");
 
-		LOGGER.info("####### MOST FREQUENT WORDS ##########");
+		LOGGER.info("Duration (min): {}", duration);
 
-		Map<String, Long> words = detectedSentences.stream().flatMap(s -> Stream.of(s.split(" ")))
-				.filter(w -> w.matches("([a-zA-Z]{2,})"))
-				.map(String::toLowerCase)
-				.collect(groupingBy(Function.identity(), counting()));
+		List<Insight> insights = Stream.of(
+			new SentencesInsight(sentences),
+			new FrequentWordsInsight(sentences),
+			new PaceInsight(sentences, duration)
+		).peek(i -> {
+					LOGGER.info("{} - {}", i.getCode(), i.getDescription());
+					i.generate();
+					LOGGER.info("Value generated: {}", i.getValue());
+		}).collect(toList());
 
-		words.entrySet().stream()
-				.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
-				.forEach(System.err::println);
+		repository.insert(
+			new Subtitle("200e22a", "Gilmore Girls", 1, 1, 2006, duration, sentences, insights)
+		);
+
+		LOGGER.info("########################");
 	}
 }
