@@ -1,4 +1,4 @@
-package com.kalnee.trivor.engine.nlp;
+package com.kalnee.trivor.engine.insights.processors;
 
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.stream.Collectors.joining;
@@ -22,13 +22,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.kalnee.trivor.engine.insights.FrequentWordsInsight;
-import com.kalnee.trivor.engine.insights.Insight;
-import com.kalnee.trivor.engine.insights.PaceInsight;
-import com.kalnee.trivor.engine.insights.SentencesInsight;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 import com.kalnee.trivor.engine.models.Token;
+import com.kalnee.trivor.engine.nlp.POSTagger;
+import com.kalnee.trivor.engine.nlp.SentenceDetector;
+import com.kalnee.trivor.engine.nlp.SimpleTokenizer;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
 import com.kalnee.trivor.engine.utils.DateTimeUtils;
 
@@ -49,18 +48,20 @@ public class SubtitleProcessor {
 	private final SimpleTokenizer tokenizer;
 	private final POSTagger tagger;
 	private final SubtitleRepository repository;
+	private final InsightsProcessor insightsProcessor;
 	private String content;
 	private Integer duration;
 
 	@Autowired
 	public SubtitleProcessor(@Value("classpath:language/subtitle.srt") Resource subtitle,
 			SentenceDetector sentenceDetector, SimpleTokenizer tokenizer, POSTagger tagger,
-			SubtitleRepository repository) {
+			SubtitleRepository repository, InsightsProcessor insightsProcessor) {
 		this.subtitle = subtitle;
 		this.sentenceDetector = sentenceDetector;
 		this.tokenizer = tokenizer;
 		this.tagger = tagger;
 		this.repository = repository;
+		this.insightsProcessor = insightsProcessor;
 	}
 
 	private void preProcess() throws IOException {
@@ -119,24 +120,12 @@ public class SubtitleProcessor {
 			return new Sentence(s, tokens);
 		}).collect(toList());
 
-		LOGGER.info("############# GENERATING INSIGHTS ###########");
-
-		LOGGER.info("Duration (min): {}", duration);
-
-		List<Insight> insights = Stream.of(
-			new SentencesInsight(sentences),
-			new FrequentWordsInsight(sentences),
-			new PaceInsight(sentences, duration)
-		).peek(i -> {
-					LOGGER.info("{} - {}", i.getCode(), i.getDescription());
-					i.generate();
-					LOGGER.info("Value generated: {}", i.getValue());
-		}).collect(toList());
-
-		repository.insert(
-			new Subtitle("200e22a", "Gilmore Girls", 1, 1, 2006, duration, sentences, insights)
+		final Subtitle subtitle = repository.insert(
+			new Subtitle("200e22a", "Gilmore Girls", 1, 1, 2006, duration, sentences)
 		);
 
-		LOGGER.info("########################");
+		LOGGER.info("Subtitle created successfully.");
+
+		insightsProcessor.process(subtitle);
 	}
 }

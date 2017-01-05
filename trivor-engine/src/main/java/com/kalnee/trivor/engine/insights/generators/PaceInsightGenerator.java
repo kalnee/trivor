@@ -1,16 +1,17 @@
-package com.kalnee.trivor.engine.insights;
+package com.kalnee.trivor.engine.insights.generators;
 
 import java.util.List;
 
+import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
 
-public class PaceInsight implements Insight<String> {
+public class PaceInsightGenerator implements InsightGenerator<String> {
 
 	private final List<Sentence> sentences;
-  private String value;
+  private Insight<String> insight;
 	private Integer duration;
 
-	public PaceInsight(List<Sentence> sentences, Integer duration) {
+	public PaceInsightGenerator(List<Sentence> sentences, Integer duration) {
 		this.sentences = sentences;
 		this.duration = duration;
 	}
@@ -28,20 +29,20 @@ public class PaceInsight implements Insight<String> {
 	@Override
 	public void generate() {
 		Integer frequency = sentences.size() / duration;
+		String pace = "SUPER_FAST";
 
 		if (frequency <= 8) {
-			value = "SLOW";
+			pace = "SLOW";
 		} else if (frequency > 8 && frequency <= 15) {
-			value = "MODERATE";
+			pace = "MODERATE";
 		} else if (frequency > 15 && frequency <= 20) {
-			value = "FAST";
-		} else {
-			value = "SUPER_FAST";
+			pace = "FAST";
 		}
+
+		insight = new Insight<>(getCode(), pace);
 	}
 
-	@Override
-	public String getValue() {
-		return value;
+	public Insight<String> getInsight() {
+		return insight;
 	}
 }

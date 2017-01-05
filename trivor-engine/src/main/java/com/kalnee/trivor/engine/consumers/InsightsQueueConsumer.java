@@ -17,7 +17,7 @@ public class InsightsQueueConsumer {
 		this.subtitleRepository = subtitleRepository;
 	}
 
-	@SqsListener(value = "${sqs.queue.insights}", deletionPolicy = ON_SUCCESS)
+//	@SqsListener(value = "${sqs.queue.insights}", deletionPolicy = ON_SUCCESS)
 	public void receiveMessage(String raw) {
 		System.out.println("Message received: " + subtitleRepository.findByYear(Integer.valueOf(raw)));
 	}

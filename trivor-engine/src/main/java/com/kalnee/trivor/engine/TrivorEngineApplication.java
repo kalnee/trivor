@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Token;
+import com.kalnee.trivor.engine.repositories.InsightsRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.kalnee.trivor.engine.models.Subtitle;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
-import com.kalnee.trivor.engine.nlp.SubtitleProcessor;
+import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
 
 @SpringBootApplication
 public class TrivorEngineApplication {
@@ -22,7 +23,7 @@ public class TrivorEngineApplication {
   }
 
   @Bean
-  InitializingBean seedMongoDB(SubtitleRepository subtitleRepository) {
+  InitializingBean seedMongoDB(SubtitleRepository subtitleRepository, InsightsRepository insightsRepository) {
 		return () -> {
 			subtitleRepository.deleteAll();
 			subtitleRepository.insert(new Subtitle("d231sw", "Flash", 1, 10, 2013, 40,
@@ -30,6 +31,7 @@ public class TrivorEngineApplication {
 							new Token("I", "PRP", 0.99), new Token("want", "VB", 0.99),
 							new Token("to", "TO", 0.99), new Token("kill", "VB", 0.99),
 							new Token("you", "PR", 0.99), new Token(".", ".", 0.99))))));
+      insightsRepository.deleteAll();
 		};
   }
 
