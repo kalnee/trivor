@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.kalnee.trivor.engine.insights.Insight;
-
 @Document(collection = "subtitles")
 public class Subtitle {
 
