@@ -4,6 +4,6 @@
 
 ## Usage
 
-- `$ ./scripts/start
+- `$ ./scripts/start`
 
 This command will spin up the `trivor-engine` API and mongodb containers. The API is accessible via `http://localhost:8080`.

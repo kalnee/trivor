@@ -3,6 +3,7 @@ package com.kalnee.trivor.engine.models;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.kalnee.trivor.engine.dto.SubtitleDTO;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,6 +29,18 @@ public class Subtitle {
 
 	private List<Insight> insights;
 
+	public Subtitle(BigInteger id, String imdbId, String name, Integer season, Integer episode,
+		Integer year, Integer duration, List<Sentence> sentences) {
+		this.id = id;
+		this.imdbId = imdbId;
+		this.name = name;
+		this.season = season;
+		this.episode = episode;
+		this.year = year;
+		this.duration = duration;
+		this.sentences = sentences;
+	}
+
 	public Subtitle(String imdbId, String name, Integer season, Integer episode,
 			Integer year, Integer duration, List<Sentence> sentences) {
 		this.imdbId = imdbId;
@@ -39,17 +52,14 @@ public class Subtitle {
 		this.sentences = sentences;
 	}
 
-	public Subtitle(String imdbId, String name, Integer season, Integer episode,
-			Integer year, Integer duration, List<Sentence> sentences,
-			List<Insight> insights) {
-		this.imdbId = imdbId;
-		this.name = name;
-		this.season = season;
-		this.episode = episode;
-		this.year = year;
+	public Subtitle(SubtitleDTO subtitleDTO, Integer duration, List<Sentence> sentences) {
+		this.imdbId = subtitleDTO.getImdbId();
+		this.name = subtitleDTO.getName();
+		this.season = subtitleDTO.getSeason();
+		this.episode = subtitleDTO.getEpisode();
+		this.year = subtitleDTO.getYear();
 		this.duration = duration;
 		this.sentences = sentences;
-		this.insights = insights;
 	}
 
 	Subtitle() {

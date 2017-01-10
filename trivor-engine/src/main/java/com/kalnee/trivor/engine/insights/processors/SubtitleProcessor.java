@@ -1,14 +1,12 @@
 package com.kalnee.trivor.engine.insights.processors;
 
+import static java.lang.System.lineSeparator;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,10 +16,11 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import com.kalnee.trivor.engine.dto.SubtitleDTO;
+import com.kalnee.trivor.engine.handlers.SubtitleHandler;
+import com.kalnee.trivor.engine.handlers.SubtitleHandlerFactory;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 import com.kalnee.trivor.engine.models.Token;
@@ -43,7 +42,6 @@ public class SubtitleProcessor {
 	private static final String SUBTITLE_URL_REGEX = ".*www\\..*\\.com.*";
 	private static final String SUBTITLE_SONG_REGEX = "^♪.*$";
 
-	private final Resource subtitle;
 	private final SentenceDetector sentenceDetector;
 	private final SimpleTokenizer tokenizer;
 	private final POSTagger tagger;
@@ -53,10 +51,8 @@ public class SubtitleProcessor {
 	private Integer duration;
 
 	@Autowired
-	public SubtitleProcessor(@Value("classpath:language/subtitle.srt") Resource subtitle,
-			SentenceDetector sentenceDetector, SimpleTokenizer tokenizer, POSTagger tagger,
-			SubtitleRepository repository, InsightsProcessor insightsProcessor) {
-		this.subtitle = subtitle;
+	public SubtitleProcessor(SentenceDetector sentenceDetector, SimpleTokenizer tokenizer,
+			POSTagger tagger, SubtitleRepository repository, InsightsProcessor insightsProcessor) {
 		this.sentenceDetector = sentenceDetector;
 		this.tokenizer = tokenizer;
 		this.tagger = tagger;
@@ -64,13 +60,11 @@ public class SubtitleProcessor {
 		this.insightsProcessor = insightsProcessor;
 	}
 
-	private void preProcess() throws IOException {
-		try (InputStream stream = subtitle.getInputStream()) {
-			final String lines = new BufferedReader(
-				new InputStreamReader(stream)).lines().collect(joining(System.lineSeparator())
-			);
+	private void preProcess(URI uri) {
+			final SubtitleHandler subtitleHandler = SubtitleHandlerFactory.create(uri).getHandler();
+			final String lines = subtitleHandler.lines().collect(joining(lineSeparator()));
 
-			content = Stream.of(lines.split(System.lineSeparator()))
+			content = Stream.of(lines.split(lineSeparator()))
 				.filter(line -> !line.matches(SUBTITLE_INDEX_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_TIME_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_SONG_REGEX))
@@ -80,14 +74,13 @@ public class SubtitleProcessor {
 				.map(line -> line.replaceAll(SUBTITLE_CC_REGEX, EMPTY))
 				.collect(joining(" "));
 
-			final List<String> times = Stream.of(lines.split(System.lineSeparator()))
+			final List<String> times = Stream.of(lines.split(lineSeparator()))
 				.filter(line -> line.matches(SUBTITLE_TIME_REGEX))
 				.map(this::findDuration)
 				.collect(toList());
 			final String lastTime = times.get(times.size() - 1);
 
 			duration = DateTimeUtils.minutes(lastTime);
-		}
 	}
 
 	private String findDuration(String content) {
@@ -101,8 +94,8 @@ public class SubtitleProcessor {
 		return time.substring(0, time.indexOf(","));
 	}
 
-	public void process() throws IOException {
-		preProcess();
+	public void process(URI uri, SubtitleDTO subtitleDTO) {
+		preProcess(uri);
 
 		final List<String> detectedSentences = sentenceDetector.detect(content);
 
@@ -120,9 +113,7 @@ public class SubtitleProcessor {
 			return new Sentence(s, tokens);
 		}).collect(toList());
 
-		final Subtitle subtitle = repository.insert(
-			new Subtitle("200e22a", "Gilmore Girls", 1, 1, 2006, duration, sentences)
-		);
+		final Subtitle subtitle = repository.save(new Subtitle(subtitleDTO, duration, sentences));
 
 		LOGGER.info("Subtitle created successfully.");
 

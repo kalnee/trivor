@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./gradlew build -x test
+./gradlew clean build
 
 docker-compose stop
 docker-compose build
