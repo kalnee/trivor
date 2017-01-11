@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,6 @@ import org.springframework.stereotype.Component;
 
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
-
-import javax.annotation.PostConstruct;
 
 @Component
 public class SentenceDetector {
@@ -41,7 +41,7 @@ public class SentenceDetector {
 		}
 	}
 
-	public List<String> detect(String text) throws IOException {
+	public List<String> detect(String text) {
 		return Arrays.asList(sentenceDetector.sentDetect(text));
 	}
 }

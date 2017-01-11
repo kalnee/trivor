@@ -17,4 +17,4 @@ cloud:
       instanceProfile: false
 sqs:
   queue:
-    insights: trivor-insights-${app.env}
+    trivorEngine: trivor-engine-${app.env}

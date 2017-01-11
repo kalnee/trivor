@@ -1,7 +1,17 @@
 package com.kalnee.trivor.engine;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.kalnee.trivor.engine.dto.SubtitleDTO;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Token;
 import com.kalnee.trivor.engine.repositories.InsightsRepository;
@@ -26,17 +36,17 @@ public class TrivorEngineApplication {
   InitializingBean seedMongoDB(SubtitleRepository subtitleRepository, InsightsRepository insightsRepository) {
 		return () -> {
 			subtitleRepository.deleteAll();
-			subtitleRepository.insert(new Subtitle("d231sw", "Flash", 1, 10, 2013, 40,
-					Arrays.asList(new Sentence("I want to kill you.", Arrays.asList(
-							new Token("I", "PRP", 0.99), new Token("want", "VB", 0.99),
-							new Token("to", "TO", 0.99), new Token("kill", "VB", 0.99),
-							new Token("you", "PR", 0.99), new Token(".", ".", 0.99))))));
       insightsRepository.deleteAll();
 		};
   }
 
   @Bean
   CommandLineRunner runner(SubtitleProcessor subtitleProcessor) {
-    return (args) -> subtitleProcessor.process();
+    return (args) -> {
+        subtitleProcessor.process(
+            getClass().getClassLoader().getResource("language/subtitle.srt").toURI(),
+            new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006)
+        );
+    };
   }
 }
