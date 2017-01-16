@@ -1,0 +1,18 @@
+{
+  "SQS": {
+    "engine_url": "https://sqs.us-east-1.amazonaws.com/488642547976/trivor-insights-dev",
+    "subtitles_url": "https://sqs.us-west-2.amazonaws.com/488642547976/trivor-subtitles-dev"
+  },
+  "S3": {
+    "bucket": "trivor-storage-dev"
+  },
+  "TheMovieDB": {
+    "url": "https://api.themoviedb.org",
+    "version": 3,
+    "language": "en-US"
+  },
+  "OpenSubtitles": {
+    "url": "http://api.opensubtitles.org/xml-rpc",
+    "user_agent": "PopcornHour v1"
+  }
+}
