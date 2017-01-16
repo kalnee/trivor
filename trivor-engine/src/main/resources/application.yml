@@ -12,9 +12,9 @@ spring:
 cloud:
   aws:
     queues:
-      trivorEngine: trivor-engine-${app.env}
+      trivorInsights: trivor-insights-${app.env}
     buckets:
-      trivorSubtitles: trivor-subtitles-${app.env}
+      trivorSubtitles: trivor-storage-${app.env}
     region:
       static: us-east-1
     credentials:

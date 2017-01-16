@@ -2,17 +2,21 @@ package com.kalnee.trivor.engine.consumers;
 
 import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
 import static java.lang.String.format;
+import static org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy.ON_SUCCESS;
 
-import com.kalnee.trivor.engine.dto.SubtitleDTO;
-import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
+import java.net.URI;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.stereotype.Component;
 
-import javax.validation.Valid;
-import java.net.URI;
+import com.kalnee.trivor.engine.dto.SubtitleDTO;
+import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
 
 @Component
 public class InsightsQueueConsumer {
@@ -32,7 +36,7 @@ public class InsightsQueueConsumer {
     this.bucket = bucket;
   }
 
-  // @SqsListener(value = "${aws.cloud.queues.trivorEngine}", deletionPolicy = ON_SUCCESS)
+  @SqsListener(value = "${aws.cloud.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
   public void consume(@Valid SubtitleDTO subtitle) {
     LOGGER.info("Message received: {}", subtitle);
 
