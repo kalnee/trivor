@@ -1,7 +1,7 @@
 {
   "SQS": {
     "engine_url": "https://sqs.us-east-1.amazonaws.com/488642547976/trivor-insights-dev",
-    "subtitles_url": "https://sqs.us-west-2.amazonaws.com/488642547976/trivor-subtitles-dev"
+    "subtitles_url": "https://sqs.us-east-1.amazonaws.com/488642547976/trivor-subtitles-dev"
   },
   "S3": {
     "bucket": "trivor-storage-dev"
