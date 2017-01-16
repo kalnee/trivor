@@ -40,7 +40,7 @@ class TheMovieDB {
      * @api private
      */
     getUrl(_id, _method) {
-        let _endpoint = _url + '/' + _version + '/' + _method + '/' + _id + '?api_key=' + _apiKey + '&language=' + _language;
+        let _endpoint = `${_url}/${_version}/${_method}/${_id}?api_key=${_apiKey}&language=${_language}`;
         if (_method === 'find') {
             _endpoint += '&external_source=imdb_id';
         }

@@ -68,7 +68,13 @@ class Subtitle {
      */
     addSubtitles(callback) {
         if (this.isMovie()) {
-            this.subtitles.push({ "id": this.imdbId });
+            this.subtitles.push({
+                "id": this.imdbId,
+                "type": "MOVIE",
+                "year": new Date(this.title.movie_results[0].release_date).getFullYear(),
+                "name": this.title.movie_results[0].title
+            });
+
             callback();
         }
 
@@ -76,7 +82,14 @@ class Subtitle {
             this.mdb.tv(this.title.tv_results[0].id, (show) => {
                 show.seasons.forEach((season) => {
                     for (var i = 1; i <= season.episode_count; i++) {
-                        this.subtitles.push({ "id": this.imdbId, "season": season.season_number, "episode": i });
+                        this.subtitles.push({
+                            "id": this.imdbId,
+                            "season": season.season_number,
+                            "episode": i,
+                            "type": "TV_SHOW",
+                            "year": new Date(this.title.tv_results[0].release_date).getFullYear(),
+                            "name": this.title.tv_results[0].title
+                        });
                     }
                 });
                 callback();
@@ -138,7 +151,7 @@ class Subtitle {
                 callback(this.getSubtitles().length + " subtitle(s) queued for processing.");
             });
         });
-    }    
+    }
 }
 
 /**
