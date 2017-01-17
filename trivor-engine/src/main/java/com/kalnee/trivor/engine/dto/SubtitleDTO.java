@@ -7,14 +7,23 @@ public class SubtitleDTO {
 	private Integer season;
 	private Integer episode;
 	private Integer year;
+	private TypeEnum type;
 
 	public SubtitleDTO(String imdbId, String name, Integer season, Integer episode,
-			Integer year) {
+		Integer year, TypeEnum type) {
 		this.imdbId = imdbId;
 		this.name = name;
 		this.season = season;
 		this.episode = episode;
 		this.year = year;
+		this.type = type;
+	}
+
+	public SubtitleDTO(String imdbId, String name, Integer year, TypeEnum type) {
+		this.imdbId = imdbId;
+		this.name = name;
+		this.year = year;
+		this.type = type;
 	}
 
 	public SubtitleDTO() {
@@ -58,5 +67,13 @@ public class SubtitleDTO {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	public TypeEnum getType() {
+		return type;
+	}
+
+	public void setType(TypeEnum type) {
+		this.type = type;
 	}
 }

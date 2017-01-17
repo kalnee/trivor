@@ -1,25 +1,57 @@
 package com.kalnee.trivor.engine.consumers;
 
+import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
+import static java.lang.String.format;
 import static org.springframework.cloud.aws.messaging.listener.SqsMessageDeletionPolicy.ON_SUCCESS;
 
-import com.kalnee.trivor.engine.repositories.SubtitleRepository;
+import java.net.URI;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.stereotype.Component;
+
+import com.kalnee.trivor.engine.dto.SubtitleDTO;
+import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
 
 @Component
 public class InsightsQueueConsumer {
 
-	private final SubtitleRepository subtitleRepository;
+  private static final Logger LOGGER = LoggerFactory.getLogger(InsightsQueueConsumer.class);
+  private static final String TV_SHOW_FILENAME = "%s_S%d_E%d.srt";
+  private static final String MOVIE_FILENAME = "%s.srt";
+  private static final String S3_URI = "s3://%s/%s";
 
-	@Autowired
-	public InsightsQueueConsumer(SubtitleRepository subtitleRepository) {
-		this.subtitleRepository = subtitleRepository;
-	}
+  private final SubtitleProcessor subtitleProcessor;
+  private final String bucket;
 
-//	@SqsListener(value = "${sqs.queue.trivorEngine}", deletionPolicy = ON_SUCCESS)
-	public void receiveMessage(String raw) {
-		System.out.println("Message received: " + subtitleRepository.findByYear(Integer.valueOf(raw)));
-	}
+  @Autowired
+  public InsightsQueueConsumer(SubtitleProcessor subtitleProcessor,
+      												 @Value("${aws.cloud.buckets.trivorSubtitles}") String bucket) {
+    this.subtitleProcessor = subtitleProcessor;
+    this.bucket = bucket;
+  }
+
+  @SqsListener(value = "${aws.cloud.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
+  public void consume(@Valid SubtitleDTO subtitle) {
+    LOGGER.info("Message received: {}", subtitle);
+
+    String filename;
+
+    if (TV_SHOW.equals(subtitle.getType())) {
+      filename = format(
+      	TV_SHOW_FILENAME, subtitle.getImdbId(), subtitle.getSeason(), subtitle.getEpisode()
+			);
+    } else {
+      filename = format(MOVIE_FILENAME, subtitle.getImdbId());
+    }
+
+    final URI uri = URI.create(format(S3_URI, bucket, filename));
+    subtitleProcessor.process(uri, subtitle);
+  }
 
 }

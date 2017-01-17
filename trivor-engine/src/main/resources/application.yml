@@ -11,10 +11,12 @@ spring:
       port: 27017
 cloud:
   aws:
+    queues:
+      trivorInsights: trivor-insights-${app.env}
+    buckets:
+      trivorSubtitles: trivor-storage-${app.env}
     region:
       static: us-east-1
     credentials:
       instanceProfile: false
-sqs:
-  queue:
-    trivorEngine: trivor-engine-${app.env}
+
