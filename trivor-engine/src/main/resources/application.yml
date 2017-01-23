@@ -3,8 +3,6 @@ server:
 app:
   env: dev
 spring:
-  application:
-    name: trivor-engine
   data:
     mongodb:
       host: localhost
@@ -19,4 +17,7 @@ cloud:
       static: us-east-1
     credentials:
       instanceProfile: false
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://127.0.0.1:8761}/eureka/

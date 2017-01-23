@@ -3,3 +3,9 @@ spring:
     mongodb:
       host: mongo
       port: 27017
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
