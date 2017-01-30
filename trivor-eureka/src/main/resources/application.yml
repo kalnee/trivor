@@ -1,8 +1,6 @@
-spring:
-  data:
-    mongodb:
-      host: mongo
-      port: 27017
+server:
+  port: ${PORT:8761}
+
 eureka:
   client:
     registerWithEureka: false

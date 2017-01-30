@@ -31,12 +31,12 @@ public class InsightsQueueConsumer {
 
   @Autowired
   public InsightsQueueConsumer(SubtitleProcessor subtitleProcessor,
-      												 @Value("${aws.cloud.buckets.trivorSubtitles}") String bucket) {
+      												 @Value("${cloud.aws.buckets.trivorSubtitles}") String bucket) {
     this.subtitleProcessor = subtitleProcessor;
     this.bucket = bucket;
   }
 
-  @SqsListener(value = "${aws.cloud.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
+  @SqsListener(value = "${cloud.aws.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
   public void consume(@Valid SubtitleDTO subtitle) {
     LOGGER.info("Message received: {}", subtitle);
 
