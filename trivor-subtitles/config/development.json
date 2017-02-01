@@ -1,4 +1,9 @@
 {
+  "Env": "development",
+  "TrivorSubtitles": {
+    "host": "127.0.0.1",
+    "port": 3000
+  },
   "SQS": {
     "engine_url": "https://sqs.us-east-1.amazonaws.com/488642547976/trivor-insights-dev",
     "subtitles_url": "https://sqs.us-east-1.amazonaws.com/488642547976/trivor-subtitles-dev"
@@ -14,5 +19,9 @@
   "OpenSubtitles": {
     "url": "http://api.opensubtitles.org/xml-rpc",
     "user_agent": "PopcornHour v1"
+  },
+  "Eureka": {
+    "host": null,
+    "port": null
   }
 }
