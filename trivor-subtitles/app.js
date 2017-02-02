@@ -1,24 +1,56 @@
 const express = require('express');
+const process = require('process');
 const Subtitle = require('./lib/subtitle.js');
 const config = require('config');
+const trivorSubtitles = config.get('TrivorSubtitles');
 const Queue = require('./lib/queue.js');
 const Storage = require('./lib/storage.js');
+const eureka = require('./lib/eureka.js');
 
 const app = express();
 const engineQ = new Queue(config.get('SQS.engine_url'));
 const subtitlesQ = new Queue(config.get('SQS.subtitles_url'));
 
-app.get('/subtitles/:imdbId', (req, res) => {
-  const subtitle = new Subtitle(req.params.imdbId, subtitlesQ);
+app.post('/subtitles', (req, res) => {
+  if (!req.body.imdbId) {
+    res.status(400).send('imdbId is required');
+  }
+
+  const subtitle = new Subtitle(req.body.imdbId, subtitlesQ);
 
   subtitle.load((message) => {
     res.send(message);
   });
 });
 
-app.listen(3000, () => {
-  console.log('Listening on port 3000!');
+app.get('/info', (req, res) => {
+  res.send({
+      status: "UP"
+  });
 });
+
+app.listen(trivorSubtitles.port, () => {
+  console.log(`Listening on port ${trivorSubtitles.port}`);
+  if (config.get('Env') !== 'development') {
+    eureka.start();
+  }
+});
+
+var cleanUp = function() {
+  if (config.get('Env') !== 'development') {
+    eureka.stop();
+  }
+  process.exit();
+};
+
+//executed when the process is finished
+process.on('exit', cleanUp);
+
+//catches ctrl+c event
+process.on('SIGINT', cleanUp);
+
+//catches uncaught exceptions
+process.on('uncaughtException', cleanUp);
 
 setInterval(() => {
   subtitlesQ.receiveMessage((messages) => {
