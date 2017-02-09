@@ -4,15 +4,9 @@ import java.util.List;
 
 import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
+import com.kalnee.trivor.engine.models.Subtitle;
 
 public class SentencesInsightGenerator implements InsightGenerator<Integer> {
-
-	private final List<Sentence> sentences;
-  private Insight<Integer> insight;
-
-	public SentencesInsightGenerator(List<Sentence> sentences) {
-		this.sentences = sentences;
-	}
 
 	@Override
 	public String getDescription() {
@@ -24,12 +18,7 @@ public class SentencesInsightGenerator implements InsightGenerator<Integer> {
 		return "NOS";
 	}
 
-	@Override
-	public void generate() {
-		insight = new Insight<>(getCode(), sentences.size());
-	}
-
-	public Insight<Integer> getInsight() {
-		return insight;
+	public Insight<Integer> getInsight(Subtitle subtitle) {
+		return new Insight<>(getCode(), subtitle.getSentences().size());
 	}
 }

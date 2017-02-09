@@ -1,20 +1,9 @@
 package com.kalnee.trivor.engine.insights.generators;
 
-import java.util.List;
-
 import com.kalnee.trivor.engine.models.Insight;
-import com.kalnee.trivor.engine.models.Sentence;
+import com.kalnee.trivor.engine.models.Subtitle;
 
 public class PaceInsightGenerator implements InsightGenerator<String> {
-
-	private final List<Sentence> sentences;
-  private Insight<String> insight;
-	private Integer duration;
-
-	public PaceInsightGenerator(List<Sentence> sentences, Integer duration) {
-		this.sentences = sentences;
-		this.duration = duration;
-	}
 
 	@Override
 	public String getDescription() {
@@ -26,9 +15,8 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 		return "PAC";
 	}
 
-	@Override
-	public void generate() {
-		Integer frequency = sentences.size() / duration;
+	public Insight<String> getInsight(Subtitle subtitle) {
+		final Integer frequency = subtitle.getSentences().size() / subtitle.getDuration();
 		String pace = "SUPER_FAST";
 
 		if (frequency <= 8) {
@@ -39,10 +27,6 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 			pace = "FAST";
 		}
 
-		insight = new Insight<>(getCode(), pace);
-	}
-
-	public Insight<String> getInsight() {
-		return insight;
+		return new Insight<>(getCode(), pace);
 	}
 }

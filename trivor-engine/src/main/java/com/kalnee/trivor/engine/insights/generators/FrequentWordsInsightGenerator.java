@@ -12,17 +12,12 @@ import java.util.function.Function;
 
 import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
+import com.kalnee.trivor.engine.models.Subtitle;
 
 public class FrequentWordsInsightGenerator implements InsightGenerator<Map<String, Long>> {
 
 	private static final String WORD_REGEX = "([a-zA-Z]{2,})";
 	private static final List<String> NON_WORDS_TAGS = Arrays.asList("NNP", "NNPS");
-	private final List<Sentence> sentences;
-	private Insight<Map<String, Long>> insight;
-
-	public FrequentWordsInsightGenerator(List<Sentence> sentences) {
-		this.sentences = sentences;
-	}
 
 	@Override
 	public String getDescription() {
@@ -34,14 +29,10 @@ public class FrequentWordsInsightGenerator implements InsightGenerator<Map<Strin
 		return "FUW";
 	}
 
-	public Insight<Map<String, Long>> getInsight() {
-		return insight;
-	}
-
 	@Override
-	public void generate() {
+	public Insight<Map<String, Long>> getInsight(Subtitle subtitle) {
 
-		final Map<String, Long> words = sentences.stream()
+		final Map<String, Long> words = subtitle.getSentences().stream()
 			.flatMap(s -> s.getTokens().stream())
 			.filter(t -> t.getToken().matches(WORD_REGEX))
 			.filter(t -> !NON_WORDS_TAGS.contains(t.getTag()))
@@ -56,6 +47,6 @@ public class FrequentWordsInsightGenerator implements InsightGenerator<Map<Strin
 				throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
 			}, LinkedHashMap::new));
 
-		insight = new Insight<>(getCode(), commonWords);
+    return new Insight<>(getCode(), commonWords);
 	}
 }

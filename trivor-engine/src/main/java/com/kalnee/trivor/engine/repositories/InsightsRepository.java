@@ -10,7 +10,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.kalnee.trivor.engine.models.Subtitle;
 
-@RepositoryRestResource(path = "insights")
+@RepositoryRestResource(path = "insights", collectionResourceRel = "insights")
 public interface InsightsRepository extends MongoRepository<Insights, BigInteger> {
   List<Insights> findByImdbId(@Param("imdbId") String imdbId);
+  List<Insights> findBySubtitleId(@Param("subtitleId") String subtitleId);
 }
