@@ -5,10 +5,9 @@ import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
 import java.util.Arrays;
 import java.util.List;
 
-import com.kalnee.trivor.engine.dto.TypeEnum;
 import org.springframework.stereotype.Component;
 
-import com.kalnee.trivor.engine.models.Subtitle;
+import com.kalnee.trivor.engine.dto.TypeEnum;
 
 @Component
 public class InsightsGenerators {
@@ -17,7 +16,11 @@ public class InsightsGenerators {
 		new SentencesInsightGenerator(),
 		new FrequentWordsInsightGenerator(),
 		new FrequentSentencesInsightGenerator(),
-		new PaceInsightGenerator()
+		new PaceInsightGenerator(),
+		new SimplePresentGenerator(),
+		new SimplePastGenerator(),
+		new SimpleFutureGenerator(),
+		new PresentPerfectGenerator()
 	);
 
 	private static final List<InsightGenerator> MOVIE_GENERATORS = Arrays.asList(
