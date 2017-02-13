@@ -12,4 +12,5 @@ import com.kalnee.trivor.engine.models.Subtitle;
 @RepositoryRestResource(path = "subtitles")
 public interface SubtitleRepository extends MongoRepository<Subtitle, BigInteger> {
   List<Subtitle> findByYear(@Param("year") Integer year);
+  List<Subtitle> findByImdbId(@Param("imdbId") String imdbId);
 }

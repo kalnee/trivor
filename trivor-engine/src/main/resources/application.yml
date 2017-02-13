@@ -1,7 +1,5 @@
 server:
   port: 8080
-app:
-  env: dev
 spring:
   data:
     mongodb:
@@ -10,14 +8,16 @@ spring:
 cloud:
   aws:
     queues:
-      trivorInsights: trivor-insights-${app.env}
+      trivorInsights: trivor-insights-dev
     buckets:
-      trivorSubtitles: trivor-storage-${app.env}
+      trivorSubtitles: trivor-storage-dev
     region:
       static: us-east-1
     credentials:
       instanceProfile: false
 eureka:
   client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URL:http://127.0.0.1:8761}/eureka/
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0

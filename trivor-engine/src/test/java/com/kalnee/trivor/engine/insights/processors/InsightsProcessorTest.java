@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.kalnee.trivor.engine.insights.generators.InsightsGenerators;
 import com.kalnee.trivor.engine.models.Insights;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Token;
@@ -29,7 +30,8 @@ import com.kalnee.trivor.engine.repositories.SubtitleRepository;
 public class InsightsProcessorTest {
 
 	private InsightsRepository repository = mock(InsightsRepository.class);
-	private InsightsProcessor insightsProcessor = new InsightsProcessor(repository);
+	private InsightsGenerators insightsGenerators = mock(InsightsGenerators.class);
+	private InsightsProcessor insightsProcessor = new InsightsProcessor(repository, insightsGenerators);
 	
 	@Test
 	public void testInsertion() throws URISyntaxException {

@@ -17,6 +17,7 @@ class FileSubtitleHandler implements SubtitleHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileSubtitleHandler.class);
 
 	static final String FILE_SCHEME = "file";
+	static final String JAR_SCHEME = "jar";
 
 	private final URI uri;
 
