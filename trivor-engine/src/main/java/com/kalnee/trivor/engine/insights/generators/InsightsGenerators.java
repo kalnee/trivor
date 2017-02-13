@@ -1,13 +1,12 @@
 package com.kalnee.trivor.engine.insights.generators;
 
-import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
+import com.kalnee.trivor.engine.dto.TypeEnum;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import com.kalnee.trivor.engine.dto.TypeEnum;
+import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
 
 @Component
 public class InsightsGenerators {
@@ -20,7 +19,8 @@ public class InsightsGenerators {
 		new SimplePresentGenerator(),
 		new SimplePastGenerator(),
 		new SimpleFutureGenerator(),
-		new PresentPerfectGenerator()
+		new PresentPerfectGenerator(),
+		new PresentProgressiveGenerator()
 	);
 
 	private static final List<InsightGenerator> MOVIE_GENERATORS = Arrays.asList(

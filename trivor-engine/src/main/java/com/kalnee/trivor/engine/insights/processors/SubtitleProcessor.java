@@ -1,23 +1,5 @@
 package com.kalnee.trivor.engine.insights.processors;
 
-import static java.lang.System.lineSeparator;
-import static java.util.regex.Pattern.MULTILINE;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.kalnee.trivor.engine.dto.SubtitleDTO;
 import com.kalnee.trivor.engine.handlers.SubtitleHandler;
 import com.kalnee.trivor.engine.handlers.SubtitleHandlerFactory;
@@ -29,6 +11,23 @@ import com.kalnee.trivor.engine.nlp.SentenceDetector;
 import com.kalnee.trivor.engine.nlp.SimpleTokenizer;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
 import com.kalnee.trivor.engine.utils.DateTimeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
+import static java.lang.System.lineSeparator;
+import static java.util.regex.Pattern.MULTILINE;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Component
 public class SubtitleProcessor {
@@ -72,7 +71,7 @@ public class SubtitleProcessor {
 				.filter(line -> !line.matches(SUBTITLE_TIME_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_SONG_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_URL_REGEX))
-				.map(line -> line.replaceAll(SUBTITLE_CONTINUATION_REGEX, EMPTY))
+				//.map(line -> line.replaceAll(SUBTITLE_CONTINUATION_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_DIALOG_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_HTML_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_CC_REGEX, EMPTY))
