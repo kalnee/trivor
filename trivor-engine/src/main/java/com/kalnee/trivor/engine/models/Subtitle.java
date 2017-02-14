@@ -67,7 +67,7 @@ public class Subtitle {
     this.sentences = sentences;
   }
 
-  Subtitle() {}
+  public Subtitle() {}
 
   public BigInteger getId() {
     return id;

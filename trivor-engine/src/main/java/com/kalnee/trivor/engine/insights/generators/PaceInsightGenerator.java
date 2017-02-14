@@ -12,7 +12,7 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 
 	@Override
 	public String getCode() {
-		return "PAC";
+		return "pace";
 	}
 
 	public Insight<String> getInsight(Subtitle subtitle) {

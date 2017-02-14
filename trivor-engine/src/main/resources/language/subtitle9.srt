@@ -1,0 +1,72 @@
+1
+00:00:00,000 --> 00:00:02,485
+She eats toast.
+
+2
+00:00:02,587 --> 00:00:04,271
+I don't eat toast.
+
+3
+00:00:04,372 --> 00:00:05,707
+Do you eat breakfast every day?
+
+4
+00:00:05,723 --> 00:00:06,991
+I ate an apple.
+
+5
+00:00:07,093 --> 00:00:08,493
+They did not eat breakfast.
+
+6
+00:00:08,495 --> 00:00:10,130
+Did you eat the chocolate?
+
+7
+00:00:10,132 --> 00:00:11,702
+I will eat later.
+
+8
+00:00:11,704 --> 00:00:13,911
+We won't eat anything tonight.
+
+9
+00:00:13,913 --> 00:00:16,210
+What will you eat for lunch?
+
+10
+00:00:16,222 --> 00:00:18,355
+I've eaten breakfast.
+
+11
+00:00:35,702 --> 00:00:38,956
+- We haven't eaten yet.
+
+12
+00:00:39,540 --> 00:00:42,292
+What have you eaten today?
+
+13
+00:00:42,417 --> 00:00:45,295
+She's eating toast.
+
+14
+00:01:57,159 --> 00:01:58,243
+We are not eating at home.
+
+15
+00:01:58,702 --> 00:02:00,120
+Is he eating now?
+
+16
+00:02:00,204 --> 00:02:03,081
+Yeah, sure.
+
+17
+00:02:03,165 --> 00:02:05,417
+Why not?
+
+18
+00:02:05,501 --> 00:02:07,085
+Perfect.
+

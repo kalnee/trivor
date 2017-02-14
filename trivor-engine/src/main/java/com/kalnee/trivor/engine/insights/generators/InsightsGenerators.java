@@ -12,20 +12,21 @@ import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
 public class InsightsGenerators {
 
 	private static final List<InsightGenerator> TV_SHOW_GENERATORS = Arrays.asList(
-		new SentencesInsightGenerator(),
-		new FrequentWordsInsightGenerator(),
-		new FrequentSentencesInsightGenerator(),
+		new NumberOfSentencesGenerator(),
+		new FrequentWordsGenerator(),
+		new FrequentSentencesGenerator(),
 		new PaceInsightGenerator(),
 		new SimplePresentGenerator(),
 		new SimplePastGenerator(),
 		new SimpleFutureGenerator(),
 		new PresentPerfectGenerator(),
-		new PresentProgressiveGenerator()
+		new PresentProgressiveGenerator(),
+		new NonSentencesGenerator()
 	);
 
 	private static final List<InsightGenerator> MOVIE_GENERATORS = Arrays.asList(
-		new SentencesInsightGenerator(),
-		new FrequentWordsInsightGenerator(),
+		new NumberOfSentencesGenerator(),
+		new FrequentWordsGenerator(),
 		new PaceInsightGenerator()
 	);
 

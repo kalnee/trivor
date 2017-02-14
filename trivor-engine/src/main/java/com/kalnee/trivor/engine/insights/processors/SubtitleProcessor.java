@@ -1,5 +1,24 @@
 package com.kalnee.trivor.engine.insights.processors;
 
+import static java.lang.System.lineSeparator;
+import static java.util.regex.Pattern.MULTILINE;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.kalnee.trivor.engine.dto.SubtitleDTO;
 import com.kalnee.trivor.engine.handlers.SubtitleHandler;
 import com.kalnee.trivor.engine.handlers.SubtitleHandlerFactory;
@@ -11,31 +30,15 @@ import com.kalnee.trivor.engine.nlp.SentenceDetector;
 import com.kalnee.trivor.engine.nlp.SimpleTokenizer;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
 import com.kalnee.trivor.engine.utils.DateTimeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
-import static java.lang.System.lineSeparator;
-import static java.util.regex.Pattern.MULTILINE;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Component
 public class SubtitleProcessor {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SubtitleProcessor.class);
+	private static final String SPACES_REGEX = "\\s+";
 	private static final String SUBTITLE_INDEX_REGEX = "^(\\d+)$";
 	private static final String SUBTITLE_TIME_REGEX = "^((\\d+.*)\\s-->\\s(\\d+.*))$";
-	private static final String SUBTITLE_DIALOG_REGEX = "^\\s*-\\s*";
+	private static final String SUBTITLE_DIALOG_REGEX = "^\\s*-|_\\s*";
 	private static final String SUBTITLE_HTML_REGEX = "<(.*)>\\s*";
 	private static final String SUBTITLE_CC_REGEX = "\\[.*\\]\\s*";
 	private static final String SUBTITLE_URL_REGEX = ".*www\\..*\\.com.*";
@@ -75,8 +78,8 @@ public class SubtitleProcessor {
 				.map(line -> line.replaceAll(SUBTITLE_DIALOG_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_HTML_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_CC_REGEX, EMPTY))
-				.map(line -> line.replaceAll(SUBTITLE_INITIAL_QUOTE_REGEX, EMPTY))
-				.map(line -> line.replaceAll(SUBTITLE_FINAL_QUOTE_REGEX, EMPTY))
+				.map(line -> line.replaceAll(SUBTITLE_INITIAL_QUOTE_REGEX, SPACE))
+				.map(line -> line.replaceAll(SUBTITLE_FINAL_QUOTE_REGEX, SPACE))
 				.map(String::trim)
 				.collect(joining(" "));
 
@@ -103,7 +106,10 @@ public class SubtitleProcessor {
 	public void process(URI uri, SubtitleDTO subtitleDTO) {
 		preProcess(uri);
 
-		final List<String> detectedSentences = sentenceDetector.detect(content);
+		final List<String> detectedSentences = sentenceDetector.detect(content)
+			.stream()
+			.map(s -> s.replaceAll(SPACES_REGEX, SPACE))
+			.collect(toList());
 
 		final List<Sentence> sentences = detectedSentences.stream().map(s -> {
 			final List<String> rawTokens = tokenizer.tokenize(s);

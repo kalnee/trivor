@@ -36,7 +36,7 @@ public class TrivorEngineApplication {
   CommandLineRunner runner(SubtitleProcessor subtitleProcessor) {
     return (args) -> {
       subtitleProcessor.process(
-          getClass().getClassLoader().getResource("language/subtitle.srt").toURI(),
+          getClass().getClassLoader().getResource("language/subtitle9.srt").toURI(),
           new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, TV_SHOW));
     };
   }

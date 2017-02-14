@@ -1,6 +1,5 @@
 package com.kalnee.trivor.engine.insights.generators;
 
-import static com.kalnee.trivor.engine.utils.CollectionUtils.anyMatch;
 import static com.kalnee.trivor.engine.utils.CollectionUtils.noneMatch;
 import static com.kalnee.trivor.engine.utils.TagsEnum.*;
 import static java.util.stream.Collectors.toSet;
@@ -13,30 +12,26 @@ import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 
-public class SimplePresentGenerator implements InsightGenerator<Set<String>> {
+public class NonSentencesGenerator implements InsightGenerator<Set<String>> {
 
-	private static final List<String> MUST_CONTAIN = Arrays.asList(VBP.name(), VBZ.name());
-	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(VBN.name(), VBG.name(), VBD.name());
-	private static final List<String> MUST_NOT_CONTAIN_WORDS = Arrays.asList(
-		"Will", "will", "Won't", "won't", "'ll", "going to", "gonna"
+	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
+		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), VB.name()
 	);
 
 	@Override
 	public String getDescription() {
-		return "Simple Present Tense";
+		return "Non Sentences";
 	}
 
 	@Override
 	public String getCode() {
-		return "simple-present";
+		return "non-sentences";
 	}
 
 	public Insight<Set<String>> getInsight(Subtitle subtitle) {
 		final Set<String> sentences = subtitle.getSentences()
 			.stream()
-			.filter(s -> anyMatch(s.getSentenceTags(), MUST_CONTAIN)
-				&& noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN)
-			  && noneMatch(s.getSentence(), MUST_NOT_CONTAIN_WORDS))
+			.filter(s -> noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
 			.map(Sentence::getSentence)
 			.collect(toSet());
 

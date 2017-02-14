@@ -9,6 +9,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.kalnee.trivor.engine.dto.TypeEnum;
+import com.kalnee.trivor.engine.insights.processors.InsightsProcessor;
+import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
 
@@ -45,6 +47,7 @@ public class SubtitleProcessorTest {
 
 		assertTrue(content.startsWith("That's nice. Thank you.  Don't move, please."));
 		assertTrue(content.contains("I'm sorry. I love the rodeo, the rodeo rules."));
+		assertTrue("should've replaced simple quotes", content.contains("or even Hey, you depending on"));
 		assertTrue(content.endsWith("Al's food does not stink, Al stinks."));
 	}
 

@@ -2,14 +2,16 @@ package com.kalnee.trivor.engine.insights.generators;
 
 import static com.kalnee.trivor.engine.utils.CollectionUtils.anyMatch;
 import static com.kalnee.trivor.engine.utils.CollectionUtils.noneMatch;
-import static com.kalnee.trivor.engine.utils.TagsEnum.*;
+import static com.kalnee.trivor.engine.utils.TagsEnum.VBD;
+import static com.kalnee.trivor.engine.utils.TagsEnum.VBN;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.kalnee.trivor.engine.models.Insight;
+import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 
 public class SimpleFutureGenerator implements InsightGenerator<Set<String>> {
@@ -26,20 +28,17 @@ public class SimpleFutureGenerator implements InsightGenerator<Set<String>> {
 
 	@Override
 	public String getCode() {
-		return "SFT";
+		return "simple-future";
 	}
 
 	public Insight<Set<String>> getInsight(Subtitle subtitle) {
-		final Set<String> simplePresent = new HashSet<>();
+		final Set<String> sentences = subtitle.getSentences()
+			.stream()
+			.filter(s -> anyMatch(s.getSentence(), MUST_CONTAIN)
+				&& noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
+			.map(Sentence::getSentence)
+			.collect(toSet());
 
-		subtitle.getSentences().forEach(s -> {
-			final String tags = s.getSentenceTags();
-
-			if (anyMatch(s.getSentence(), MUST_CONTAIN) && noneMatch(tags, MUST_NOT_CONTAIN)) {
-				simplePresent.add(s.getSentence());
-			}
-		});
-
-		return new Insight<>(getCode(), simplePresent);
+		return new Insight<>(getCode(), sentences);
 	}
 }

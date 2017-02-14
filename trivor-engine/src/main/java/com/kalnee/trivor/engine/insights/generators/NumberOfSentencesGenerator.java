@@ -6,7 +6,7 @@ import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 
-public class SentencesInsightGenerator implements InsightGenerator<Integer> {
+public class NumberOfSentencesGenerator implements InsightGenerator<Integer> {
 
 	@Override
 	public String getDescription() {
@@ -15,7 +15,7 @@ public class SentencesInsightGenerator implements InsightGenerator<Integer> {
 
 	@Override
 	public String getCode() {
-		return "NOS";
+		return "number-of-sentences";
 	}
 
 	public Insight<Integer> getInsight(Subtitle subtitle) {
