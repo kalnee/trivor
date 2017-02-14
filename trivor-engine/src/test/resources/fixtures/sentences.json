@@ -568,5 +568,105 @@
         "prob": 0.040550274504312075
       }
     ]
+  },
+  {
+    "sentence": "They were eating lunch.",
+    "tokens": [
+      {
+        "token": "They",
+        "tag": "PRP",
+        "prob": 0.04078746133175445
+      },
+      {
+        "token": "were",
+        "tag": "VBD",
+        "prob": 0.05157053921126283
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.045900037016708806
+      },
+      {
+        "token": "lunch",
+        "tag": "NN",
+        "prob": 0.0476342759215963
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04089490541565977
+      }
+    ]
+  },
+  {
+    "sentence": "She wasn't eating a sandwich.",
+    "tokens": [
+      {
+        "token": "She",
+        "tag": "PRP",
+        "prob": 0.04262486967388651
+      },
+      {
+        "token": "was",
+        "tag": "VBD",
+        "prob": 0.074475075781873
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.07458860438277624
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.04698306886648176
+      },
+      {
+        "token": "a",
+        "tag": "DT",
+        "prob": 0.05156438740604328
+      },
+      {
+        "token": "sandwich",
+        "tag": "NN",
+        "prob": 0.037798591903814974
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.042637106313358715
+      }
+    ]
+  },
+  {
+    "sentence": "Where were you eating?",
+    "tokens": [
+      {
+        "token": "Where",
+        "tag": "WRB",
+        "prob": 0.03453133735137076
+      },
+      {
+        "token": "were",
+        "tag": "VBD",
+        "prob": 0.05554680108913861
+      },
+      {
+        "token": "you",
+        "tag": "PRP",
+        "prob": 0.054017744540463236
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.03261622925752298
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.041216693347040395
+      }
+    ]
   }
 ]
