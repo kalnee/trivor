@@ -2,20 +2,25 @@ package com.kalnee.trivor.engine.insights.generators;
 
 import static com.kalnee.trivor.engine.utils.CollectionUtils.noneMatch;
 import static com.kalnee.trivor.engine.utils.TagsEnum.*;
-import static java.util.stream.Collectors.toSet;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 
-public class NonSentencesGenerator implements InsightGenerator<Set<String>> {
+public class NonSentencesGenerator implements InsightGenerator<List<String>> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(NonSentencesGenerator.class);
 
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
-		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), VB.name()
+		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), PRP.name()
 	);
 
 	@Override
@@ -28,12 +33,17 @@ public class NonSentencesGenerator implements InsightGenerator<Set<String>> {
 		return "non-sentences";
 	}
 
-	public Insight<Set<String>> getInsight(Subtitle subtitle) {
-		final Set<String> sentences = subtitle.getSentences()
+	public Insight<List<String>> getInsight(Subtitle subtitle) {
+		final List<String> sentences = subtitle.getSentences()
 			.stream()
 			.filter(s -> noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
 			.map(Sentence::getSentence)
-			.collect(toSet());
+			.collect(toList());
+
+		LOGGER.info(
+			format("%s: %d/%d (%.2f%%)", getCode(), sentences.size(), subtitle.getSentences().size(),
+			(sentences.size() * 100d / subtitle.getSentences().size()))
+		);
 
 		return new Insight<>(getCode(), sentences);
 	}

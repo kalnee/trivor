@@ -21,14 +21,24 @@ public class InsightsGenerators {
 		new SimpleFutureGenerator(),
 		new PresentPerfectGenerator(),
 		new PresentProgressiveGenerator(),
-		new NonSentencesGenerator(),
-        new PastProgressiveGenerator()
+		new PastProgressiveGenerator(),
+		new PastPerfectGenerator(),
+		new NonSentencesGenerator()
 	);
 
 	private static final List<InsightGenerator> MOVIE_GENERATORS = Arrays.asList(
 		new NumberOfSentencesGenerator(),
 		new FrequentWordsGenerator(),
-		new PaceInsightGenerator()
+		new FrequentSentencesGenerator(),
+		new PaceInsightGenerator(),
+		new SimplePresentGenerator(),
+		new SimplePastGenerator(),
+		new SimpleFutureGenerator(),
+		new PresentPerfectGenerator(),
+		new PresentProgressiveGenerator(),
+		new PastProgressiveGenerator(),
+		new PastPerfectGenerator(),
+		new NonSentencesGenerator()
 	);
 
 	public List<InsightGenerator> getGenerators(TypeEnum type) {

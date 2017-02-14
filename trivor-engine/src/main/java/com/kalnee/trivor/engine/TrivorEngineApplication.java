@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import com.kalnee.trivor.engine.repositories.InsightsRepository;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
 
+import static com.kalnee.trivor.engine.dto.TypeEnum.MOVIE;
 import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
 
 @SpringBootApplication
@@ -36,8 +37,23 @@ public class TrivorEngineApplication {
   CommandLineRunner runner(SubtitleProcessor subtitleProcessor) {
     return (args) -> {
       subtitleProcessor.process(
-          getClass().getClassLoader().getResource("language/subtitle9.srt").toURI(),
+          getClass().getClassLoader().getResource("language/subtitle.srt").toURI(),
           new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/subtitle2.srt").toURI(),
+          new SubtitleDTO("tt1520211", "The Walking Dead", 1, 1, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/subtitle4.srt").toURI(),
+          new SubtitleDTO("tt4196776", "Jason Bourne", 1, 1, 2016, MOVIE));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/subtitle5.srt").toURI(),
+          new SubtitleDTO("tt0412142", "House M.D.", 1, 1, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/subtitle6.srt").toURI(),
+          new SubtitleDTO("tt3566726", "Jane The Virgin", 1, 1, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/subtitle7.srt").toURI(),
+          new SubtitleDTO("tt1280822", "Drop Dead Diva", 4, 2, 2013, TV_SHOW));
     };
   }
 }

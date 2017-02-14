@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 
@@ -29,7 +28,7 @@ public class PresentProgressiveGeneratorTest {
   @Test
   public void testFindPresentProgressive() throws IOException {
     final PresentProgressiveGenerator spg = new PresentProgressiveGenerator();
-    final Insight<Set<String>> insight = spg.getInsight(getSubtitle());
+    final Insight<List<String>> insight = spg.getInsight(getSubtitle());
 
     assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
   }

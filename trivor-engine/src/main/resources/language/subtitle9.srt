@@ -70,3 +70,26 @@ Why not?
 00:02:05,501 --> 00:02:07,085
 Perfect.
 
+19
+00:02:00,204 --> 00:02:03,081
+They were eating lunch.
+
+20
+00:02:03,165 --> 00:02:05,417
+She wasn't eating a sandwich.
+
+21
+00:02:05,501 --> 00:02:07,085
+Where were you eating?
+
+22
+00:02:00,204 --> 00:02:03,081
+She'd eaten lunch.
+
+23
+00:02:03,165 --> 00:02:05,417
+We hadn't eaten.
+
+24
+00:02:05,501 --> 00:02:07,085
+Had they eaten fish before?

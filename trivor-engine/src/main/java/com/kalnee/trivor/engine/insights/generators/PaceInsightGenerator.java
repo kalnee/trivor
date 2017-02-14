@@ -1,9 +1,14 @@
 package com.kalnee.trivor.engine.insights.generators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Subtitle;
 
 public class PaceInsightGenerator implements InsightGenerator<String> {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PaceInsightGenerator.class);
 
 	@Override
 	public String getDescription() {
@@ -26,6 +31,8 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 		} else if (frequency > 15 && frequency <= 20) {
 			pace = "FAST";
 		}
+
+		LOGGER.info("{}: {}", getCode(), pace);
 
 		return new Insight<>(getCode(), pace);
 	}
