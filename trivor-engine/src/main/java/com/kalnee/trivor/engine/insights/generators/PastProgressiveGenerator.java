@@ -20,8 +20,7 @@ public class PastProgressiveGenerator implements InsightGenerator<List<String>> 
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PastProgressiveGenerator.class);
 
-  private static final List<String> MUST_CONTAIN =
-      Arrays.asList(PRP.name(), VBD.name(), VBG.name());
+  private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), VBD.name(), VBG.name());
   private static final List<String> MUST_NOT_CONTAIN_WORDS = Arrays.asList("going to", "gonna");
 
   @Override

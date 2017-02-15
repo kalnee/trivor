@@ -1,6 +1,7 @@
 package com.kalnee.trivor.engine.insights.generators;
 
 import static com.kalnee.trivor.engine.utils.CollectionUtils.noneMatch;
+import static com.kalnee.trivor.engine.utils.CollectionUtils.singleMatch;
 import static com.kalnee.trivor.engine.utils.TagsEnum.*;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
@@ -20,7 +21,10 @@ public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(NonSentencesGenerator.class);
 
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
-		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), PRP.name()
+		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), PRP.name(), VB.name(), NNP.name(), NNPS.name()
+	);
+	private static final List<String> MUST_NOT_CONTAIN_WORDS = Arrays.asList(
+		"Will", "will", "Won't", "won't", "'ll", "going to", "gonna"
 	);
 
 	@Override
@@ -36,7 +40,9 @@ public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 	public Insight<List<String>> getInsight(Subtitle subtitle) {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
-			.filter(s -> noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
+			.filter(s -> (noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN)
+				|| singleMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
+			 	&& noneMatch(s.getSentence(), MUST_NOT_CONTAIN_WORDS))
 			.map(Sentence::getSentence)
 			.collect(toList());
 

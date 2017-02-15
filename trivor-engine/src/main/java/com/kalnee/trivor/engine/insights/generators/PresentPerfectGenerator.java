@@ -22,8 +22,8 @@ public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 	private static final List<String> MUST_CONTAIN = Arrays.asList(
 		"Have", "Has", "Haven't", "Hasn't", "haven't", "hasn't", "have", "has", "'ve"
 	);
-	private static final List<String> MUST_CONTAIN_NON_3RD = Arrays.asList(VBP.name(), VBN.name());
-	private static final List<String> MUST_CONTAIN_3RD = Arrays.asList(VBZ.name(), VBN.name());
+	private static final List<String> MUST_CONTAIN_NON_3RD = Arrays.asList(VBP.name(), VBN.name(), PRP.name());
+	private static final List<String> MUST_CONTAIN_3RD = Arrays.asList(VBZ.name(), VBN.name(), PRP.name());
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
 		VBG.name(), VBD.name()
 	);

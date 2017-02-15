@@ -22,7 +22,7 @@ public class PresentProgressiveGenerator implements InsightGenerator<List<String
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PresentProgressiveGenerator.class);
 
-  private static final List<String> MUST_CONTAIN = Collections.singletonList(VBG.name());
+  private static final List<String> MUST_CONTAIN = Arrays.asList(VBG.name(), PRP.name());
   private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(VBN.name(), VBD.name());
   private static final List<String> MUST_NOT_CONTAIN_WORDS = Arrays.asList(
       "Will", "will", "Won't", "won't", "'ll", "going to", "gonna"

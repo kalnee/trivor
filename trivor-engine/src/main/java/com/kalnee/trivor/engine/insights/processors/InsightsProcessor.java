@@ -50,17 +50,22 @@ public class InsightsProcessor {
 			.flatMap(i -> ((List<String>) i.getValue()).stream())
 			.collect(Collectors.toList());
 
-		List<Sentence> notIdentified = subtitle.getSentences().stream()
+		List<String> notIdentified = subtitle.getSentences().stream()
 			.filter(s -> !all.contains(s.getSentence()))
+			.map(Sentence::getSentence)
 			//.peek(s -> LOGGER.info("\n{}\n{}\n", s.getSentence(), s.getSentenceTags()))
 			.collect(Collectors.toList());
 
+		Insight<List<String>> notIdentifiedInsight = new Insight<>();
+		notIdentifiedInsight.setCode("not-identified");
+		notIdentifiedInsight.setValue(notIdentified);
+		insights.add(notIdentifiedInsight);
+
 		LOGGER.info(
 			format("not-identified: %d/%d (%.2f%%)", notIdentified.size(), subtitle.getSentences().size(),
-			(notIdentified.size() * 100d / subtitle.getSentences().size()))
+				(notIdentified.size() * 100d / subtitle.getSentences().size()))
 		);
 		LOGGER.info("total: {}/{}", all.size() + notIdentified.size(), subtitle.getSentences().size());
-		// TODO Remove
 
     repository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), insights));
     LOGGER.info("Insights created successfully.");
