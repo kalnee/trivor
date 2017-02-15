@@ -668,5 +668,100 @@
         "prob": 0.041216693347040395
       }
     ]
+  },
+  {
+    "sentence": "She'd eaten lunch.",
+    "tokens": [
+      {
+        "token": "She",
+        "tag": "PRP",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "'d",
+        "tag": "MD",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "lunch",
+        "tag": "NN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04200012880230763
+      }
+    ]
+  },
+  {
+    "sentence": "We hadn't eaten.",
+    "tokens": [
+      {
+        "token": "We",
+        "tag": "PRP",
+        "prob": 0.05272079075562592
+      },
+      {
+        "token": "had",
+        "tag": "VBD",
+        "prob": 0.04930821939742352
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.06560881847011565
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.04303616353629536
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04053522220119348
+      }
+    ]
+  },
+  {
+    "sentence": "Had they eaten fish before?",
+    "tokens": [
+      {
+        "token": "Had",
+        "tag": "VBD",
+        "prob": 0.038204634625474604
+      },
+      {
+        "token": "they",
+        "tag": "PRP",
+        "prob": 0.050044708160607396
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.03968426033776111
+      },
+      {
+        "token": "fish",
+        "tag": "NN",
+        "prob": 0.041367180818922815
+      },
+      {
+        "token": "before",
+        "tag": "IN",
+        "prob": 0.035774343740516586
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.04148357012007956
+      }
+    ]
   }
 ]

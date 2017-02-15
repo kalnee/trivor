@@ -13,7 +13,8 @@ import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 import com.kalnee.trivor.engine.utils.TestUtils;
 
-public class PastProgressiveGeneratorTest {
+public class PastPerfectGeneratorTest {
+
   private Subtitle getSubtitle() throws IOException {
     final List<Sentence> sentences = TestUtils.readSentences(
         "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
@@ -25,9 +26,9 @@ public class PastProgressiveGeneratorTest {
   }
 
   @Test
-  public void testFindPastProgressive() throws IOException {
-    final PastProgressiveGenerator ppg = new PastProgressiveGenerator();
-    final Insight<List<String>> insight = ppg.getInsight(getSubtitle());
+  public void testFindPastPerfect() throws IOException {
+    final PastPerfectGenerator spg = new PastPerfectGenerator();
+    final Insight<List<String>> insight = spg.getInsight(getSubtitle());
 
     assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
   }

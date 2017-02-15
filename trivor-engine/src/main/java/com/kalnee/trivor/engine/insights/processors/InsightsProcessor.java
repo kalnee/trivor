@@ -1,18 +1,24 @@
 package com.kalnee.trivor.engine.insights.processors;
 
-import com.kalnee.trivor.engine.insights.generators.InsightsGenerators;
-import com.kalnee.trivor.engine.models.Insight;
-import com.kalnee.trivor.engine.models.Insights;
-import com.kalnee.trivor.engine.models.Subtitle;
-import com.kalnee.trivor.engine.repositories.InsightsRepository;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.kalnee.trivor.engine.models.Sentence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import com.kalnee.trivor.engine.insights.generators.InsightsGenerators;
+import com.kalnee.trivor.engine.models.Insight;
+import com.kalnee.trivor.engine.models.Insights;
+import com.kalnee.trivor.engine.models.Subtitle;
+import com.kalnee.trivor.engine.repositories.InsightsRepository;
 
 @Component
 public class InsightsProcessor {
@@ -36,8 +42,25 @@ public class InsightsProcessor {
 		final List<Insight> insights = insightsGenerators.getGenerators(subtitle.getType())
 			.stream()
 			.map(i -> i.getInsight(subtitle))
-			.peek(i -> LOGGER.info("{} - {}", i.getCode(), i.getValue()))
 			.collect(toList());
+
+		// TODO Remove
+		List<String> all = insights.stream()
+			.filter(i -> i.getValue() instanceof List)
+			.flatMap(i -> ((List<String>) i.getValue()).stream())
+			.collect(Collectors.toList());
+
+		List<Sentence> notIdentified = subtitle.getSentences().stream()
+			.filter(s -> !all.contains(s.getSentence()))
+			//.peek(s -> LOGGER.info("\n{}\n{}\n", s.getSentence(), s.getSentenceTags()))
+			.collect(Collectors.toList());
+
+		LOGGER.info(
+			format("not-identified: %d/%d (%.2f%%)", notIdentified.size(), subtitle.getSentences().size(),
+			(notIdentified.size() * 100d / subtitle.getSentences().size()))
+		);
+		LOGGER.info("total: {}/{}", all.size() + notIdentified.size(), subtitle.getSentences().size());
+		// TODO Remove
 
     repository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), insights));
     LOGGER.info("Insights created successfully.");
