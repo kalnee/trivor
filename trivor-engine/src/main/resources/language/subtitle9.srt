@@ -93,3 +93,15 @@ We hadn't eaten.
 24
 00:02:05,501 --> 00:02:07,085
 Had they eaten fish before?
+
+25
+00:02:00,204 --> 00:02:03,081
+Ellen will be eating a sandwich.
+
+26
+00:02:03,165 --> 00:02:05,417
+They won't be eating.
+
+27
+00:02:05,501 --> 00:02:07,085
+Will they be eating at 6pm?
