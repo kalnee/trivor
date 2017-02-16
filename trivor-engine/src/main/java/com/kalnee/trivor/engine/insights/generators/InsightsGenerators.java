@@ -23,7 +23,8 @@ public class InsightsGenerators {
 		new PresentProgressiveGenerator(),
 		new PastProgressiveGenerator(),
 		new PastPerfectGenerator(),
-		new NonSentencesGenerator()
+		new NonSentencesGenerator(),
+        new FuturePerfectGenerator()
 	);
 
 	private static final List<InsightGenerator> MOVIE_GENERATORS = Arrays.asList(
