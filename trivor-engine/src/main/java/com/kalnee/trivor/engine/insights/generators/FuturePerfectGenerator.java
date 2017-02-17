@@ -17,10 +17,13 @@ import static java.util.stream.Collectors.toList;
 public class FuturePerfectGenerator  implements InsightGenerator<List<String>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(PastPerfectGenerator.class);
 
-    private static final List<String> MUST_CONTAIN = Arrays.asList(MD.name(), VBN.name());
-    private static final List<String> MUST_CONTAIN_SINGLE = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
-    private static final List<String> MUST_CONTAIN_WORDS = Arrays.asList(
+    private static final List<String> MUST_CONTAIN_ALL = Arrays.asList(MD.name(), VBN.name());
+    private static final List<String> MUST_CONTAIN_ONE = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
+    private static final List<String> MUST_CONTAIN_HAVE = Arrays.asList(
             "Have", "have"
+    );
+    private static final List<String> MUST_CONTAIN_MODAL = Arrays.asList(
+            "will", "Will", "won't", "Won't", "'ll"
     );
 
     @Override
@@ -37,9 +40,10 @@ public class FuturePerfectGenerator  implements InsightGenerator<List<String>> {
     public Insight<List<String>> getInsight(Subtitle subtitle) {
         final List<String> sentences = subtitle.getSentences()
                 .stream()
-                .filter(s -> anyMatch(s.getSentence(), MUST_CONTAIN_WORDS)
-                        && anyMatch(s.getSentenceTags(), MUST_CONTAIN_SINGLE)
-                        && allMatch(s.getSentenceTags(), MUST_CONTAIN))
+                .filter(s -> anyMatch(s.getSentence(), MUST_CONTAIN_HAVE)
+                        && anyMatch(s.getSentence(), MUST_CONTAIN_MODAL)
+                        && allMatch(s.getSentenceTags(), MUST_CONTAIN_ALL)
+                        && anyMatch(s.getSentenceTags(), MUST_CONTAIN_ONE))
                 .map(Sentence::getSentence)
                 .collect(toList());
 
