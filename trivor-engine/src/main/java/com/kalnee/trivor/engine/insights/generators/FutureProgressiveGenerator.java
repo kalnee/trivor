@@ -1,8 +1,6 @@
 package com.kalnee.trivor.engine.insights.generators;
 
-import static com.kalnee.trivor.engine.utils.CollectionUtils.allMatch;
-import static com.kalnee.trivor.engine.utils.CollectionUtils.anyMatch;
-import static com.kalnee.trivor.engine.utils.CollectionUtils.noneMatch;
+import static com.kalnee.trivor.engine.utils.CollectionUtils.*;
 import static com.kalnee.trivor.engine.utils.TagsEnum.*;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
@@ -18,30 +16,34 @@ import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Sentence;
 import com.kalnee.trivor.engine.models.Subtitle;
 
-public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
+public class FutureProgressiveGenerator implements InsightGenerator<List<String>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFutureGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FutureProgressiveGenerator.class);
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
+	private static final List<String> MUST_CONTAIN_VERB = Collections.singletonList(VBG.name());
+	private static final List<String> MUST_CONTAIN_BE = Collections.singletonList("be");
 	private static final List<String> MUST_CONTAIN_WORDS = Arrays.asList(
-		"Will", "will", "Won't", "won't", "'ll", "going to", "gonna"
+		"Will", "will be", "Won't", "won't be", "'ll be", "gonna be"
 	);
-	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(VBN.name(), VBD.name(), VBG.name());
+	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(VBN.name(), VBD.name());
 
 	@Override
 	public String getDescription() {
-		return "Simple Future Tense";
+		return "Future Progressive Tense";
 	}
 
 	@Override
 	public String getCode() {
-		return "simple-future";
+		return "future-progressive";
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
-			.filter(s -> anyMatch(s.getSentenceTags(), MUST_CONTAIN)
+			.filter(s -> allMatch(s.getSentence(), MUST_CONTAIN_BE)
+				&& allMatch(s.getSentenceTags(), MUST_CONTAIN_VERB)
+				&& anyMatch(s.getSentenceTags(), MUST_CONTAIN)
 				&& anyMatch(s.getSentence(), MUST_CONTAIN_WORDS)
 				&& noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
 			.map(Sentence::getSentence)

@@ -1,20 +1,16 @@
 package com.kalnee.trivor.engine.insights.processors;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import com.kalnee.trivor.engine.models.Sentence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.kalnee.trivor.engine.insights.generators.InsightsGenerators;
+import com.kalnee.trivor.engine.insights.generators.MixedTensesInsightGenerator;
 import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Insights;
 import com.kalnee.trivor.engine.models.Subtitle;
@@ -44,28 +40,12 @@ public class InsightsProcessor {
 			.map(i -> i.getInsight(subtitle))
 			.collect(toList());
 
-		// TODO Remove
-		List<String> all = insights.stream()
-			.filter(i -> i.getValue() instanceof List)
-			.flatMap(i -> ((List<String>) i.getValue()).stream())
-			.collect(Collectors.toList());
+		final List<Insight> postInsights = insightsGenerators.getPostGenerators(subtitle.getType())
+			.stream()
+			.map(i -> i.getInsight(subtitle, insights))
+			.collect(toList());
 
-		List<String> notIdentified = subtitle.getSentences().stream()
-			.filter(s -> !all.contains(s.getSentence()))
-			.map(Sentence::getSentence)
-			//.peek(s -> LOGGER.info("\n{}\n{}\n", s.getSentence(), s.getSentenceTags()))
-			.collect(Collectors.toList());
-
-		Insight<List<String>> notIdentifiedInsight = new Insight<>();
-		notIdentifiedInsight.setCode("not-identified");
-		notIdentifiedInsight.setValue(notIdentified);
-		insights.add(notIdentifiedInsight);
-
-		LOGGER.info(
-			format("not-identified: %d/%d (%.2f%%)", notIdentified.size(), subtitle.getSentences().size(),
-				(notIdentified.size() * 100d / subtitle.getSentences().size()))
-		);
-		LOGGER.info("total: {}/{}", all.size() + notIdentified.size(), subtitle.getSentences().size());
+		insights.addAll(postInsights);
 
     repository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), insights));
     LOGGER.info("Insights created successfully.");
