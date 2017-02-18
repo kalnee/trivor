@@ -878,5 +878,100 @@
         "prob": 0.0448490651837105
       }
     ]
+  },
+  {
+    "sentence": "I'll have worked.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "'ll",
+        "tag": "MD",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "worked",
+        "tag": "VBN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04200012880230763
+      }
+    ]
+  },
+  {
+    "sentence": "I won't have worked.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "won",
+        "tag": "MD",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": "worked",
+        "tag": "VBN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04200012880230763
+      }
+    ]
+  },
+  {
+    "sentence": "Will I have worked?",
+    "tokens": [
+      {
+        "token": "Will",
+        "tag": "MD",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "worked",
+        "tag": "VBN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": "?",
+        "tag": "?",
+        "prob": 0.04200012880230763
+      }
+    ]
   }
 ]
