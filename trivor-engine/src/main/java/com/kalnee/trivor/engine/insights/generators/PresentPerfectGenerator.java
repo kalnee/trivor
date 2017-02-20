@@ -26,8 +26,8 @@ public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
 		VBG.name(), VBD.name()
 	);
-	private static final List<String> MUST_NOT_CONTAIN_MODAL = Arrays.asList(
-            "will", "Will", "won't", "Won't", "'ll"
+  private static final List<String> MUST_NOT_CONTAIN_MODAL = Arrays.asList(
+  	"will", "Will", "won't", "Won't", "'ll", "gonna"
 	);
 
 	@Override
@@ -46,7 +46,7 @@ public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 			.filter(s -> anyMatch(s.getSentence(), MUST_CONTAIN)
 				&& (allMatch(s.getSentenceTags(), MUST_CONTAIN_NON_3RD) || allMatch(s.getSentenceTags(), MUST_CONTAIN_3RD))
 				&& noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN)
-                && anyMatch(s.getSentence(), MUST_NOT_CONTAIN_MODAL))
+				&& noneMatch(s.getSentence(), MUST_NOT_CONTAIN_MODAL))
 			.map(Sentence::getSentence)
 			.collect(toList());
 

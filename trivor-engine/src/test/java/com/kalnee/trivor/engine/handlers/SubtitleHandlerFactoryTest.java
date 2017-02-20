@@ -11,7 +11,7 @@ public class SubtitleHandlerFactoryTest {
 
 	@Test
 	public void testFileScheme() throws URISyntaxException {
-		URI file = URI.create("file://language/subtitle.srt");
+		URI file = URI.create("file://language/s1e1.srt");
 		SubtitleHandler handler = SubtitleHandlerFactory.create(file).getHandler();
 
 		assertEquals(FileSubtitleHandler.class, handler.getClass());
@@ -19,7 +19,7 @@ public class SubtitleHandlerFactoryTest {
 
 	@Test
 	public void testS3Scheme() throws URISyntaxException {
-		URI file = URI.create("s3://bucket/subtitle.srt");
+		URI file = URI.create("s3://bucket/s1e1.srt");
 		SubtitleHandler handler = SubtitleHandlerFactory.create(file).getHandler();
 
 		assertEquals(S3SubtitleHandler.class, handler.getClass());

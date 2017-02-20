@@ -24,7 +24,7 @@ public class InsightsGenerators {
 		new FutureProgressiveGenerator(),
 		new PresentPerfectGenerator(),
 		new PastPerfectGenerator(),
-        new FuturePerfectGenerator(),
+		new FuturePerfectGenerator(),
 		new NonSentencesGenerator()
 	);
 
@@ -45,6 +45,7 @@ public class InsightsGenerators {
 		new FutureProgressiveGenerator(),
 		new PresentPerfectGenerator(),
 		new PastPerfectGenerator(),
+		new FuturePerfectGenerator(),
 		new NonSentencesGenerator()
 	);
 

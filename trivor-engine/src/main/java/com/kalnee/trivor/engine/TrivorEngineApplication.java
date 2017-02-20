@@ -1,7 +1,6 @@
 package com.kalnee.trivor.engine;
 
 import com.kalnee.trivor.engine.dto.SubtitleDTO;
-import com.kalnee.trivor.engine.dto.TypeEnum;
 import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
@@ -37,8 +36,29 @@ public class TrivorEngineApplication {
   CommandLineRunner runner(SubtitleProcessor subtitleProcessor) {
     return (args) -> {
       subtitleProcessor.process(
-          getClass().getClassLoader().getResource("language/subtitle.srt").toURI(),
+          getClass().getClassLoader().getResource("language/gilmore/s1e1.srt").toURI(),
           new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e2.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 2, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e3.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 3, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e4.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 4, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e5.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 5, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e6.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 6, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e7.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 7, 2006, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/gilmore/s1e8.srt").toURI(),
+          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 8, 2006, TV_SHOW));
       subtitleProcessor.process(
           getClass().getClassLoader().getResource("language/subtitle2.srt").toURI(),
           new SubtitleDTO("tt1520211", "The Walking Dead", 1, 1, 2006, TV_SHOW));
