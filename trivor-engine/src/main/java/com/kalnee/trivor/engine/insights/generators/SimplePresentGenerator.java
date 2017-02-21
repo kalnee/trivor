@@ -40,7 +40,7 @@ public class SimplePresentGenerator implements InsightGenerator<List<String>> {
 	public Insight<List<String>> getInsight(Subtitle subtitle) {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
-			.filter(s -> singleMatch(s.getSentenceTags(), MUST_CONTAIN)
+			.filter(s -> anyMatch(s.getSentenceTags(), MUST_CONTAIN)
 				&& anyMatch(s.getSentenceTags(), MUST_CONTAIN_VERBS)
 				&& noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN)
 			  && noneMatch(s.getSentence(), MUST_NOT_CONTAIN_WORDS))

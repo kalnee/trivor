@@ -1,5 +1,6 @@
 package com.kalnee.trivor.engine.insights.processors;
 
+import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
@@ -32,7 +33,10 @@ public class InsightsProcessor {
 
 	public void process(Subtitle subtitle) {
 		LOGGER.info("############# GENERATING INSIGHTS ###########");
-		LOGGER.info("{} - S{}E{}", subtitle.getName(), subtitle.getSeason(), subtitle.getEpisode());
+		LOGGER.info("{}", subtitle.getName());
+		if (TV_SHOW.equals(subtitle.getType())) {
+			LOGGER.info("S{}E{}", subtitle.getSeason(), subtitle.getEpisode());
+		}
 		LOGGER.info("Duration: {}min", subtitle.getDuration());
 
 		final List<Insight> insights = insightsGenerators.getGenerators(subtitle.getType())

@@ -21,8 +21,9 @@ public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 	private static final List<String> MUST_CONTAIN = Arrays.asList(
 		"Have", "Has", "Haven't", "Hasn't", "haven't", "hasn't", "have", "has", "'ve"
 	);
-	private static final List<String> MUST_CONTAIN_NON_3RD = Arrays.asList(VBP.name(), VBN.name(), PRP.name());
-	private static final List<String> MUST_CONTAIN_3RD = Arrays.asList(VBZ.name(), VBN.name(), PRP.name());
+	private static final List<String> MUST_CONTAIN_TAGS = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
+	private static final List<String> MUST_CONTAIN_NON_3RD = Arrays.asList(VBP.name(), VBN.name());
+	private static final List<String> MUST_CONTAIN_3RD = Arrays.asList(VBZ.name(), VBN.name());
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
 		VBG.name(), VBD.name()
 	);
@@ -44,6 +45,7 @@ public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
 			.filter(s -> anyMatch(s.getSentence(), MUST_CONTAIN)
+				&& anyMatch(s.getSentenceTags(), MUST_CONTAIN_TAGS)
 				&& (allMatch(s.getSentenceTags(), MUST_CONTAIN_NON_3RD) || allMatch(s.getSentenceTags(), MUST_CONTAIN_3RD))
 				&& noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN)
 				&& noneMatch(s.getSentence(), MUST_NOT_CONTAIN_MODAL))

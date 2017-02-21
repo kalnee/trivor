@@ -41,7 +41,7 @@ public class SubtitleProcessor {
 	private static final String SUBTITLE_DIALOG_REGEX = "^\\s*-|_\\s*";
 	private static final String SUBTITLE_HTML_REGEX = "<(.*)>\\s*";
 	private static final String SUBTITLE_CC_REGEX = "\\[.*\\]\\s*";
-	private static final String SUBTITLE_URL_REGEX = ".*www\\..*\\.com.*";
+	private static final String SUBTITLE_URL_REGEX = ".*[a-zA-Z]+\\.[a-zA-Z]+";
 	private static final String SUBTITLE_SONG_REGEX = "^♪.*$";
 	private static final String SUBTITLE_CONTINUATION_REGEX = "\\.{3}";
 	private static final String SUBTITLE_INITIAL_QUOTE_REGEX = "^'|\\s'";
@@ -74,7 +74,7 @@ public class SubtitleProcessor {
 				.filter(line -> !line.matches(SUBTITLE_TIME_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_SONG_REGEX))
 				.filter(line -> !line.matches(SUBTITLE_URL_REGEX))
-				//.map(line -> line.replaceAll(SUBTITLE_CONTINUATION_REGEX, EMPTY))
+				.map(line -> line.replaceAll(SUBTITLE_CONTINUATION_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_DIALOG_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_HTML_REGEX, EMPTY))
 				.map(line -> line.replaceAll(SUBTITLE_CC_REGEX, EMPTY))
