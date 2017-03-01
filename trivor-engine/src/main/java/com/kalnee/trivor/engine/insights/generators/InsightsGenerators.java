@@ -13,7 +13,10 @@ public class InsightsGenerators {
 
 	private static final List<InsightGenerator> TV_SHOW_GENERATORS = Arrays.asList(
 		new NumberOfSentencesGenerator(),
-		new FrequentWordsGenerator(),
+		new FrequentAdjectivesGenerator(),
+		new FrequentSuperlativeGenerator(),
+		new FrequentComparativeGenerator(),
+		new FrequentNounsGenerator(),
 		new FrequentSentencesGenerator(),
 		new PaceInsightGenerator(),
 		new SimplePresentGenerator(),
@@ -34,7 +37,10 @@ public class InsightsGenerators {
 
 	private static final List<InsightGenerator> MOVIE_GENERATORS = Arrays.asList(
 		new NumberOfSentencesGenerator(),
-		new FrequentWordsGenerator(),
+		new FrequentAdjectivesGenerator(),
+		new FrequentSuperlativeGenerator(),
+		new FrequentComparativeGenerator(),
+		new FrequentNounsGenerator(),
 		new FrequentSentencesGenerator(),
 		new PaceInsightGenerator(),
 		new SimplePresentGenerator(),

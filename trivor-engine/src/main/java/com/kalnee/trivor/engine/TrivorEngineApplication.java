@@ -74,6 +74,27 @@ public class TrivorEngineApplication {
       subtitleProcessor.process(
           getClass().getClassLoader().getResource("language/subtitle7.srt").toURI(),
           new SubtitleDTO("tt1280822", "Drop Dead Diva", 4, 2, 2013, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/bigbang/s3e5.srt").toURI(),
+          new SubtitleDTO("tt0898266", "Big Bang Theory", 3, 5, 2015, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/got/s2e2.srt").toURI(),
+          new SubtitleDTO("tt0944947", "Game Of Thrones", 2, 2, 2012, TV_SHOW));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/police-academy.srt").toURI(),
+          new SubtitleDTO("tt0087928", "Police Academy", 1987, MOVIE));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/12-angry-men.srt").toURI(),
+          new SubtitleDTO("tt0087928", "12 Angry Men", 1987, MOVIE));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/harry-potter.srt").toURI(),
+          new SubtitleDTO("tt0087928", "Harry Potter", 2011, MOVIE));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/lord-of-the-rings.srt").toURI(),
+          new SubtitleDTO("tt0087928", "Lord of the Rings", 2003, MOVIE));
+      subtitleProcessor.process(
+          getClass().getClassLoader().getResource("language/friends/s7e10.srt").toURI(),
+          new SubtitleDTO("tt0583522", "Friends", 7, 10, 2001, TV_SHOW));
     };
   }
 }
