@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const process = require('process');
 const Subtitle = require('./lib/subtitle.js');
 const config = require('config');
@@ -8,11 +9,13 @@ const Storage = require('./lib/storage.js');
 const eureka = require('./lib/eureka.js');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const engineQ = new Queue(config.get('SQS.engine_url'));
 const subtitlesQ = new Queue(config.get('SQS.subtitles_url'));
 
 app.post('/subtitles', (req, res) => {
-  if (!req.body.imdbId) {
+  if (!req.body || !req.body.imdbId) {
     res.status(400).send('imdbId is required');
   }
 
