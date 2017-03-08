@@ -21,8 +21,12 @@ app.post('/subtitles', (req, res) => {
 
   const subtitle = new Subtitle(req.body.imdbId, subtitlesQ);
 
-  subtitle.load((message) => {
-    res.send(message);
+  subtitle.load((err, message) => {
+    if (err) {
+      res.status(400).send({ error: 'a problem occurred while loading the subtitle'});
+    } else {
+      res.send(message);
+    }
   });
 });
 
@@ -46,6 +50,11 @@ var cleanUp = function() {
   process.exit();
 };
 
+var handleError = function(error, e) {
+  console.error(error);
+  cleanUp();
+};
+
 //executed when the process is finished
 process.on('exit', cleanUp);
 
@@ -53,7 +62,7 @@ process.on('exit', cleanUp);
 process.on('SIGINT', cleanUp);
 
 //catches uncaught exceptions
-process.on('uncaughtException', cleanUp);
+process.on('uncaughtException', handleError);
 
 setInterval(() => {
   subtitlesQ.receiveMessage((messages) => {
