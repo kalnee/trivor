@@ -15,9 +15,3 @@ cloud:
       static: us-east-1
     credentials:
       instanceProfile: false
-eureka:
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    server:
-      waitTimeInMsWhenSyncEmpty: 0

@@ -1,5 +1,8 @@
 server:
   port: 8081
+trivor:
+  subtitles:
+    url: http://localhost:3000
 eureka:
   client:
     serviceUrl:

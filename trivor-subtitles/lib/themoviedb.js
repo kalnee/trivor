@@ -19,17 +19,18 @@ const _endpoints = { find: 'find', tv: 'tv', movie: 'movie' };
 
 /**
  * TheMovieDB API client
- * 
+ *
  */
 class TheMovieDB {
     /**
      * TheMovieDB constructor.
      *
-     * @param {Number} _imdbId
      * @api private
      */
-    constructor(apiKey) {
-        this.apiKey = apiKey;        
+    constructor() {
+        if (!_apiKey) {
+          console.error("THE_MOVIE_DB_KEY env var is not set");
+        }
     }
 
     /**
@@ -56,10 +57,13 @@ class TheMovieDB {
      */
     find(_id, callback) {
         request(this.getUrl(_id, _endpoints.find), (error, response, body) => {
-            if (error || response.statusCode !== 200)
-                throw error;
-            
-            callback(JSON.parse(body));
+            if (error || response.statusCode !== 200) {
+                var err = `a problem occurred when calling themoviedb.\nStatus: ${response.statusCode}`;
+                if (!error)  err + `\nError: ${error}`;
+                console.error(err);
+            }
+
+            callback(err, JSON.parse(body));
         });
     }
 
@@ -72,9 +76,9 @@ class TheMovieDB {
      */
     tv(_id, callback) {
         request(this.getUrl(_id, _endpoints.tv), (error, response, body) => {
-            if (error || response.statusCode !== 200) 
+            if (error || response.statusCode !== 200)
                 throw error;
-            
+
             callback(JSON.parse(body));
         });
     }

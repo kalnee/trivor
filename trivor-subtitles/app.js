@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const process = require('process');
 const Subtitle = require('./lib/subtitle.js');
 const config = require('config');
@@ -8,18 +9,24 @@ const Storage = require('./lib/storage.js');
 const eureka = require('./lib/eureka.js');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const engineQ = new Queue(config.get('SQS.engine_url'));
 const subtitlesQ = new Queue(config.get('SQS.subtitles_url'));
 
 app.post('/subtitles', (req, res) => {
-  if (!req.body.imdbId) {
+  if (!req.body || !req.body.imdbId) {
     res.status(400).send('imdbId is required');
   }
 
   const subtitle = new Subtitle(req.body.imdbId, subtitlesQ);
 
-  subtitle.load((message) => {
-    res.send(message);
+  subtitle.load((err, message) => {
+    if (err) {
+      res.status(400).send({ error: 'a problem occurred while loading the subtitle'});
+    } else {
+      res.send(message);
+    }
   });
 });
 
@@ -43,6 +50,11 @@ var cleanUp = function() {
   process.exit();
 };
 
+var handleError = function(error, e) {
+  console.error(error);
+  cleanUp();
+};
+
 //executed when the process is finished
 process.on('exit', cleanUp);
 
@@ -50,7 +62,7 @@ process.on('exit', cleanUp);
 process.on('SIGINT', cleanUp);
 
 //catches uncaught exceptions
-process.on('uncaughtException', cleanUp);
+process.on('uncaughtException', handleError);
 
 setInterval(() => {
   subtitlesQ.receiveMessage((messages) => {
