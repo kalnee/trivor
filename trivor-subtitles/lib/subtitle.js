@@ -14,7 +14,7 @@ const config = require('config');
 
 /**
  * Manages the download and upload of subtitles
- * 
+ *
  */
 class Subtitle {
 
@@ -27,7 +27,7 @@ class Subtitle {
      */
     constructor(imdbId, subtitlesQ) {
         this.imdbId = imdbId;
-        this.mdb = new MovieDB(imdbId);
+        this.mdb = new MovieDB();
         this.subtitlesQ = subtitlesQ;
         this.subtitles = [];
     }
@@ -63,7 +63,7 @@ class Subtitle {
      * Adds all subtitles of a title.
      *
      * @param {Function} callback
-     * 
+     *
      * @api private
      */
     addSubtitles(callback) {
@@ -141,14 +141,18 @@ class Subtitle {
     }
 
     load(callback) {
-        this.mdb.find(this.imdbId, (title) => {
+        this.mdb.find(this.imdbId, (err, title) => {
+            if (err) {
+              callback(err, "no subtitles queued");
+              return;
+            }
             this.title = title;
             this.addSubtitles(() => {
                 this.getSubtitles().forEach((subtitle) => {
                     this.subtitlesQ.sendMessage(JSON.stringify(subtitle));
                 });
 
-                callback(this.getSubtitles().length + " subtitle(s) queued for processing.");
+                callback(err, this.getSubtitles().length + " subtitle(s) queued for processing.");
             });
         });
     }
