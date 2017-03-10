@@ -38,6 +38,9 @@ dependencies {
 	compile('org.apache.opennlp:opennlp-tools:1.6.0')
 	compile('org.apache.commons:commons-lang3:3.5')
 	compile('commons-collections:commons-collections:3.2.1')
+	compile('io.springfox:springfox-swagger2:2.6.1')
+	compile('io.springfox:springfox-swagger-ui:2.6.1')
+	compile('io.springfox:springfox-data-rest:2.6.1')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.5')
 }
