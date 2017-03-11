@@ -4,4 +4,4 @@
 
 ## License
 
-MIT (c) Kalnee. See [LICENSE](https://github.com/kalnee/blob/master/LICENSE.md) for details.
+MIT (c) Kalnee. See [LICENSE](https://github.com/kalnee/trivor/blob/master/LICENSE.md) for details.
