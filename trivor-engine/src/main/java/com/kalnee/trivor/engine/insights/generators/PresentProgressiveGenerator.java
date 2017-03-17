@@ -22,6 +22,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class PresentProgressiveGenerator implements InsightGenerator<List<String>> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PresentProgressiveGenerator.class);
+  static final String PRESENT_PROGRESSIVE = "present-progressive";
 
   private static final List<String> MUST_CONTAIN = Collections.singletonList(VBG.name());
   private static final List<String> MUST_CONTAIN_TAGS = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
@@ -37,7 +38,7 @@ public class PresentProgressiveGenerator implements InsightGenerator<List<String
 
   @Override
   public String getCode() {
-    return "present-progressive";
+    return PRESENT_PROGRESSIVE;
   }
 
   @Override

@@ -19,6 +19,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class PastProgressiveGenerator implements InsightGenerator<List<String>> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PastProgressiveGenerator.class);
+  static final String PAST_PROGRESSIVE = "past-progressive";
 
   private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), VBD.name(), VBG.name());
   private static final List<String> MUST_NOT_CONTAIN_WORDS = Arrays.asList("going to", "gonna");
@@ -30,7 +31,7 @@ public class PastProgressiveGenerator implements InsightGenerator<List<String>> 
 
   @Override
   public String getCode() {
-    return "past-progressive";
+    return PAST_PROGRESSIVE;
   }
 
   @Override

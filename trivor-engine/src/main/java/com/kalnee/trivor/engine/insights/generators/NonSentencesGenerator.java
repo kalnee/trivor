@@ -19,6 +19,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NonSentencesGenerator.class);
+	static final String NON_SENTENCES = "non-sentences";
 
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
 		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), PRP.name(), VB.name(), NNP.name(), NNPS.name()
@@ -34,7 +35,7 @@ public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 
 	@Override
 	public String getCode() {
-		return "non-sentences";
+		return NON_SENTENCES;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {

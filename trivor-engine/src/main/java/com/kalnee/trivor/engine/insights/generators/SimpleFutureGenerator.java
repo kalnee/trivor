@@ -21,6 +21,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFutureGenerator.class);
+	static final String SIMPLE_FUTURE = "simple-future";
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
 	private static final List<String> MUST_CONTAIN_WORDS = Arrays.asList(
@@ -35,7 +36,7 @@ public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
 
 	@Override
 	public String getCode() {
-		return "simple-future";
+		return SIMPLE_FUTURE;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {

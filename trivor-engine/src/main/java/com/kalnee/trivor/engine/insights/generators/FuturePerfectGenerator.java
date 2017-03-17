@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 public class FuturePerfectGenerator implements InsightGenerator<List<String>> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PastPerfectGenerator.class);
+  static final String FUTURE_PERFECT = "future-perfect";
 
   private static final List<String> MUST_CONTAIN_ALL = Arrays.asList(MD.name(), VBN.name());
   private static final List<String> MUST_CONTAIN_ONE = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
@@ -34,7 +35,7 @@ public class FuturePerfectGenerator implements InsightGenerator<List<String>> {
 
   @Override
   public String getCode() {
-    return "future-perfect";
+    return FUTURE_PERFECT;
   }
 
   @Override

@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PresentPerfectGenerator.class);
+	static final String PRESENT_PERFECT = "present-perfect";
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(
 		"Have", "Has", "Haven't", "Hasn't", "haven't", "hasn't", "have", "has", "'ve"
@@ -38,7 +39,7 @@ public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 
 	@Override
 	public String getCode() {
-		return "present-perfect";
+		return PRESENT_PERFECT;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {

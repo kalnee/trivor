@@ -21,6 +21,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class SimplePastGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimplePastGenerator.class);
+	static final String SIMPLE_PAST = "simple-past";
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
 	private static final List<String> MUST_CONTAIN_VERB = Collections.singletonList(VBD.name());
@@ -38,7 +39,7 @@ public class SimplePastGenerator implements InsightGenerator<List<String>> {
 
 	@Override
 	public String getCode() {
-		return "simple-past";
+		return SIMPLE_PAST;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {

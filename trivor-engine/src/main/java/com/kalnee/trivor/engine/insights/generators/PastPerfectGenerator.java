@@ -19,6 +19,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class PastPerfectGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PastPerfectGenerator.class);
+	static final String PAST_PERFECT = "past-perfect";
 
 	private static final List<String> MUST_CONTAIN = Collections.singletonList(VBN.name());
 	private static final List<String> MUST_CONTAIN_SINGLE = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
@@ -36,7 +37,7 @@ public class PastPerfectGenerator implements InsightGenerator<List<String>> {
 
 	@Override
 	public String getCode() {
-		return "past-perfect";
+		return PAST_PERFECT;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {

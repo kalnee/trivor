@@ -19,6 +19,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class SimplePresentGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimplePresentGenerator.class);
+	static final String SIMPLE_PRESENT = "simple-present";
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
 	private static final List<String> MUST_CONTAIN_VERBS = Arrays.asList(VBP.name(), VBZ.name(), VB.name());
@@ -34,7 +35,7 @@ public class SimplePresentGenerator implements InsightGenerator<List<String>> {
 
 	@Override
 	public String getCode() {
-		return "simple-present";
+		return SIMPLE_PRESENT;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {

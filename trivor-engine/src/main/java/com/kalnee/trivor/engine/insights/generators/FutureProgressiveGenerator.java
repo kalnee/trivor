@@ -19,6 +19,7 @@ import com.kalnee.trivor.engine.models.Subtitle;
 public class FutureProgressiveGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FutureProgressiveGenerator.class);
+	static final String FUTURE_PROGRESSIVE = "future-progressive";
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(PRP.name(), NNP.name(), NNPS.name());
 	private static final List<String> MUST_CONTAIN_VERB = Collections.singletonList(VBG.name());
@@ -35,7 +36,7 @@ public class FutureProgressiveGenerator implements InsightGenerator<List<String>
 
 	@Override
 	public String getCode() {
-		return "future-progressive";
+		return FUTURE_PROGRESSIVE;
 	}
 
 	public Insight<List<String>> getInsight(Subtitle subtitle) {
