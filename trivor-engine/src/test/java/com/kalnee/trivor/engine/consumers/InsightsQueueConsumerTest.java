@@ -32,7 +32,7 @@ public class InsightsQueueConsumerTest {
 
     verify(subtitleProcessor, times(1)).process(any(URI.class), any(SubtitleDTO.class));
     verify(subtitleProcessor).process(uriCaptor.capture(), subtitleCaptor.capture());
-    assertEquals("s3://bucket/aaabbb22_S1_E1.srt", uriCaptor.getValue().toString());
+    assertEquals("s3://bucket/aaabbb22-S1E1.srt", uriCaptor.getValue().toString());
   }
 
   @Test

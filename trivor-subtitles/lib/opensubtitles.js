@@ -16,7 +16,7 @@ const client = xmlrpc.createClient({
 
 /**
  * OpenSubtitles API client.
- * 
+ *
  */
 class OpenSubtitles {
 
@@ -62,7 +62,7 @@ class OpenSubtitles {
     static search(_imdbId, _season, _episode, _callback) {
         let queries = [{
             imdbid: _imdbId.substring(2),
-            sublanguageid: 'en-US',
+            sublanguageid: 'eng',
             season: _season ? _season : null,
             episode: _episode ? _episode : null
         }];

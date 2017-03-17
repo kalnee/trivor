@@ -74,7 +74,9 @@ setInterval(() => {
           var storage = new Storage(subtitle);
           storage.upload(() => {
             console.log('file ' + Subtitle.getFileName(subtitle) + ' uploaded.');
-            engineQ.sendMessage(JSON.stringify(subtitle));
+            var message = JSON.stringify(subtitle);
+            console.log(`message sent to engine queue: ${message}`);
+            engineQ.sendMessage(message);
           });
         });
       });

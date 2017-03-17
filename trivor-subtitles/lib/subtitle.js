@@ -69,7 +69,7 @@ class Subtitle {
     addSubtitles(callback) {
         if (this.isMovie()) {
             this.subtitles.push({
-                "id": this.imdbId,
+                "imdbId": this.imdbId,
                 "type": "MOVIE",
                 "year": new Date(this.title.movie_results[0].release_date).getFullYear(),
                 "name": this.title.movie_results[0].title
@@ -83,12 +83,13 @@ class Subtitle {
                 show.seasons.forEach((season) => {
                     for (var i = 1; i <= season.episode_count; i++) {
                         this.subtitles.push({
-                            "id": this.imdbId,
+                            "imdbId": this.imdbId,
                             "season": season.season_number,
                             "episode": i,
                             "type": "TV_SHOW",
-                            "year": new Date(this.title.tv_results[0].release_date).getFullYear(),
-                            "name": this.title.tv_results[0].title
+                            "year": new Date(show.first_air_date).getFullYear(),
+                            "name": show.name,
+                            "status": show.status
                         });
                     }
                 });
@@ -104,10 +105,10 @@ class Subtitle {
      */
     static getFileName(subtitle) {
         if (!subtitle.season) {
-            return `${subtitle.id}.srt`;
+            return `${subtitle.imdbId}.srt`;
         }
 
-        return `${subtitle.id}-S${subtitle.season}E${subtitle.episode}.srt`;
+        return `${subtitle.imdbId}-S${subtitle.season}E${subtitle.episode}.srt`;
     }
 
     /**
@@ -117,9 +118,11 @@ class Subtitle {
      * @api public
      */
     static fetch(subtitle, fileName, callback) {
-        opensubtitles.search(subtitle.id, subtitle.season, subtitle.episode, (srt) => {
-            if (!srt)
-                throw 'subtitle not found';
+        opensubtitles.search(subtitle.imdbId, subtitle.season, subtitle.episode, (srt) => {
+            if (!srt) {
+                console.log(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
+                return;
+            }
 
             var output = fs.createWriteStream("/tmp/" + fileName);
 
