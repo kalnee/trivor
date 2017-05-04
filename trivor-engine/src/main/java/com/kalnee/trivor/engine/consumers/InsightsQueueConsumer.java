@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.aws.messaging.config.annotation.NotificationMessage;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
 public class InsightsQueueConsumer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InsightsQueueConsumer.class);
-  private static final String TV_SHOW_FILENAME = "%s_S%d_E%d.srt";
+  private static final String TV_SHOW_FILENAME = "%s-S%dE%d.srt";
   private static final String MOVIE_FILENAME = "%s.srt";
   private static final String S3_URI = "s3://%s/%s";
 
@@ -36,7 +37,7 @@ public class InsightsQueueConsumer {
     this.bucket = bucket;
   }
 
-  //@SqsListener(value = "${cloud.aws.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
+  @SqsListener(value = "${cloud.aws.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
   public void consume(@Valid SubtitleDTO subtitle) {
     LOGGER.info("Message received: {}", subtitle);
 
@@ -51,6 +52,8 @@ public class InsightsQueueConsumer {
     }
 
     final URI uri = URI.create(format(S3_URI, bucket, filename));
+    LOGGER.info("Storage URI: {}", uri);
+
     subtitleProcessor.process(uri, subtitle);
   }
 

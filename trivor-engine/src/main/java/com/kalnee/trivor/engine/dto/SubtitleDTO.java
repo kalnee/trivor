@@ -1,79 +1,112 @@
 package com.kalnee.trivor.engine.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SubtitleDTO {
 
-	private String imdbId;
-	private String name;
-	private Integer season;
-	private Integer episode;
-	private Integer year;
-	private TypeEnum type;
+  @NotEmpty
+  private String imdbId;
 
-	public SubtitleDTO(String imdbId, String name, Integer season, Integer episode,
-		Integer year, TypeEnum type) {
-		this.imdbId = imdbId;
-		this.name = name;
-		this.season = season;
-		this.episode = episode;
-		this.year = year;
-		this.type = type;
-	}
+  @NotEmpty
+  private String name;
 
-	public SubtitleDTO(String imdbId, String name, Integer year, TypeEnum type) {
-		this.imdbId = imdbId;
-		this.name = name;
-		this.year = year;
-		this.type = type;
-	}
+  private Integer season;
 
-	public SubtitleDTO() {
-	}
+  private Integer episode;
 
-	public String getImdbId() {
-		return imdbId;
-	}
+  @NotNull
+  private Integer year;
 
-	public void setImdbId(String imdbId) {
-		this.imdbId = imdbId;
-	}
+  @NotNull
+  private TypeEnum type;
 
-	public String getName() {
-		return name;
-	}
+  private String status;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public SubtitleDTO(String imdbId, String name, Integer season, Integer episode, Integer year,
+      TypeEnum type) {
+    this.imdbId = imdbId;
+    this.name = name;
+    this.season = season;
+    this.episode = episode;
+    this.year = year;
+    this.type = type;
+  }
 
-	public Integer getSeason() {
-		return season;
-	}
+  public SubtitleDTO(String imdbId, String name, Integer year, TypeEnum type) {
+    this.imdbId = imdbId;
+    this.name = name;
+    this.year = year;
+    this.type = type;
+  }
 
-	public void setSeason(Integer season) {
-		this.season = season;
-	}
+  public SubtitleDTO() {}
 
-	public Integer getEpisode() {
-		return episode;
-	}
+  public String getImdbId() {
+    return imdbId;
+  }
 
-	public void setEpisode(Integer episode) {
-		this.episode = episode;
-	}
+  public void setImdbId(String imdbId) {
+    this.imdbId = imdbId;
+  }
 
-	public Integer getYear() {
-		return year;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setYear(Integer year) {
-		this.year = year;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public TypeEnum getType() {
-		return type;
-	}
+  public Integer getSeason() {
+    return season;
+  }
 
-	public void setType(TypeEnum type) {
-		this.type = type;
-	}
+  public void setSeason(Integer season) {
+    this.season = season;
+  }
+
+  public Integer getEpisode() {
+    return episode;
+  }
+
+  public void setEpisode(Integer episode) {
+    this.episode = episode;
+  }
+
+  public Integer getYear() {
+    return year;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public TypeEnum getType() {
+    return type;
+  }
+
+  public void setType(TypeEnum type) {
+    this.type = type;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  @JsonIgnore
+  @Override
+  public String toString() {
+    return "SubtitleDTO{" + "imdbId='" + imdbId + '\'' + ", name='" + name + '\'' + ", season="
+        + season + ", episode=" + episode + ", year=" + year + ", type=" + type + ", status='"
+        + status + '\'' + '}';
+  }
 }
