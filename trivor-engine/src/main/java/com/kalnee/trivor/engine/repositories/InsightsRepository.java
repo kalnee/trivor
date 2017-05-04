@@ -13,5 +13,6 @@ import com.kalnee.trivor.engine.models.Subtitle;
 @RepositoryRestResource(path = "insights", collectionResourceRel = "insights")
 public interface InsightsRepository extends MongoRepository<Insights, BigInteger> {
   List<Insights> findByImdbId(@Param("imdbId") String imdbId);
+  List<Insights> findByImdbIdAndSubtitleId(@Param("imdbId") String imdbId, @Param("subtitleId") BigInteger subtitleId);
   List<Insights> findBySubtitleId(@Param("subtitleId") String subtitleId);
 }

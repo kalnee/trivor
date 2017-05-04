@@ -21,7 +21,7 @@ services:
       - AWS_CREDENTIAL_PROFILES_FILE=/home/.aws/credentials
     volumes:
       - $HOME/.aws:/home/.aws
-    entrypoint: ["java", "-jar", "-Dspring.profiles.active=dev", "trivor-engine-0.0.1-SNAPSHOT.jar"]
+    entrypoint: ["java", "-jar", "-Dspring.profiles.active=docker", "trivor-engine-0.0.1-SNAPSHOT.jar"]
     ports:
       - 8080:8080
     links:

@@ -70,10 +70,10 @@ setInterval(() => {
       messages.forEach((message) => {
         var subtitle = JSON.parse(message.Body);
         Subtitle.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
-          console.log('file ' + Subtitle.getFileName(subtitle) + ' downloaded.');
+          console.log(`file ${Subtitle.getFileName(subtitle)} downloaded.`);
           var storage = new Storage(subtitle);
           storage.upload(() => {
-            console.log('file ' + Subtitle.getFileName(subtitle) + ' uploaded.');
+            console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
             var message = JSON.stringify(subtitle);
             console.log(`message sent to engine queue: ${message}`);
             engineQ.sendMessage(message);
