@@ -27,17 +27,17 @@ public class TrivorEngineApplication {
   InitializingBean seedMongoDB(SubtitleRepository subtitleRepository,
       InsightsRepository insightsRepository) {
     return () -> {
-      subtitleRepository.deleteAll();
-      insightsRepository.deleteAll();
+//      subtitleRepository.deleteAll();
+//      insightsRepository.deleteAll();
     };
   }
 
   @Bean
   CommandLineRunner runner(SubtitleProcessor subtitleProcessor) {
     return (args) -> {
-      subtitleProcessor.process(
-          getClass().getClassLoader().getResource("language/gilmore/s1e1.srt").toURI(),
-          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, TV_SHOW));
+//      subtitleProcessor.process(
+//          getClass().getClassLoader().getResource("language/gilmore/s1e1.srt").toURI(),
+//          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, TV_SHOW));
 //      subtitleProcessor.process(
 //          getClass().getClassLoader().getResource("language/gilmore/s1e2.srt").toURI(),
 //          new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 2, 2006, TV_SHOW));

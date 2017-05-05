@@ -82,6 +82,10 @@ class Subtitle {
             this.mdb.tv(this.title.tv_results[0].id, (show) => {
                 show.seasons.forEach((season) => {
                     for (var i = 1; i <= season.episode_count; i++) {
+                        // skipping pilot episodes
+                        if (season.season_number === 0) {
+                          continue;
+                        }
                         this.subtitles.push({
                             "imdbId": this.imdbId,
                             "season": season.season_number,

@@ -38,7 +38,7 @@ public class InsightsQueueConsumer {
   }
 
   @SqsListener(value = "${cloud.aws.queues.trivorInsights}", deletionPolicy = ON_SUCCESS)
-  public void consume(@Valid SubtitleDTO subtitle) {
+  public synchronized void consume(@Valid SubtitleDTO subtitle) {
     LOGGER.info("Message received: {}", subtitle);
 
     String filename;
