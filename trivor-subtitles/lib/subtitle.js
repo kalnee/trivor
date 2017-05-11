@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Module dependencies.
@@ -22,7 +22,7 @@ class Subtitle {
      * Subtitle constructor.
      *
      * @param {String} imdbId
-     * @param {Queue} subtitles queue
+     * @param {Queue} subtitlesQ queue
      * @api private
      */
     constructor(imdbId, subtitlesQ) {
@@ -81,7 +81,7 @@ class Subtitle {
         if (this.isTVShow()) {
             this.mdb.tv(this.title.tv_results[0].id, (show) => {
                 show.seasons.forEach((season) => {
-                    for (var i = 1; i <= season.episode_count; i++) {
+                    for (let  i = 1; i <= season.episode_count; i++) {
                         // skipping pilot episodes
                         if (season.season_number === 0) {
                           continue;
@@ -116,9 +116,11 @@ class Subtitle {
     }
 
     /**
-     * Searchs and downloads the file of a subtitle.
+     * Searches and downloads the file of a subtitle.
      *
-     * @param {Function} _callback
+     * @param {String} subtitle
+     * @param {String} fileName
+     * @param {Function} callback
      * @api public
      */
     static fetch(subtitle, fileName, callback) {
@@ -128,7 +130,7 @@ class Subtitle {
                 return;
             }
 
-            var output = fs.createWriteStream("/tmp/" + fileName);
+            let  output = fs.createWriteStream("/tmp/" + fileName);
 
             request({
                 url: srt.SubDownloadLink,

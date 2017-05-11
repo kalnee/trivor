@@ -40,7 +40,7 @@ class TheMovieDB {
      * @param {String} _method
      * @api private
      */
-    getUrl(_id, _method) {
+    static getUrl(_id, _method) {
         let _endpoint = `${_url}/${_version}/${_method}/${_id}?api_key=${_apiKey}&language=${_language}`;
         if (_method === 'find') {
             _endpoint += '&external_source=imdb_id';
@@ -58,8 +58,8 @@ class TheMovieDB {
     find(_id, callback) {
         request(this.getUrl(_id, _endpoints.find), (error, response, body) => {
             if (error || response.statusCode !== 200) {
-                var err = `a problem occurred when calling themoviedb.\nStatus: ${response.statusCode}`;
-                if (!error)  err + `\nError: ${error}`;
+                let err = `a problem occurred when calling themoviedb.\nStatus: ${response.statusCode}`;
+                if (!error)  err = err + `\nError: ${error}`;
                 console.error(err);
             }
 

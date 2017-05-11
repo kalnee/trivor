@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /**
  * Module dependencies.
@@ -22,10 +22,6 @@ class OpenSubtitles {
 
     /**
      * OpenSubtitles constructor.
-     *
-     * @param {Number} _imdbId
-     * @param {Number} _season
-     * @param {Number} _episode
      * @api private
      */
     constructor() {
@@ -56,6 +52,9 @@ class OpenSubtitles {
     /**
      * Searchs and returns a subtitle.
      *
+     * @param {String} _imdbId
+     * @param {Number} _season
+     * @param {Number} _episode
      * @param {Function} _callback
      * @api private
      */
