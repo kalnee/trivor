@@ -102,6 +102,7 @@ class Subtitle {
         }
     }
 
+
     /**
      * Returns the name of the file that will be saved.
      *
