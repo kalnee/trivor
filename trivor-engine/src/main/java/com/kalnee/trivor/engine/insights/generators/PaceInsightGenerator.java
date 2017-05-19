@@ -1,10 +1,13 @@
 package com.kalnee.trivor.engine.insights.generators;
 
+import com.kalnee.trivor.engine.dto.PaceEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kalnee.trivor.engine.models.Insight;
 import com.kalnee.trivor.engine.models.Subtitle;
+
+import static com.kalnee.trivor.engine.dto.PaceEnum.*;
 
 public class PaceInsightGenerator implements InsightGenerator<String> {
 
@@ -22,18 +25,18 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 
 	public Insight<String> getInsight(Subtitle subtitle) {
 		final Integer frequency = subtitle.getSentences().size() / subtitle.getDuration();
-		String pace = "SUPER_FAST";
+		PaceEnum pace = SUPER_FAST;
 
 		if (frequency <= 8) {
-			pace = "SLOW";
+			pace = SLOW;
 		} else if (frequency > 8 && frequency <= 15) {
-			pace = "MODERATE";
+			pace = MODERATE;
 		} else if (frequency > 15 && frequency <= 20) {
-			pace = "FAST";
+			pace = FAST;
 		}
 
 		LOGGER.info("{}: {}", getCode(), pace);
 
-		return new Insight<>(getCode(), pace);
+		return new Insight<>(getCode(), pace.toString());
 	}
 }
