@@ -40,7 +40,7 @@ class TheMovieDB {
      * @param {String} _method
      * @api private
      */
-    static getUrl(_id, _method) {
+    getUrl(_id, _method) {
         let _endpoint = `${_url}/${_version}/${_method}/${_id}?api_key=${_apiKey}&language=${_language}`;
         if (_method === 'find') {
             _endpoint += '&external_source=imdb_id';
@@ -63,7 +63,7 @@ class TheMovieDB {
                 console.error(err);
             }
 
-            callback(err, JSON.parse(body));
+            callback(error, JSON.parse(body));
         });
     }
 
