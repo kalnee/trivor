@@ -5,12 +5,6 @@
  */
 
 const MovieDB = require('./themoviedb.js');
-const Queue = require('./queue.js');
-const opensubtitles = require('./opensubtitles.js');
-const request = require('request');
-const zlib = require('zlib');
-const fs = require('fs');
-const config = require('config');
 
 /**
  * Manages the download and upload of subtitles
@@ -81,10 +75,10 @@ class Subtitle {
         if (this.isTVShow()) {
             this.mdb.tv(this.title.tv_results[0].id, (show) => {
                 show.seasons.forEach((season) => {
-                    for (let  i = 1; i <= season.episode_count; i++) {
+                    for (let i = 1; i <= season.episode_count; i++) {
                         // skipping pilot episodes
                         if (season.season_number === 0) {
-                          continue;
+                            continue;
                         }
                         this.subtitles.push({
                             "imdbId": this.imdbId,
@@ -116,45 +110,11 @@ class Subtitle {
         return `${subtitle.imdbId}-S${subtitle.season}E${subtitle.episode}.srt`;
     }
 
-    /**
-     * Searches and downloads the file of a subtitle.
-     *
-     * @param {String} subtitle
-     * @param {String} fileName
-     * @param {Function} callback
-     * @api public
-     */
-    static fetch(subtitle, fileName, callback) {
-        opensubtitles.search(subtitle.imdbId, subtitle.season, subtitle.episode, (srt) => {
-            if (!srt) {
-                console.log(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
-                return;
-            }
-
-            let  output = fs.createWriteStream("/tmp/" + fileName);
-
-            request({
-                url: srt.SubDownloadLink,
-                headers: {
-                    'Accept-Encoding': 'gzip'
-                }
-            })
-                .pipe(zlib.createGunzip())
-                .pipe(output);
-
-            output.on('close', () => {
-                if (callback) {
-                    callback();
-                }
-            });
-        });
-    }
-
     load(callback) {
         this.mdb.find(this.imdbId, (err, title) => {
             if (err) {
-              callback(err, "no subtitles queued");
-              return;
+                callback(err, "no subtitles queued");
+                return;
             }
             this.title = title;
             this.addSubtitles(() => {

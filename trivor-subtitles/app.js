@@ -7,6 +7,7 @@ const trivorSubtitles = config.get('TrivorSubtitles');
 const Queue = require('./lib/queue.js');
 const Storage = require('./lib/storage.js');
 const eureka = require('./lib/eureka.js');
+const OpenSubtitles = require('./lib/opensubtitles.js');
 
 const app = express();
 app.use(bodyParser.json());
@@ -69,8 +70,7 @@ setInterval(() => {
         if (messages) {
             messages.forEach((message) => {
                 let subtitle = JSON.parse(message.Body);
-                Subtitle.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
-                    console.log(`file ${Subtitle.getFileName(subtitle)} downloaded.`);
+                OpenSubtitles.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
                     let storage = new Storage(subtitle);
                     storage.upload(() => {
                         console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
