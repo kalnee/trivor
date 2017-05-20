@@ -8,7 +8,6 @@ const trivorSubtitles = config.get('TrivorSubtitles');
 const eureka = require('./lib/eureka.js');
 const routes = require('./routes');
 const consumers = require('./consumers');
-const OpenSubtitles = require('./lib/opensubtitles.js');
 
 const app = express();
 app.use(bodyParser.json());
@@ -44,25 +43,5 @@ process.on('SIGINT', cleanUp);
 
 //catches uncaught exceptions
 process.on('uncaughtException', handleError);
-
-setInterval(() => {
-    subtitlesQ.receiveMessage((messages) => {
-        if (messages) {
-            messages.forEach((message) => {
-                let subtitle = JSON.parse(message.Body);
-                OpenSubtitles.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
-                    let storage = new Storage(subtitle);
-                    storage.upload(() => {
-                        console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
-                        let message = JSON.stringify(subtitle);
-                        console.log(`message sent to engine queue: ${message}`);
-                        engineQ.sendMessage(message);
-                    });
-                });
-            });
-        }
-    });
-}, 20000);
-
 
 module.exports = app;

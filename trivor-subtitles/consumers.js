@@ -4,6 +4,7 @@ const Subtitle = require('./lib/subtitle.js');
 const config = require('config');
 const Queue = require('./lib/queue.js');
 const Storage = require('./lib/storage.js');
+const OpenSubtitles = require('./lib/opensubtitles.js');
 const engineQ = new Queue(config.get('SQS.engine_url'));
 const subtitlesQ = new Queue(config.get('SQS.subtitles_url'));
 
@@ -11,13 +12,13 @@ const consumers = {
     receiveSubtitleMessage: function () {
         setInterval(() => {
             subtitlesQ.receiveMessage((messages) => {
-                if (!messages) {
+                if (messages) {
                     return;
                 }
+
                 messages.forEach((message) => {
                     let subtitle = JSON.parse(message.Body);
-                    Subtitle.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
-                        console.log(`file ${Subtitle.getFileName(subtitle)} downloaded.`);
+                    OpenSubtitles.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
                         let storage = new Storage(subtitle);
                         storage.upload(() => {
                             console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
