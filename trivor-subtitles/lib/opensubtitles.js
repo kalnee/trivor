@@ -5,6 +5,9 @@
  */
 
 const xmlrpc = require('xmlrpc');
+const request = require('request');
+const zlib = require('zlib');
+const fs = require('fs');
 const config = require('config');
 
 const client = xmlrpc.createClient({
@@ -71,7 +74,51 @@ class OpenSubtitles {
                 if (error)
                     throw error;
 
-                _callback(subtitles.data[0]);
+                _callback(subtitles.data ? subtitles.data[0] : null);
+            });
+        });
+    }
+
+    /**
+     * Searches and downloads the file of a subtitle.
+     *
+     * @param {Subtitle} subtitle
+     * @param {String} fileName
+     * @param {Function} callback
+     * @api public
+     */
+    static fetch(subtitle, fileName, callback) {
+        this.search(subtitle.imdbId, subtitle.season, subtitle.episode, (srt) => {
+            if (!srt) {
+                console.log(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
+                return;
+            }
+
+            fs.stat("/tmp/" + fileName, function(err) {
+                if(err == null) {
+                    console.log(`File ${fileName} exists locally.`);
+                    callback();
+                } else if(err.code == 'ENOENT') {
+                    let output = fs.createWriteStream("/tmp/" + fileName);
+
+                    request({
+                        url: srt.SubDownloadLink,
+                        headers: {
+                            'Accept-Encoding': 'gzip'
+                        }
+                    })
+                        .pipe(zlib.createGunzip())
+                        .pipe(output);
+
+                    output.on('close', () => {
+                        if (callback) {
+                            console.log(`file ${fileName} downloaded.`);
+                            callback();
+                        }
+                    });
+                } else {
+                    console.log('Unexpected error: ', err.code);
+                }
             });
         });
     }
