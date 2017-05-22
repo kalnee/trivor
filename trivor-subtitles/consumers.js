@@ -12,7 +12,7 @@ const consumers = {
     receiveSubtitleMessage: function () {
         setInterval(() => {
             subtitlesQ.receiveMessage((messages) => {
-                if (messages) {
+                if (!messages) {
                     return;
                 }
 
