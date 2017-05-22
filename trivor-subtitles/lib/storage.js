@@ -84,6 +84,7 @@ class Storage {
 				});
 			} else {
 				console.log(`object found on S3: ${headParams.Key}`);
+                callback();
 			}
 		});
 	}
