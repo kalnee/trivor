@@ -6,3 +6,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+    environment:
+      - THE_MOVIE_DB_KEY=$THE_MOVIE_DB_KEY
