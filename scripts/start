@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo "Starting trivor-subtitles"
-cd trivor-subtitles && ./scripts/start &
-
-echo "Starting trivor-engine"
-cd trivor-engine && ./scripts/start &
+docker-compose stop
+docker-compose build
+docker-compose up

@@ -1,7 +1,0 @@
-#!/bin/sh
-
-./gradlew clean build
-
-docker-compose stop
-docker-compose build
-docker-compose up
