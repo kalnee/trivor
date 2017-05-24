@@ -12,9 +12,9 @@ services:
     ports:
       - 27017:27017
     command: --smallfiles --rest
-  trivor-engine-api:
+  trivor-engine:
     build:
-      context: .
+      context: ./trivor-engine
       dockerfile: Dockerfile
     environment:
       - HOME=/home
@@ -26,3 +26,11 @@ services:
       - 8080:8080
     links:
       - mongo
+  trivor-subtitles:
+    build:
+      context: ./trivor-subtitles
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - THE_MOVIE_DB_KEY=$THE_MOVIE_DB_KEY
