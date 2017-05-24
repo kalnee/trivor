@@ -1,5 +1,9 @@
 #!/bin/sh
 
+echo "Building Modules"
+cd trivor-engine && ./gradlew clean build
+
+echo "Running docker-compose"
 docker-compose stop
 docker-compose build
 docker-compose up
