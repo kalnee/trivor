@@ -10,7 +10,7 @@
 
 ## Usage
 
-`./gradlew build`
+`./scripts/start`
 
 ## Architecture
 
