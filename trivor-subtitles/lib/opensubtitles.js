@@ -53,7 +53,7 @@ class OpenSubtitles {
     }
 
     /**
-     * Searchs and returns a subtitle.
+     * Search and return a subtitle.
      *
      * @param {String} _imdbId
      * @param {Number} _season
@@ -70,11 +70,22 @@ class OpenSubtitles {
         }];
 
         this.login((token) => {
-            client.methodCall('SearchSubtitles', [token, queries, { limit: 1 }], (error, subtitles) => {
+            client.methodCall('SearchSubtitles', [token, queries, { limit: 100 }], (error, subtitles) => {
                 if (error)
                     throw error;
 
-                _callback(subtitles.data ? subtitles.data[0] : null);
+                if (subtitles.data) {
+                    console.log("Sorting subtitles");
+                    let filteredSubtitles = subtitles.data.filter(sub => {
+                        return sub.SubFormat === "srt" && parseInt(sub.SubSize) > 0;
+                    });
+                    filteredSubtitles.sort((a, b) => {
+                       return b.SubRating - a.SubRating;
+                    });
+                    _callback(filteredSubtitles[0]);
+                } else {
+                    _callback(null);
+                }
             });
         });
     }
@@ -95,10 +106,10 @@ class OpenSubtitles {
             }
 
             fs.stat("/tmp/" + fileName, function(err) {
-                if(err == null) {
+                if(err === null) {
                     console.log(`File ${fileName} exists locally.`);
                     callback();
-                } else if(err.code == 'ENOENT') {
+                } else if(err.code === 'ENOENT') {
                     let output = fs.createWriteStream("/tmp/" + fileName);
 
                     request({
@@ -123,9 +134,5 @@ class OpenSubtitles {
         });
     }
 }
-
-/**
- * Module exports.
- */
 
 module.exports = OpenSubtitles;
