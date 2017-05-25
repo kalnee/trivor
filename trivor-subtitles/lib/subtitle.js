@@ -16,11 +16,13 @@ class Subtitle {
      * Subtitle constructor.
      *
      * @param {String} imdbId
+     * @param {Boolean} resend Define if the subtitle will be resent to the queue
      * @param {Queue} subtitlesQ queue
      * @api private
      */
-    constructor(imdbId, subtitlesQ) {
+    constructor(imdbId, resend, subtitlesQ) {
         this.imdbId = imdbId;
+        this.resend = resend === undefined ? true : resend;
         this.mdb = new MovieDB();
         this.subtitlesQ = subtitlesQ;
         this.subtitles = [];
@@ -66,7 +68,8 @@ class Subtitle {
                 "imdbId": this.imdbId,
                 "type": "MOVIE",
                 "year": new Date(this.title.movie_results[0].release_date).getFullYear(),
-                "name": this.title.movie_results[0].title
+                "name": this.title.movie_results[0].title,
+                "resend": this.resend
             });
 
             callback();
@@ -87,7 +90,8 @@ class Subtitle {
                             "type": "TV_SHOW",
                             "year": new Date(show.first_air_date).getFullYear(),
                             "name": show.name,
-                            "status": show.status
+                            "status": show.status,
+                            "resend": this.resend
                         });
                     }
                 });

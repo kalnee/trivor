@@ -79,12 +79,12 @@ class Storage {
 						console.log("Error", err);
 					} if (data) {
 						console.log("Upload Success", data.Location);
-						callback();
+						callback(false);
 					}
 				});
 			} else {
 				console.log(`object found on S3: ${headParams.Key}`);
-                callback();
+                callback(true);
 			}
 		});
 	}

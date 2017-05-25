@@ -12,7 +12,7 @@ router.route('/subtitles').post((req, res) => {
         res.status(400).send('imdbId is required');
     }
 
-    const subtitle = new Subtitle(req.body.imdbId, subtitlesQ);
+    const subtitle = new Subtitle(req.body.imdbId, req.body.resend, subtitlesQ);
 
     subtitle.load((err, message) => {
         if (err) {
