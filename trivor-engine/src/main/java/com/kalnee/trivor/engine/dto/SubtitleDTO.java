@@ -23,24 +23,29 @@ public class SubtitleDTO {
   private Integer year;
 
   @NotNull
+  private Integer duration;
+
+  @NotNull
   private TypeEnum type;
 
   private String status;
 
-  public SubtitleDTO(String imdbId, String name, Integer season, Integer episode, Integer year,
+  public SubtitleDTO(String imdbId, String name, Integer season, Integer episode, Integer year, Integer duration,
       TypeEnum type) {
     this.imdbId = imdbId;
     this.name = name;
     this.season = season;
     this.episode = episode;
     this.year = year;
+    this.duration = duration;
     this.type = type;
   }
 
-  public SubtitleDTO(String imdbId, String name, Integer year, TypeEnum type) {
+  public SubtitleDTO(String imdbId, String name, Integer year, Integer duration, TypeEnum type) {
     this.imdbId = imdbId;
     this.name = name;
     this.year = year;
+    this.duration = duration;
     this.type = type;
   }
 
@@ -86,6 +91,14 @@ public class SubtitleDTO {
     this.year = year;
   }
 
+  public Integer getDuration() {
+    return duration;
+  }
+
+  public void setDuration(Integer duration) {
+    this.duration = duration;
+  }
+
   public TypeEnum getType() {
     return type;
   }
@@ -105,8 +118,15 @@ public class SubtitleDTO {
   @JsonIgnore
   @Override
   public String toString() {
-    return "SubtitleDTO{" + "imdbId='" + imdbId + '\'' + ", name='" + name + '\'' + ", season="
-        + season + ", episode=" + episode + ", year=" + year + ", type=" + type + ", status='"
-        + status + '\'' + '}';
+    return "SubtitleDTO{" +
+            "imdbId='" + imdbId + '\'' +
+            ", name='" + name + '\'' +
+            ", season=" + season +
+            ", episode=" + episode +
+            ", year=" + year +
+            ", duration=" + duration +
+            ", type=" + type +
+            ", status='" + status + '\'' +
+            '}';
   }
 }

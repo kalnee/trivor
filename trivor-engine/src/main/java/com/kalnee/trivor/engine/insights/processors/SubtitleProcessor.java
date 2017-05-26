@@ -53,7 +53,6 @@ public class SubtitleProcessor {
 	private final SubtitleRepository repository;
 	private final InsightsProcessor insightsProcessor;
 	private String content;
-	private Integer duration;
 
 	@Autowired
 	public SubtitleProcessor(SentenceDetector sentenceDetector, SimpleTokenizer tokenizer,
@@ -82,25 +81,6 @@ public class SubtitleProcessor {
 				.map(line -> line.replaceAll(SUBTITLE_FINAL_QUOTE_REGEX, SPACE))
 				.map(String::trim)
 				.collect(joining(" "));
-
-			final List<String> times = Stream.of(lines.split(lineSeparator()))
-				.filter(line -> line.matches(SUBTITLE_TIME_REGEX))
-				.map(this::findDuration)
-				.collect(toList());
-			final String lastTime = times.get(times.size() - 1);
-
-			duration = DateTimeUtils.minutes(lastTime);
-	}
-
-	private String findDuration(String content) {
-		final Matcher matcher = Pattern.compile(SUBTITLE_TIME_REGEX, MULTILINE).matcher(content);
-		String time = EMPTY;
-
-		if (matcher.find()) {
-			time = matcher.group(matcher.groupCount());
-		}
-
-		return time.substring(0, time.indexOf(","));
 	}
 
 	public void process(URI uri, SubtitleDTO subtitleDTO) {
@@ -125,7 +105,7 @@ public class SubtitleProcessor {
 			return new Sentence(s, tokens);
 		}).collect(toList());
 
-		final Subtitle subtitle = repository.save(new Subtitle(subtitleDTO, duration, sentences));
+		final Subtitle subtitle = repository.save(new Subtitle(subtitleDTO, sentences));
 
 		LOGGER.info("Subtitle created successfully.");
 

@@ -64,15 +64,18 @@ class Subtitle {
      */
     addSubtitles(callback) {
         if (this.isMovie()) {
-            this.subtitles.push({
-                "imdbId": this.imdbId,
-                "type": "MOVIE",
-                "year": new Date(this.title.movie_results[0].release_date).getFullYear(),
-                "name": this.title.movie_results[0].title,
-                "resend": this.resend
-            });
+            this.mdb.movie(this.title.movie_results[0].id, (movie) => {
+                this.subtitles.push({
+                    "imdbId": this.imdbId,
+                    "type": "MOVIE",
+                    "year": new Date(movie.release_date).getFullYear(),
+                    "name": movie.title,
+                    "duration": movie.runtime,
+                    "resend": this.resend
+                });
 
-            callback();
+                callback();
+            });
         }
 
         if (this.isTVShow()) {
@@ -90,6 +93,7 @@ class Subtitle {
                             "type": "TV_SHOW",
                             "year": new Date(show.first_air_date).getFullYear(),
                             "name": show.name,
+                            "duration": show.episode_run_time.sort()[0],
                             "status": show.status,
                             "resend": this.resend
                         });

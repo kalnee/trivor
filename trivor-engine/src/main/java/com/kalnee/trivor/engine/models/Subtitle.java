@@ -56,14 +56,14 @@ public class Subtitle {
     this.sentences = sentences;
   }
 
-  public Subtitle(SubtitleDTO subtitleDTO, Integer duration, List<Sentence> sentences) {
+  public Subtitle(SubtitleDTO subtitleDTO, List<Sentence> sentences) {
     this.imdbId = subtitleDTO.getImdbId();
     this.name = subtitleDTO.getName();
     this.season = subtitleDTO.getSeason();
     this.episode = subtitleDTO.getEpisode();
     this.year = subtitleDTO.getYear();
-		this.type = subtitleDTO.getType();
-    this.duration = duration;
+    this.type = subtitleDTO.getType();
+    this.duration = subtitleDTO.getDuration();
     this.sentences = sentences;
   }
 

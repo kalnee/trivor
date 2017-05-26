@@ -24,8 +24,13 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 	}
 
 	public Insight<String> getInsight(Subtitle subtitle) {
+		PaceEnum pace = NONE;
+
+		if (subtitle.getDuration() == 0) {
+			new Insight<>(getCode(), pace.toString());
+		}
+
 		final Integer frequency = subtitle.getSentences().size() / subtitle.getDuration();
-		PaceEnum pace = SUPER_FAST;
 
 		if (frequency <= 8) {
 			pace = SLOW;
@@ -33,6 +38,8 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
 			pace = MODERATE;
 		} else if (frequency > 15 && frequency <= 20) {
 			pace = FAST;
+		} else {
+			pace = SUPER_FAST;
 		}
 
 		LOGGER.info("{}: {}", getCode(), pace);

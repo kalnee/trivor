@@ -1,25 +1,21 @@
 package com.kalnee.trivor.engine.insights.processors;
 
-import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import com.kalnee.trivor.engine.dto.TypeEnum;
-import com.kalnee.trivor.engine.insights.processors.InsightsProcessor;
-import com.kalnee.trivor.engine.insights.processors.SubtitleProcessor;
-import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
-
 import com.kalnee.trivor.engine.dto.SubtitleDTO;
 import com.kalnee.trivor.engine.models.Subtitle;
 import com.kalnee.trivor.engine.nlp.POSTagger;
 import com.kalnee.trivor.engine.nlp.SentenceDetector;
 import com.kalnee.trivor.engine.nlp.SimpleTokenizer;
 import com.kalnee.trivor.engine.repositories.SubtitleRepository;
+import org.junit.Test;
+import org.mockito.internal.util.reflection.Whitebox;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static com.kalnee.trivor.engine.dto.TypeEnum.TV_SHOW;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class SubtitleProcessorTest {
 
@@ -31,9 +27,9 @@ public class SubtitleProcessorTest {
 
 	private SubtitleProcessor subtitleProcessor = new SubtitleProcessor(sentenceDetector,
 			tokenizer, tagger, repository, insightsProcessor
-  );
+  	);
 
-	private SubtitleDTO subtitleDTO = new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, TV_SHOW);
+	private SubtitleDTO subtitleDTO = new SubtitleDTO("tt0238784", "Gilmore Girls", 1, 1, 2006, 40, TV_SHOW);
 
 	private URI getSubtitleURI(String subtitle) throws URISyntaxException {
 		return getClass().getClassLoader().getResource(subtitle).toURI();
@@ -49,15 +45,6 @@ public class SubtitleProcessorTest {
 		assertTrue(content.contains("I'm sorry. I love the rodeo, the rodeo rules."));
 		assertTrue("should've replaced simple quotes", content.contains("or even Hey, you depending on"));
 		assertTrue(content.endsWith("Al's food does not stink, Al stinks."));
-	}
-
-	@Test
-	public void testCorrectDuration() throws URISyntaxException {
-		subtitleProcessor.process(getSubtitleURI("language/tt0238784-S01E01.srt"), subtitleDTO);
-
-		Integer duration = (Integer) Whitebox.getInternalState(subtitleProcessor, "duration");
-
-		assertTrue(42 == duration);
 	}
 
 	@Test
