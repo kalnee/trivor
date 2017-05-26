@@ -20,11 +20,15 @@ const consumers = {
                     let subtitle = JSON.parse(message.Body);
                     OpenSubtitles.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
                         let storage = new Storage(subtitle);
-                        storage.upload(() => {
+                        storage.upload((subtitleExists) => {
                             console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
                             let message = JSON.stringify(subtitle);
-                            console.log(`message sent to engine queue: ${message}`);
-                            engineQ.sendMessage(message);
+                            if (!subtitleExists || subtitle.resend) {
+                                console.log(`message sent to engine queue: ${message}`);
+                                engineQ.sendMessage(message);
+                            } else {
+                                console.log(`message NOT sent to engine queue: ${message}`);
+                            }
                         });
                     });
                 });
