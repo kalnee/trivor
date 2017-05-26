@@ -20,8 +20,8 @@ public class InsightsQueueConsumerTest {
 
   private SubtitleProcessor subtitleProcessor = mock(SubtitleProcessor.class);
   private InsightsQueueConsumer consumer = new InsightsQueueConsumer(subtitleProcessor, "bucket");
-  private SubtitleDTO tvShow = new SubtitleDTO("aaabbb22", "tv show", 1, 1, 2010, TV_SHOW);
-  private SubtitleDTO movie = new SubtitleDTO("aaabbb22", "tv show", 2010, MOVIE);
+  private SubtitleDTO tvShow = new SubtitleDTO("aaabbb22", "tv show", 1, 1, 2010, 120, TV_SHOW);
+  private SubtitleDTO movie = new SubtitleDTO("aaabbb22", "tv show", 2010, 120, MOVIE);
 
   @Test
   public void testCorrectURITVShow() {

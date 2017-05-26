@@ -68,7 +68,7 @@ class TheMovieDB {
     }
 
     /**
-     * Calls the tv method of the API
+     * Calls the tv endpoint to get more details
      *
      * @param {Number} _id
      * @param {Function} callback
@@ -82,10 +82,22 @@ class TheMovieDB {
             callback(JSON.parse(body));
         });
     }
-}
 
-/**
- * Module exports.
- */
+    /**
+     * Calls the movie endpoint to get more details
+     *
+     * @param {Number} _id
+     * @param {Function} callback
+     * @api public
+     */
+    movie(_id, callback) {
+        request(this.getUrl(_id, _endpoints.movie), (error, response, body) => {
+            if (error || response.statusCode !== 200)
+                throw error;
+
+            callback(JSON.parse(body));
+        });
+    }
+}
 
 module.exports = TheMovieDB;

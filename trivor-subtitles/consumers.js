@@ -24,6 +24,7 @@ const consumers = {
                             console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
                             let message = JSON.stringify(subtitle);
                             if (!subtitleExists || subtitle.resend) {
+                                delete message.resend;
                                 console.log(`message sent to engine queue: ${message}`);
                                 engineQ.sendMessage(message);
                             } else {
