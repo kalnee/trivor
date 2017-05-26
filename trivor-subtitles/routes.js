@@ -18,7 +18,9 @@ router.route('/subtitles').post((req, res) => {
         if (err) {
             res.status(400).send({error: 'a problem occurred while loading the subtitle'});
         } else {
-            res.send(message);
+            res.json({
+                "message": message
+            });
         }
     });
 });
