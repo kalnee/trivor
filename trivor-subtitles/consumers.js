@@ -32,10 +32,11 @@ const consumers = {
                             }
                         });
                     });
+                    subtitlesQ.deleteMessage(message);
                 });
 
             });
-        }, 20000);
+        }, config.get('SQS.consumer_interval'));
     }
 };
 

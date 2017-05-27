@@ -69,21 +69,25 @@ class Queue {
         sqs.receiveMessage(params, (err, data) => {
             if (err) {
                 console.log("Receive Error", err);
-            } else {
-                if (data.Messages) {
-                    let deleteParams = {
-                        QueueUrl: this.url,
-                        ReceiptHandle: data.Messages[0].ReceiptHandle
-                    };
-                    sqs.deleteMessage(deleteParams, (err, data) => {
-                        if (err) {
-                            console.log("Delete Error", err);
-                        }
-                    });
-                }
-
-                callback(data.Messages);
             }
+            callback(data.Messages);
+        });
+    }
+
+    /**
+     * Removes a message from the queue.
+     *
+     * @param {Message} message
+     * @api public
+     */
+    deleteMessage(message) {
+        let params = {
+            QueueUrl: this.url,
+            ReceiptHandle: message.ReceiptHandle
+        };
+        sqs.deleteMessage(params, function(err, data) {
+            if (err) console.log(err);
+            else     console.log('Message deleted');
         });
     }
 }
