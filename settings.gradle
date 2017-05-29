@@ -1,2 +1,3 @@
 rootProject.name = 'Trivor'
 include ':trivor-engine'
+include ':trivor-sdk'
