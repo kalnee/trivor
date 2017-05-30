@@ -20,38 +20,38 @@ import com.kalnee.trivor.engine.repositories.InsightsRepository;
 @Component
 public class InsightsProcessor {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(InsightsProcessor.class);
-    
-	private final InsightsRepository repository;
-	private final InsightsGenerators insightsGenerators;
+    private static final Logger LOGGER = LoggerFactory.getLogger(InsightsProcessor.class);
 
-	@Autowired
-	public InsightsProcessor(InsightsRepository repository, InsightsGenerators insightsGenerators) {
-		this.repository = repository;
-		this.insightsGenerators = insightsGenerators;
-	}
+    private final InsightsRepository repository;
+    private final InsightsGenerators insightsGenerators;
 
-	public void process(Subtitle subtitle) {
-		LOGGER.info("############# GENERATING INSIGHTS ###########");
-		LOGGER.info("{}", subtitle.getName());
-		if (TV_SHOW.equals(subtitle.getType())) {
-			LOGGER.info("S{}E{}", subtitle.getSeason(), subtitle.getEpisode());
-		}
-		LOGGER.info("Duration: {}min", subtitle.getDuration());
+    @Autowired
+    public InsightsProcessor(InsightsRepository repository, InsightsGenerators insightsGenerators) {
+        this.repository = repository;
+        this.insightsGenerators = insightsGenerators;
+    }
 
-		final List<Insight> insights = insightsGenerators.getGenerators(subtitle.getType())
-			.stream()
-			.map(i -> i.getInsight(subtitle))
-			.collect(toList());
+    public void process(Subtitle subtitle) {
+        LOGGER.info("############# GENERATING INSIGHTS ###########");
+        LOGGER.info("{}", subtitle.getName());
+        if (TV_SHOW.equals(subtitle.getType())) {
+            LOGGER.info("S{}E{}", subtitle.getSeason(), subtitle.getEpisode());
+        }
+        LOGGER.info("Duration: {}min", subtitle.getDuration());
 
-		final List<Insight> postInsights = insightsGenerators.getPostGenerators(subtitle.getType())
-			.stream()
-			.map(i -> i.getInsight(subtitle, insights))
-			.collect(toList());
+        final List<Insight> insights = insightsGenerators.getGenerators(subtitle.getType())
+                .stream()
+                .map(i -> i.getInsight(subtitle))
+                .collect(toList());
 
-		insights.addAll(postInsights);
+        final List<Insight> postInsights = insightsGenerators.getPostGenerators(subtitle.getType())
+                .stream()
+                .map(i -> i.getInsight(subtitle, insights))
+                .collect(toList());
 
-    repository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), insights));
-    LOGGER.info("Insights created successfully.");
-  }
+        insights.addAll(postInsights);
+
+        repository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), insights));
+        LOGGER.info("Insights created successfully.");
+    }
 }
