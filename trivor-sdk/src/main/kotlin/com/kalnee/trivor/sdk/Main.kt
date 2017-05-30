@@ -1,15 +1,11 @@
 package com.kalnee.trivor.sdk
 
+import com.kalnee.trivor.sdk.insights.processors.SubtitleProcessor
+
+class Main
+
 fun main(args: Array<String>) {
-    println("trivor-sdk")
-
-    // Input: InputStream, URI (file://, s3://, http://)
-    // Flow: pre-process - identify sentences, tokens and tags - run insights generators
-    // Output: Generic response? individual methods to get particular insights? Process each one individually?
-
-//    InsightProcessor ip = InsightsProcessor.Builder("s3://bucket/key").build();
-//    ip.isProcessed()
-//    ip.getPresentTense()
-//    ip.getFrequentNouns()
-//    ip.getCustomInsight(new MyInsightGenerator());
+    val uri = Main::class.java.getResource("/language/s1e1.srt").toURI()
+    val sp = SubtitleProcessor.Builder(uri).build()
+    println(sp.insights[0])
 }
