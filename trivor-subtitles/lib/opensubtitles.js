@@ -74,7 +74,9 @@ class OpenSubtitles {
                 if (error)
                     throw error;
 
-                if (subtitles.data) {
+                let status = this.parseStatus(subtitles.status);
+
+                if (status.code === '200' && subtitles.data) {
                     console.log("Sorting subtitles");
                     let filteredSubtitles = subtitles.data.filter(sub => {
                         return sub.SubFormat === "srt" && parseInt(sub.SubSize) > 0;
@@ -82,9 +84,9 @@ class OpenSubtitles {
                     filteredSubtitles.sort((a, b) => {
                        return b.SubRating - a.SubRating;
                     });
-                    _callback(filteredSubtitles[0]);
+                    _callback(null, filteredSubtitles[0]);
                 } else {
-                    _callback(null);
+                    _callback(status.msg, null);
                 }
             });
         });
@@ -99,7 +101,12 @@ class OpenSubtitles {
      * @api public
      */
     static fetch(subtitle, fileName, callback) {
-        this.search(subtitle.imdbId, subtitle.season, subtitle.episode, (srt) => {
+        this.search(subtitle.imdbId, subtitle.season, subtitle.episode, (error, srt) => {
+            if (error) {
+                console.log(error);
+                return;
+            }
+
             if (!srt) {
                 console.log(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
                 return;
@@ -132,6 +139,20 @@ class OpenSubtitles {
                 }
             });
         });
+    }
+
+    static parseStatus(status) {
+        if (status) {
+            return {
+                code: status.substring(0, 3),
+                msg: status.substring(4)
+            };
+        }
+
+        return {
+            code: '500',
+            msg: 'Error fetching subtitle'
+        };
     }
 }
 
