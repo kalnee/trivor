@@ -24,7 +24,7 @@ class S3SubtitleHandler implements SubtitleHandler {
 
 	S3SubtitleHandler(URI uri) {
 		this.uri = uri;
-		this.s3Client = AmazonS3ClientBuilder.standard().build();
+		this.s3Client = AmazonS3ClientBuilder.defaultClient();
 	}
 
 	@Override
