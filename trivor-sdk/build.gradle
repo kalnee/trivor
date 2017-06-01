@@ -16,6 +16,8 @@ dependencies {
     compile('org.apache.opennlp:opennlp-tools:1.8.0')
     compile('com.amazonaws:aws-java-sdk-s3:1.11.136')
     compile('org.apache.commons:commons-lang3:3.5')
+    compile('commons-io:commons-io:2.4')
     compile('org.apache.logging.log4j:log4j-core:2.8.2')
     testCompile('junit:junit:4.12')
+    testCompile('org.mockito:mockito-all:1.9.5')
 }

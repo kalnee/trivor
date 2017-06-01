@@ -1,7 +1,7 @@
 package com.kalnee.trivor.sdk.handlers;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3URI;
 import com.amazonaws.services.s3.model.S3Object;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +24,7 @@ class S3SubtitleHandler implements SubtitleHandler {
 
 	S3SubtitleHandler(URI uri) {
 		this.uri = uri;
-		this.s3Client = AmazonS3ClientBuilder.standard().build();
+		this.s3Client = new AmazonS3Client();
 	}
 
 	@Override
