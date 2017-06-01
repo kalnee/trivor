@@ -1,0 +1,977 @@
+[
+  {
+    "sentence": "She eats toast.",
+    "tokens": [
+      {
+        "token": "She",
+        "tag": "PRP",
+        "prob": 0.036703085964810866
+      },
+      {
+        "token": "eats",
+        "tag": "VBZ",
+        "prob": 0.04658136292114171
+      },
+      {
+        "token": "toast",
+        "tag": "NN",
+        "prob": 0.03589892032455594
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.040483199912232634
+      }
+    ]
+  },
+  {
+    "sentence": "I don't eat toast.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.049761706434771354
+      },
+      {
+        "token": "do",
+        "tag": "VBP",
+        "prob": 0.046701336777590696
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.0705797458728425
+      },
+      {
+        "token": "eat",
+        "tag": "VB",
+        "prob": 0.040193771097650474
+      },
+      {
+        "token": "toast",
+        "tag": "NN",
+        "prob": 0.036857759280887026
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04161891291332118
+      }
+    ]
+  },
+  {
+    "sentence": "Do you eat breakfast every day?",
+    "tokens": [
+      {
+        "token": "Do",
+        "tag": "VBP",
+        "prob": 0.033943112959377485
+      },
+      {
+        "token": "you",
+        "tag": "PRP",
+        "prob": 0.04299386431622657
+      },
+      {
+        "token": "eat",
+        "tag": "VB",
+        "prob": 0.035765381609911946
+      },
+      {
+        "token": "breakfast",
+        "tag": "NN",
+        "prob": 0.03518945722830951
+      },
+      {
+        "token": "every",
+        "tag": "DT",
+        "prob": 0.0537442710934049
+      },
+      {
+        "token": "day",
+        "tag": "NN",
+        "prob": 0.060733948729799835
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.046682276233618245
+      }
+    ]
+  },
+  {
+    "sentence": "I ate an apple.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.04939963101295745
+      },
+      {
+        "token": "ate",
+        "tag": "VBD",
+        "prob": 0.039004822714828066
+      },
+      {
+        "token": "an",
+        "tag": "DT",
+        "prob": 0.04868582088185462
+      },
+      {
+        "token": "apple",
+        "tag": "NN",
+        "prob": 0.054052558848188076
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04025205746870248
+      }
+    ]
+  },
+  {
+    "sentence": "They did not eat breakfast.",
+    "tokens": [
+      {
+        "token": "They",
+        "tag": "PRP",
+        "prob": 0.042025468837931464
+      },
+      {
+        "token": "did",
+        "tag": "VBD",
+        "prob": 0.08333754562321624
+      },
+      {
+        "token": "not",
+        "tag": "RB",
+        "prob": 0.06030431519168321
+      },
+      {
+        "token": "eat",
+        "tag": "VB",
+        "prob": 0.03233577507938178
+      },
+      {
+        "token": "breakfast",
+        "tag": "NN",
+        "prob": 0.04661149295866993
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04152723382959891
+      }
+    ]
+  },
+  {
+    "sentence": "Did you eat the chocolate?",
+    "tokens": [
+      {
+        "token": "Did",
+        "tag": "VBD",
+        "prob": 0.04475417850593869
+      },
+      {
+        "token": "you",
+        "tag": "PRP",
+        "prob": 0.04978706626575701
+      },
+      {
+        "token": "eat",
+        "tag": "VBP",
+        "prob": 0.03330983467258735
+      },
+      {
+        "token": "the",
+        "tag": "DT",
+        "prob": 0.06468857838008076
+      },
+      {
+        "token": "chocolate",
+        "tag": "NN",
+        "prob": 0.03934849182732891
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.04628297730329762
+      }
+    ]
+  },
+  {
+    "sentence": "I will eat later.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.051237813640819696
+      },
+      {
+        "token": "will",
+        "tag": "MD",
+        "prob": 0.04186144029937603
+      },
+      {
+        "token": "eat",
+        "tag": "VB",
+        "prob": 0.03796843278651236
+      },
+      {
+        "token": "later",
+        "tag": "RB",
+        "prob": 0.0379401438364237
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.040448060441016856
+      }
+    ]
+  },
+  {
+    "sentence": "We won't eat anything tonight.",
+    "tokens": [
+      {
+        "token": "We",
+        "tag": "PRP",
+        "prob": 0.04864677234318279
+      },
+      {
+        "token": "wo",
+        "tag": "MD",
+        "prob": 0.04569076305289703
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.06758137997107339
+      },
+      {
+        "token": "eat",
+        "tag": "VB",
+        "prob": 0.05840130947150345
+      },
+      {
+        "token": "anything",
+        "tag": "NN",
+        "prob": 0.04643129368516925
+      },
+      {
+        "token": "tonight",
+        "tag": "RB",
+        "prob": 0.037213006141464174
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04014367045101226
+      }
+    ]
+  },
+  {
+    "sentence": "What will you eat for lunch?",
+    "tokens": [
+      {
+        "token": "What",
+        "tag": "WP",
+        "prob": 0.04178634691252776
+      },
+      {
+        "token": "will",
+        "tag": "MD",
+        "prob": 0.03302336824289314
+      },
+      {
+        "token": "you",
+        "tag": "PRP",
+        "prob": 0.057383573615179984
+      },
+      {
+        "token": "eat",
+        "tag": "VBP",
+        "prob": 0.03367339410898546
+      },
+      {
+        "token": "for",
+        "tag": "IN",
+        "prob": 0.0475471865952147
+      },
+      {
+        "token": "lunch",
+        "tag": "NN",
+        "prob": 0.047259731947516634
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.046954109836145806
+      }
+    ]
+  },
+  {
+    "sentence": "I've eaten breakfast.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.051549471793367836
+      },
+      {
+        "token": "'ve",
+        "tag": "VBP",
+        "prob": 0.043955664386161566
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.045446255418464504
+      },
+      {
+        "token": "breakfast",
+        "tag": "NN",
+        "prob": 0.04952492926745522
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04190715103774358
+      }
+    ]
+  },
+  {
+    "sentence": "We haven't eaten yet.",
+    "tokens": [
+      {
+        "token": "We",
+        "tag": "PRP",
+        "prob": 0.041333644008611094
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.05272049870580802
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.06080260202232376
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.0355997872750569
+      },
+      {
+        "token": "yet",
+        "tag": "RB",
+        "prob": 0.03466814828581307
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.03986170249495289
+      }
+    ]
+  },
+  {
+    "sentence": "What have you eaten today?",
+    "tokens": [
+      {
+        "token": "What",
+        "tag": "WP",
+        "prob": 0.03366167775741385
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.03958256626983503
+      },
+      {
+        "token": "you",
+        "tag": "PRP",
+        "prob": 0.040302999848305536
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.0396309083449633
+      },
+      {
+        "token": "today",
+        "tag": "NN",
+        "prob": 0.042858293302562064
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.0463785807481285
+      }
+    ]
+  },
+  {
+    "sentence": "She's eating toast.",
+    "tokens": [
+      {
+        "token": "She",
+        "tag": "PRP",
+        "prob": 0.0445454494544048
+      },
+      {
+        "token": "'s",
+        "tag": "VBZ",
+        "prob": 0.03851528411296314
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.03700311381940903
+      },
+      {
+        "token": "toast",
+        "tag": "NN",
+        "prob": 0.03619182495741747
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04090332689328483
+      }
+    ]
+  },
+  {
+    "sentence": "We are not eating at home.",
+    "tokens": [
+      {
+        "token": "We",
+        "tag": "PRP",
+        "prob": 0.04923405476942619
+      },
+      {
+        "token": "are",
+        "tag": "VBP",
+        "prob": 0.05054355555898413
+      },
+      {
+        "token": "not",
+        "tag": "RB",
+        "prob": 0.06201862290796152
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.03919257660049745
+      },
+      {
+        "token": "at",
+        "tag": "IN",
+        "prob": 0.04268500603145857
+      },
+      {
+        "token": "home",
+        "tag": "NN",
+        "prob": 0.04086979716905974
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.03889821312368244
+      }
+    ]
+  },
+  {
+    "sentence": "Is he eating now?",
+    "tokens": [
+      {
+        "token": "Is",
+        "tag": "VBZ",
+        "prob": 0.04058908648941572
+      },
+      {
+        "token": "he",
+        "tag": "PRP",
+        "prob": 0.05947181884385572
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.04142087405957866
+      },
+      {
+        "token": "now",
+        "tag": "RB",
+        "prob": 0.054540552398040246
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.04387239180430376
+      }
+    ]
+  },
+  {
+    "sentence": "Yeah, sure.",
+    "tokens": [
+      {
+        "token": "Yeah",
+        "tag": "UH",
+        "prob": 0.04349865612579358
+      },
+      {
+        "token": ",",
+        "tag": ",",
+        "prob": 0.04065513552967019
+      },
+      {
+        "token": "sure",
+        "tag": "JJ",
+        "prob": 0.04390891811527456
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.039549311576099214
+      }
+    ]
+  },
+  {
+    "sentence": "Why not?",
+    "tokens": [
+      {
+        "token": "Why",
+        "tag": "WRB",
+        "prob": 0.039218185027845874
+      },
+      {
+        "token": "not",
+        "tag": "RB",
+        "prob": 0.06792118630206939
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.04364595793638311
+      }
+    ]
+  },
+  {
+    "sentence": "Perfect.",
+    "tokens": [
+      {
+        "token": "Perfect",
+        "tag": "JJ",
+        "prob": 0.03241208460424722
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.040550274504312075
+      }
+    ]
+  },
+  {
+    "sentence": "They were eating lunch.",
+    "tokens": [
+      {
+        "token": "They",
+        "tag": "PRP",
+        "prob": 0.04078746133175445
+      },
+      {
+        "token": "were",
+        "tag": "VBD",
+        "prob": 0.05157053921126283
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.045900037016708806
+      },
+      {
+        "token": "lunch",
+        "tag": "NN",
+        "prob": 0.0476342759215963
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04089490541565977
+      }
+    ]
+  },
+  {
+    "sentence": "She wasn't eating a sandwich.",
+    "tokens": [
+      {
+        "token": "She",
+        "tag": "PRP",
+        "prob": 0.04262486967388651
+      },
+      {
+        "token": "was",
+        "tag": "VBD",
+        "prob": 0.074475075781873
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.07458860438277624
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.04698306886648176
+      },
+      {
+        "token": "a",
+        "tag": "DT",
+        "prob": 0.05156438740604328
+      },
+      {
+        "token": "sandwich",
+        "tag": "NN",
+        "prob": 0.037798591903814974
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.042637106313358715
+      }
+    ]
+  },
+  {
+    "sentence": "Where were you eating?",
+    "tokens": [
+      {
+        "token": "Where",
+        "tag": "WRB",
+        "prob": 0.03453133735137076
+      },
+      {
+        "token": "were",
+        "tag": "VBD",
+        "prob": 0.05554680108913861
+      },
+      {
+        "token": "you",
+        "tag": "PRP",
+        "prob": 0.054017744540463236
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.03261622925752298
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.041216693347040395
+      }
+    ]
+  },
+  {
+    "sentence": "She'd eaten lunch.",
+    "tokens": [
+      {
+        "token": "She",
+        "tag": "PRP",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "'d",
+        "tag": "MD",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "lunch",
+        "tag": "NN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04200012880230763
+      }
+    ]
+  },
+  {
+    "sentence": "We hadn't eaten.",
+    "tokens": [
+      {
+        "token": "We",
+        "tag": "PRP",
+        "prob": 0.05272079075562592
+      },
+      {
+        "token": "had",
+        "tag": "VBD",
+        "prob": 0.04930821939742352
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.06560881847011565
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.04303616353629536
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04053522220119348
+      }
+    ]
+  },
+  {
+    "sentence": "Had they eaten fish before?",
+    "tokens": [
+      {
+        "token": "Had",
+        "tag": "VBD",
+        "prob": 0.038204634625474604
+      },
+      {
+        "token": "they",
+        "tag": "PRP",
+        "prob": 0.050044708160607396
+      },
+      {
+        "token": "eaten",
+        "tag": "VBN",
+        "prob": 0.03968426033776111
+      },
+      {
+        "token": "fish",
+        "tag": "NN",
+        "prob": 0.041367180818922815
+      },
+      {
+        "token": "before",
+        "tag": "IN",
+        "prob": 0.035774343740516586
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.04148357012007956
+      }
+    ]
+  },
+  {
+    "sentence": "Ellen will be eating a sandwich.",
+    "tokens": [
+      {
+        "token": "Ellen",
+        "tag": "NNP",
+        "prob": 0.0385621487816871
+      },
+      {
+        "token": "will",
+        "tag": "MD",
+        "prob": 0.04175303919627184
+      },
+      {
+        "token": "be",
+        "tag": "VB",
+        "prob": 0.07122660987448023
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.039269536284814555
+      },
+      {
+        "token": "a",
+        "tag": "DT",
+        "prob": 0.04640014578106544
+      },
+      {
+        "token": "sandwich",
+        "tag": "NN",
+        "prob": 0.037798591903814974
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.042637106313358715
+      }
+    ]
+  },
+  {
+    "sentence": "They won't be eating.",
+    "tokens": [
+      {
+        "token": "They",
+        "tag": "PRP",
+        "prob": 0.04401028702498885
+      },
+      {
+        "token": "wo",
+        "tag": "MD",
+        "prob": 0.051883002375533234
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.0738374549540041
+      },
+      {
+        "token": "be",
+        "tag": "VB",
+        "prob": 0.08514283070537598
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.03585979949636642
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.03803604393401629
+      }
+    ]
+  },
+  {
+    "sentence": "Will they be eating at 6pm?",
+    "tokens": [
+      {
+        "token": "Will",
+        "tag": "MD",
+        "prob": 0.041869090951762965
+      },
+      {
+        "token": "they",
+        "tag": "PRP",
+        "prob": 0.05500780642011882
+      },
+      {
+        "token": "be",
+        "tag": "VB",
+        "prob": 0.049186880960078755
+      },
+      {
+        "token": "eating",
+        "tag": "VBG",
+        "prob": 0.039503715367239525
+      },
+      {
+        "token": "at",
+        "tag": "IN",
+        "prob": 0.04328315133530145
+      },
+      {
+        "token": "6pm",
+        "tag": "CD",
+        "prob": 0.03935949257034288
+      },
+      {
+        "token": "?",
+        "tag": ".",
+        "prob": 0.0448490651837105
+      }
+    ]
+  },
+  {
+    "sentence": "I'll have worked.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "'ll",
+        "tag": "MD",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "worked",
+        "tag": "VBN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04200012880230763
+      }
+    ]
+  },
+  {
+    "sentence": "I won't have worked.",
+    "tokens": [
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "won",
+        "tag": "MD",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "n't",
+        "tag": "RB",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": "worked",
+        "tag": "VBN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": ".",
+        "tag": ".",
+        "prob": 0.04200012880230763
+      }
+    ]
+  },
+  {
+    "sentence": "Will I have worked?",
+    "tokens": [
+      {
+        "token": "Will",
+        "tag": "MD",
+        "prob": 0.03898040797424925
+      },
+      {
+        "token": "I",
+        "tag": "PRP",
+        "prob": 0.03612925705128759
+      },
+      {
+        "token": "have",
+        "tag": "VBP",
+        "prob": 0.0363041656351416
+      },
+      {
+        "token": "worked",
+        "tag": "VBN",
+        "prob": 0.056191386425561284
+      },
+      {
+        "token": "?",
+        "tag": "?",
+        "prob": 0.04200012880230763
+      }
+    ]
+  }
+]
