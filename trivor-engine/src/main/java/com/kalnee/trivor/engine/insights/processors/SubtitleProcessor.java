@@ -87,9 +87,9 @@ public class SubtitleProcessor {
 		preProcess(uri);
 
 		final List<String> detectedSentences = sentenceDetector.detect(content)
-			.stream()
-			.map(s -> s.replaceAll(SPACES_REGEX, SPACE))
-			.collect(toList());
+				.stream()
+				.map(s -> s.replaceAll(SPACES_REGEX, SPACE))
+				.collect(toList());
 
 		final List<Sentence> sentences = detectedSentences.stream().map(s -> {
 			final List<String> rawTokens = tokenizer.tokenize(s);
