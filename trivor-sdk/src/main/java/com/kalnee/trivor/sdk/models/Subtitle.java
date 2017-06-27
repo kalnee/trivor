@@ -18,6 +18,11 @@ public class Subtitle {
         this.sentences = sentences;
     }
 
+    public Subtitle(Integer duration, List<Sentence> sentences) {
+        this.duration = duration;
+        this.sentences = sentences;
+    }
+
     public String getName() {
         return name;
     }

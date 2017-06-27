@@ -3,8 +3,9 @@ package com.kalnee.trivor.sdk.insights.processors;
 import com.kalnee.trivor.sdk.insights.generators.InsightsGenerators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 public class InsightsProcessor {
 
-    private static final Logger LOGGER = LogManager.getLogger(InsightsProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InsightsProcessor.class);
 
     public InsightsProcessor() {
     }
@@ -38,7 +39,7 @@ public class InsightsProcessor {
 
         insights.addAll(postInsights);
 
-        LOGGER.info("Insights created successfully.");
+        LOGGER.info("Insights generated successfully.");
         return insights;
     }
 }

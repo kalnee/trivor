@@ -2,8 +2,9 @@ package com.kalnee.trivor.sdk.nlp;
 
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 
 public class POSTagger {
 
-	private static final Logger LOGGER = LogManager.getLogger(POSTagger.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(POSTagger.class);
 	private static final String MODEL = "/nlp/models/en-pos-perceptron.bin";
 
 	private POSTaggerME tagger;

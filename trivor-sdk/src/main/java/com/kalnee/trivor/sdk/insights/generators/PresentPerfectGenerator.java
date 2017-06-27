@@ -3,8 +3,9 @@ package com.kalnee.trivor.sdk.insights.generators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 public class PresentPerfectGenerator implements InsightGenerator<List<String>> {
 
-	private static final Logger LOGGER = LogManager.getLogger(PresentPerfectGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PresentPerfectGenerator.class);
 
 	private static final List<String> MUST_CONTAIN = Arrays.asList(
 		"Have", "Has", "Haven't", "Hasn't", "haven't", "hasn't", "have", "has", "'ve"

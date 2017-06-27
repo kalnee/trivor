@@ -3,8 +3,9 @@ package com.kalnee.trivor.sdk.insights.generators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 
 public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 
-	private static final Logger LOGGER = LogManager.getLogger(NonSentencesGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NonSentencesGenerator.class);
 
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(
 		VBN.name(), VBG.name(), VBD.name(), VBP.name(), VBZ.name(), PRP.name(), VB.name(), NNP.name(), NNPS.name()

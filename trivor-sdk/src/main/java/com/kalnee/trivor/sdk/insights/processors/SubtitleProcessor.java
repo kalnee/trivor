@@ -9,8 +9,9 @@ import com.kalnee.trivor.sdk.models.Token;
 import com.kalnee.trivor.sdk.nlp.POSTagger;
 import com.kalnee.trivor.sdk.nlp.SentenceDetector;
 import com.kalnee.trivor.sdk.nlp.SimpleTokenizer;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 
 public class SubtitleProcessor {
 
-    private static final Logger LOGGER = LogManager.getLogger(SubtitleProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SubtitleProcessor.class);
     private static final String SPACES_REGEX = "\\s+";
     private static final String SUBTITLE_INDEX_REGEX = "^(\\d+)$";
     private static final String SUBTITLE_TIME_REGEX = "^((\\d+.*)\\s-->\\s(\\d+.*))$";
@@ -46,9 +47,11 @@ public class SubtitleProcessor {
     private String content;
     private Subtitle subtitle;
     private List<Insight> insights;
+    private Integer duration;
 
-    private SubtitleProcessor(URI uri) {
+    private SubtitleProcessor(URI uri, Integer duration) {
         this.uri = uri;
+        this.duration = duration;
         this.sentenceDetector = new SentenceDetector();
         this.tokenizer = new SimpleTokenizer();
         this.tagger = new POSTagger();
@@ -96,9 +99,9 @@ public class SubtitleProcessor {
             return new Sentence(s, tokens);
         }).collect(toList());
 
-        subtitle = new Subtitle(sentences);
+        subtitle = new Subtitle(duration, sentences);
 
-        LOGGER.info("Subtitle created successfully.");
+        LOGGER.info("Subtitle generated successfully.");
 
         insights = insightsProcessor.process(subtitle);
     }
@@ -113,13 +116,19 @@ public class SubtitleProcessor {
 
     public static class Builder {
         private final URI uri;
+        private Integer duration;
 
         public Builder(URI uri) {
             this.uri = uri;
         }
 
+        public Builder withDuration(Integer duration) {
+            this.duration = duration;
+            return this;
+        }
+
         public SubtitleProcessor build() {
-            final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(uri);
+            final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(uri, duration);
             subtitleProcessor.process();
 
             return subtitleProcessor;

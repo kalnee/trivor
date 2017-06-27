@@ -1,7 +1,7 @@
 package com.kalnee.trivor.sdk.handlers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 class FileSubtitleHandler implements SubtitleHandler {
 
-    private static final Logger LOGGER = LogManager.getLogger(FileSubtitleHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileSubtitleHandler.class);
 
     static final String FILE_SCHEME = "file";
     static final String JAR_SCHEME = "jar";

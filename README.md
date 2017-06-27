@@ -14,7 +14,7 @@
 
 ## Architecture
 
-![diagram](https://github.com/kalnee/trivor/blob/danielfc.documentation/docs/architecture/architecture-diagram.png?raw=true)
+![diagram](https://github.com/kalnee/trivor/blob/master/docs/architecture/architecture-diagram.png?raw=true)
 
 Trivor is composed by the following Microservices:
 

@@ -2,8 +2,9 @@ package com.kalnee.trivor.sdk.nlp;
 
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class SentenceDetector {
 
-    private static final Logger LOGGER = LogManager.getLogger(SentenceDetector.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SentenceDetector.class);
     private static final String MODEL = "/nlp/models/en-sent.bin";
 
     private SentenceDetectorME sentenceDetector;

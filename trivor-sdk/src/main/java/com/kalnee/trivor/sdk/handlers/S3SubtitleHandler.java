@@ -4,8 +4,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3URI;
 import com.amazonaws.services.s3.model.S3Object;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -15,7 +16,7 @@ import java.util.stream.Stream;
 
 class S3SubtitleHandler implements SubtitleHandler {
 
-	private static final Logger LOGGER = LogManager.getLogger(FileSubtitleHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileSubtitleHandler.class);
 
 	static final String S3_SCHEME = "s3";
 

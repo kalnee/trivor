@@ -3,8 +3,9 @@ package com.kalnee.trivor.sdk.nlp;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class SimpleTokenizer {
 
-    private static final Logger LOGGER = LogManager.getLogger(SimpleTokenizer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTokenizer.class);
     private static final String MODEL = "/nlp/models/en-token.bin";
 
     private Tokenizer tokenizer;
