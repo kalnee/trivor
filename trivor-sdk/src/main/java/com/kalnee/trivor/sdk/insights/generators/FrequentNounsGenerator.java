@@ -3,8 +3,9 @@ package com.kalnee.trivor.sdk.insights.generators;
 
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -21,7 +22,7 @@ import static java.util.stream.Collectors.*;
 
 public class FrequentNounsGenerator implements InsightGenerator<Map<String, Long>> {
 
-	private static final Logger LOGGER = LogManager.getLogger(FrequentNounsGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FrequentNounsGenerator.class);
 	private static final String WORD_REGEX = "([a-zA-Z]{2,})";
 	private static final List<String> TAGS = Arrays.asList(NN.name(), NNS.name());
 
@@ -55,6 +56,6 @@ public class FrequentNounsGenerator implements InsightGenerator<Map<String, Long
 
 		LOGGER.info("{} - {}", getCode(), commonWords);
 
-    return new Insight<>(getCode(), commonWords);
+    	return new Insight<>(getCode(), commonWords);
 	}
 }

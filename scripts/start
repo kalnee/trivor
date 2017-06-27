@@ -2,9 +2,9 @@
 
 SERVICE=$1
 
-if [ "$SERVICE" == "trivor-engine" ] || [ -z "$SERVICE" ]; then
-    echo "Building trivor-engine"
-    cd trivor-engine && ./gradlew clean build
+if [ "$SERVICE" == "trivor-insights" ] || [ -z "$SERVICE" ]; then
+    echo "Building trivor-insights"
+    cd trivor-insights && ./gradlew clean build
     wait
 fi
 

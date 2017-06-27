@@ -41,6 +41,6 @@ public class FrequentSentencesGenerator implements InsightGenerator<Map<String, 
 				throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
 			}, LinkedHashMap::new));
 
-    return new Insight<>(getCode(), commonSentences);
+    	return new Insight<>(getCode(), commonSentences);
 	}
 }

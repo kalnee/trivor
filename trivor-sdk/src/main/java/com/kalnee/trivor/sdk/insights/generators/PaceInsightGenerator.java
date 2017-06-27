@@ -3,14 +3,15 @@ package com.kalnee.trivor.sdk.insights.generators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.PaceEnum;
 import com.kalnee.trivor.sdk.models.Subtitle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.kalnee.trivor.sdk.models.PaceEnum.*;
 
 public class PaceInsightGenerator implements InsightGenerator<String> {
 
-    private static final Logger LOGGER = LogManager.getLogger(PaceInsightGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaceInsightGenerator.class);
 
     @Override
     public String getDescription() {

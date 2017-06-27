@@ -3,8 +3,9 @@ package com.kalnee.trivor.sdk.insights.generators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 
 public class MixedTensesPostInsightGenerator implements PostInsightGenerator<List<String>> {
 
-	private static final Logger LOGGER = LogManager.getLogger(MixedTensesPostInsightGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MixedTensesPostInsightGenerator.class);
 
 	private static final List<String> INSIGHTS = Arrays.asList(
 		SIMPLE_PRESENT.getCode(), SIMPLE_PAST.getCode(), SIMPLE_FUTURE.getCode(), PRESENT_PROGRESSIVE.getCode(),
