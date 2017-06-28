@@ -3,14 +3,13 @@ package com.kalnee.trivor.sdk.insights.processors;
 import com.kalnee.trivor.sdk.insights.generators.InsightsGenerators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.Map;
 
 import static com.kalnee.trivor.sdk.models.TypeEnum.TV_SHOW;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 public class InsightsProcessor {
 
@@ -19,7 +18,7 @@ public class InsightsProcessor {
     public InsightsProcessor() {
     }
 
-    public List<Insight> process(Subtitle subtitle) {
+    public Map<String, Object> process(Subtitle subtitle) {
         LOGGER.info("############# GENERATING INSIGHTS ###########");
         LOGGER.info("{}", subtitle.getName());
         if (TV_SHOW.equals(subtitle.getType())) {
@@ -27,19 +26,18 @@ public class InsightsProcessor {
         }
         LOGGER.info("Duration: {}min", subtitle.getDuration());
 
-        final List<Insight> insights = InsightsGenerators.GENERATORS
+        final Map<String, Object> insights = InsightsGenerators.GENERATORS
                 .stream()
                 .map(i -> i.getInsight(subtitle))
-                .collect(toList());
+                .collect(toMap(Insight::getCode, Insight::getValue));
 
-        final List<Insight> postInsights = InsightsGenerators.POST_GENERATORS
+        final Map<String, Object> postInsights = InsightsGenerators.POST_GENERATORS
                 .stream()
                 .map(i -> i.getInsight(subtitle, insights))
-                .collect(toList());
+                .collect(toMap(Insight::getCode, Insight::getValue));
 
-        insights.addAll(postInsights);
+        insights.putAll(postInsights);
 
-        LOGGER.info("Insights generated successfully.");
         return insights;
     }
 }

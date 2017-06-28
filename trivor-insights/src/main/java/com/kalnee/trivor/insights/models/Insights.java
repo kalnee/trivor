@@ -1,11 +1,10 @@
 package com.kalnee.trivor.insights.models;
 
-import com.kalnee.trivor.sdk.models.Insight;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Map;
 
 @Document(collection = "insights")
 public class Insights {
@@ -17,9 +16,9 @@ public class Insights {
 
 	private BigInteger subtitleId;
 
-	private List<Insight> insights;
+	private Map<String, Object> insights;
 
-	public Insights(String imdbId, BigInteger subtitleId, List<Insight> insights) {
+	public Insights(String imdbId, BigInteger subtitleId, Map<String, Object> insights) {
 		this.imdbId = imdbId;
 		this.subtitleId = subtitleId;
 		this.insights = insights;
@@ -52,11 +51,11 @@ public class Insights {
 		this.subtitleId = subtitleId;
 	}
 
-	public List<Insight> getInsights() {
+	public Map<String, Object> getInsights() {
 		return insights;
 	}
 
-	public void setInsights(List<Insight> insights) {
+	public void setInsights(Map<String, Object> insights) {
 		this.insights = insights;
 	}
 

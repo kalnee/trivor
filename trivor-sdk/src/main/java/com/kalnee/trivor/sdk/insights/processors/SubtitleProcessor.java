@@ -2,7 +2,6 @@ package com.kalnee.trivor.sdk.insights.processors;
 
 import com.kalnee.trivor.sdk.handlers.SubtitleHandler;
 import com.kalnee.trivor.sdk.handlers.SubtitleHandlerFactory;
-import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
 import com.kalnee.trivor.sdk.models.Token;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.lang.System.lineSeparator;
@@ -33,7 +33,7 @@ public class SubtitleProcessor {
     private static final String SUBTITLE_DIALOG_REGEX = "^\\s*-|_\\s*";
     private static final String SUBTITLE_HTML_REGEX = "<(.*)>\\s*";
     private static final String SUBTITLE_CC_REGEX = "\\[.*\\]\\s*";
-    private static final String SUBTITLE_URL_REGEX = ".*[a-zA-Z]+\\.[a-zA-Z]+";
+    private static final String SUBTITLE_URL_REGEX = ".*(https?:\\/\\/)?([\\da-zA-Z\\.-]+)\\.([a-zA-Z]{2,6})([\\/\\w \\.-]*)*\\/?";
     private static final String SUBTITLE_SONG_REGEX = "^♪.*$";
     private static final String SUBTITLE_CONTINUATION_REGEX = "\\.{3}";
     private static final String SUBTITLE_INITIAL_QUOTE_REGEX = "^'|\\s'";
@@ -46,7 +46,7 @@ public class SubtitleProcessor {
     private final InsightsProcessor insightsProcessor;
     private String content;
     private Subtitle subtitle;
-    private List<Insight> insights;
+    private Map<String, Object> insights;
     private Integer duration;
 
     private SubtitleProcessor(URI uri, Integer duration) {
@@ -110,7 +110,7 @@ public class SubtitleProcessor {
         return subtitle;
     }
 
-    public List<Insight> getInsights() {
+    public Map<String, Object> getInsights() {
         return insights;
     }
 
