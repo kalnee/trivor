@@ -1,6 +1,5 @@
 package com.kalnee.trivor.sdk.insights.processors;
 
-import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
 import com.kalnee.trivor.sdk.models.Token;
@@ -11,6 +10,7 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class InsightsProcessorTest {
 
@@ -27,7 +27,7 @@ public class InsightsProcessorTest {
 		
 		final Subtitle subtitle = new Subtitle(sentences);
 
-		final List<Insight> insights = insightsProcessor.process(subtitle);
+		final Map<String, Object> insights = insightsProcessor.process(subtitle);
 
 		Assert.assertTrue(!insights.isEmpty());
 	}

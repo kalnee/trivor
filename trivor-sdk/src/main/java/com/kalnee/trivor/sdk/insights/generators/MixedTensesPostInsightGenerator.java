@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.kalnee.trivor.sdk.models.InsightsEnum.*;
 import static java.lang.String.format;
@@ -35,9 +36,10 @@ public class MixedTensesPostInsightGenerator implements PostInsightGenerator<Lis
 	}
 
 	@SuppressWarnings("unchecked")
-	public Insight<List<String>> getInsight(Subtitle subtitle, List<Insight> insights) {
-		final List<String> all = insights.stream()
-			.filter(i -> INSIGHTS.contains(i.getCode()))
+	public Insight<List<String>> getInsight(Subtitle subtitle, Map<String, Object> insights) {
+
+		final List<String> all = insights.entrySet().stream()
+			.filter(i -> INSIGHTS.contains(i.getKey()))
 			.flatMap(i -> ((List<String>) i.getValue()).stream())
 			.collect(toList());
 
