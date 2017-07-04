@@ -13,4 +13,8 @@ public interface PostInsightGenerator<T> {
     String getCode();
 
     Insight<T> getInsight(Subtitle subtitle, Map<String, Object> insights);
+
+    default boolean shouldRun(Subtitle subtitle, Map<String, Object> insights) {
+        return true;
+    }
 }

@@ -24,6 +24,11 @@ public class PaceInsightGenerator implements InsightGenerator<String> {
     }
 
     @Override
+    public boolean shouldRun(Subtitle subtitle) {
+        return subtitle.getDuration() != null;
+    }
+
+    @Override
     public Insight<String> getInsight(Subtitle subtitle) {
         PaceEnum pace = NONE;
 

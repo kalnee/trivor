@@ -28,13 +28,13 @@ public class FrequentSentencesGenerator implements InsightGenerator<Map<String, 
 	@Override
 	public Insight<Map<String, Long>> getInsight(Subtitle subtitle) {
 
-		final Map<String, Long> words = subtitle.getSentences().stream()
+		final Map<String, Long> words = subtitle.getSentences().parallelStream()
 			.filter(s -> s.getTokens().size() > 3)
 			.map(Sentence::getSentence)
 			.map(s -> s.replaceAll("\\.", ""))
 			.collect(groupingBy(Function.identity(), counting()));
 
-		final Map<String, Long> commonSentences = words.entrySet().stream()
+		final Map<String, Long> commonSentences = words.entrySet().parallelStream()
 			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
 			.limit(10)
 			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {

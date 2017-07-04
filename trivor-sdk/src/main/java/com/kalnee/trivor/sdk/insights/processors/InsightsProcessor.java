@@ -4,6 +4,7 @@ import com.kalnee.trivor.sdk.insights.generators.InsightGenerator;
 import com.kalnee.trivor.sdk.insights.generators.PostInsightGenerator;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
+import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,21 +38,32 @@ class InsightsProcessor {
         }
         LOGGER.info("Duration: {}min", subtitle.getDuration());
 
+        final StopWatch sw = new StopWatch();
+        sw.start();
+
         final List<InsightGenerator> generators = new ArrayList<>(DEFAULT_GENERATORS);
         generators.addAll(insightGenerators);
         final Map<String, Object> insights = generators
-                .stream()
+                .parallelStream()
+                .filter(i -> i.shouldRun(subtitle))
                 .map(i -> i.getInsight(subtitle))
                 .collect(toMap(Insight::getCode, Insight::getValue));
 
         final List<PostInsightGenerator> postGenerators = new ArrayList<>(DEFAULT_POST_GENERATORS);
         postGenerators.addAll(postInsightGenerators);
         final Map<String, Object> postInsights = postGenerators
-                .stream()
+                .parallelStream()
+                .filter(i -> i.shouldRun(subtitle, insights))
                 .map(i -> i.getInsight(subtitle, insights))
                 .collect(toMap(Insight::getCode, Insight::getValue));
 
         insights.putAll(postInsights);
+
+        sw.stop();
+        LOGGER.info(
+                "Total time {}ms, average {}ms/insight",
+                new Object[]{sw.getTime(), sw.getTime() / insights.size()}
+        );
 
         return insights;
     }
