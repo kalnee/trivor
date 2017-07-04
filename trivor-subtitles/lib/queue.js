@@ -6,7 +6,7 @@
 
 const AWS = require('aws-sdk');
 AWS.config.loadFromPath('./config.json');
-const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
+const sqs = new AWS.SQS({ apiVersion: '2012-11-05', correctClockSkew: true });
 
 /**
  * AWS SQS client

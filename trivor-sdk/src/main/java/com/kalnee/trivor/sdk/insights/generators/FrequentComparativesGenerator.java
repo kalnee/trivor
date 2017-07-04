@@ -37,7 +37,7 @@ public class FrequentComparativesGenerator implements InsightGenerator<Map<Strin
 	@Override
 	public Insight<Map<String, Long>> getInsight(Subtitle subtitle) {
 
-		final Map<String, Long> words = subtitle.getSentences().stream()
+		final Map<String, Long> words = subtitle.getSentences().parallelStream()
 			.flatMap(s -> s.getTokens().stream())
 			.filter(t -> t.getToken().matches(WORD_REGEX))
 			.filter(t -> TAGS.contains(t.getTag()))
@@ -45,7 +45,7 @@ public class FrequentComparativesGenerator implements InsightGenerator<Map<Strin
 			.filter(w -> !NOT_ADJECTIVES.contains(w))
 			.collect(groupingBy(Function.identity(), counting()));
 
-		final Map<String, Long> commonWords = words.entrySet().stream()
+		final Map<String, Long> commonWords = words.entrySet().parallelStream()
 			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
 			//.limit(10)
 			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {

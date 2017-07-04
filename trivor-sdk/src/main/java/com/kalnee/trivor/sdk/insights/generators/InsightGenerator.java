@@ -9,4 +9,8 @@ public interface InsightGenerator<T> {
     String getCode();
 
     Insight<T> getInsight(Subtitle subtitle);
+
+    default boolean shouldRun(Subtitle subtitle) {
+        return true;
+    }
 }

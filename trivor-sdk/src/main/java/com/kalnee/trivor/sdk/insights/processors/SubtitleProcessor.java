@@ -2,18 +2,20 @@ package com.kalnee.trivor.sdk.insights.processors;
 
 import com.kalnee.trivor.sdk.handlers.SubtitleHandler;
 import com.kalnee.trivor.sdk.handlers.SubtitleHandlerFactory;
+import com.kalnee.trivor.sdk.insights.generators.InsightGenerator;
+import com.kalnee.trivor.sdk.insights.generators.PostInsightGenerator;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
 import com.kalnee.trivor.sdk.models.Token;
 import com.kalnee.trivor.sdk.nlp.POSTagger;
 import com.kalnee.trivor.sdk.nlp.SentenceDetector;
 import com.kalnee.trivor.sdk.nlp.SimpleTokenizer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -48,10 +50,16 @@ public class SubtitleProcessor {
     private Subtitle subtitle;
     private Map<String, Object> insights;
     private Integer duration;
+    private List<InsightGenerator> insightGenerators;
+    private List<PostInsightGenerator> postInsightGenerators;
 
-    private SubtitleProcessor(URI uri, Integer duration) {
+    private SubtitleProcessor(URI uri, Integer duration,
+                              List<InsightGenerator> insightGenerators,
+                              List<PostInsightGenerator> postInsightGenerators) {
         this.uri = uri;
         this.duration = duration;
+        this.insightGenerators = insightGenerators;
+        this.postInsightGenerators = postInsightGenerators;
         this.sentenceDetector = new SentenceDetector();
         this.tokenizer = new SimpleTokenizer();
         this.tagger = new POSTagger();
@@ -103,7 +111,7 @@ public class SubtitleProcessor {
 
         LOGGER.info("Subtitle generated successfully.");
 
-        insights = insightsProcessor.process(subtitle);
+        insights = insightsProcessor.process(subtitle, insightGenerators, postInsightGenerators);
     }
 
     public Subtitle getSubtitle() {
@@ -117,6 +125,8 @@ public class SubtitleProcessor {
     public static class Builder {
         private final URI uri;
         private Integer duration;
+        private List<InsightGenerator> insightGenerators = new ArrayList<>();
+        private List<PostInsightGenerator> postInsightGenerators = new ArrayList<>();
 
         public Builder(URI uri) {
             this.uri = uri;
@@ -127,8 +137,20 @@ public class SubtitleProcessor {
             return this;
         }
 
+        public Builder addInsightGenerators(InsightGenerator... insightGenerators) {
+            this.insightGenerators.addAll(Arrays.asList(insightGenerators));
+            return this;
+        }
+
+        public Builder addPostInsightGenerators(PostInsightGenerator... postInsightGenerators) {
+            this.postInsightGenerators.addAll(Arrays.asList(postInsightGenerators));
+            return this;
+        }
+
         public SubtitleProcessor build() {
-            final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(uri, duration);
+            final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(
+                    uri, duration, insightGenerators, postInsightGenerators
+            );
             subtitleProcessor.process();
 
             return subtitleProcessor;
