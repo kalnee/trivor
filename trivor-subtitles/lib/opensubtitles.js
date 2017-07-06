@@ -84,6 +84,7 @@ class OpenSubtitles {
                     filteredSubtitles.sort((a, b) => {
                        return b.SubRating - a.SubRating;
                     });
+                    console.log(`File found on OpenSubtitles: ${JSON.stringify(filteredSubtitles[0])}`)
                     _callback(null, filteredSubtitles[0]);
                 } else {
                     _callback(status.msg, null);
@@ -130,7 +131,7 @@ class OpenSubtitles {
 
                     output.on('close', () => {
                         if (callback) {
-                            console.log(`file ${fileName} downloaded.`);
+                            console.log(`File ${fileName} downloaded.`);
                             callback();
                         }
                     });

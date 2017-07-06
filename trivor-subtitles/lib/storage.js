@@ -44,7 +44,7 @@ class Storage {
 			if (err)  {
 				callback();
 			} else {
-				console.log(`object found on S3: ${this.fileName}`);
+				console.log(`Object found on S3: ${this.fileName}`);
 			}
 		});
 	}

@@ -71,6 +71,7 @@ class Subtitle {
                     "year": new Date(movie.release_date).getFullYear(),
                     "name": movie.title,
                     "duration": movie.runtime,
+                    "genres": movie.genres.map(genre => genre.name.toLowerCase()),
                     "resend": this.resend
                 });
 
@@ -95,6 +96,7 @@ class Subtitle {
                             "name": show.name,
                             "duration": show.episode_run_time.sort()[0],
                             "status": show.status,
+                            "genres": show.genres.map(genre => genre.name.toLowerCase()),
                             "resend": this.resend
                         });
                     }
