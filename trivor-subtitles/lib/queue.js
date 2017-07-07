@@ -39,9 +39,9 @@ class Queue {
 
         sqs.sendMessage(params, (err, data) => {
             if (err) {
-                console.log("Error", err);
+                console.log("An error occurred while sending message to queue", err);
             } else {
-                console.log("Success", data.MessageId);
+                console.log(`Message sent to queue (${data.MessageId})`);
             }
         });
     }
@@ -68,7 +68,7 @@ class Queue {
 
         sqs.receiveMessage(params, (err, data) => {
             if (err) {
-                console.log("Receive Error", err);
+                console.log("An error occurred while receiving a message", err);
             }
             callback(data.Messages);
         });
@@ -87,7 +87,7 @@ class Queue {
         };
         sqs.deleteMessage(params, function(err, data) {
             if (err) console.log(err);
-            else     console.log('Message deleted');
+            else     console.log('Message deleted from queue');
         });
     }
 }

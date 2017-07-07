@@ -21,7 +21,7 @@ const consumers = {
                     OpenSubtitles.fetch(subtitle, Subtitle.getFileName(subtitle), () => {
                         let storage = new Storage(subtitle);
                         storage.upload((subtitleExists) => {
-                            console.log(`file ${Subtitle.getFileName(subtitle)} uploaded locally.`);
+                            console.log(`File ${Subtitle.getFileName(subtitle)} uploaded locally.`);
                             let message = JSON.stringify(subtitle);
                             if (!subtitleExists || subtitle.resend) {
                                 delete message.resend;

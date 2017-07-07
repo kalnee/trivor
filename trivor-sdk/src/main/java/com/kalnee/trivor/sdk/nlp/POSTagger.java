@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
 public class POSTagger {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(POSTagger.class);
-	private static final String MODEL = "/nlp/models/en-pos-perceptron.bin";
+	private static final String MODEL = "/nlp/models/en-pos-maxent.bin";
 
 	private POSTaggerME tagger;
 
