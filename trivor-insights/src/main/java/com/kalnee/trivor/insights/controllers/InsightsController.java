@@ -4,6 +4,7 @@ import com.kalnee.trivor.insights.repositories.InsightsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.core.Response;
@@ -27,13 +28,12 @@ public class InsightsController {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/{imdbId}/codes/{code}", method = GET)
-    public Response findByImdbIdAndCode(@PathVariable("imdbId") String imdbId, @PathVariable("code") String code) {
-
+    @RequestMapping(value = "/{insight}", method = GET)
+    public Response findByImdbIdAndCode(@PathVariable("insight") String insight, @RequestParam("imdbId") String imdbId) {
         final Map<String, Long> allInsights = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream().flatMap(i -> i.getInsights().entrySet().stream())
-                .filter(i -> i.getKey().equals(code))
+                .filter(i -> i.getKey().equals(insight))
                 .flatMap(i -> ((LinkedHashMap<String, Long>) i.getValue()).entrySet().stream())
                 .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0L)));
 
@@ -45,5 +45,10 @@ public class InsightsController {
                         }, LinkedHashMap::new));
 
         return Response.ok().entity(sortedInsights).build();
+    }
+
+    @RequestMapping(value = "/{insight}/genres/{genre}")
+    public Response findInsightsByGenre(@PathVariable("insight") String insight, @PathVariable("genre") String genre) {
+        return Response.ok().entity(insightsRepository.findInsightsByCodeAndGenre(insight, genre)).build();
     }
 }
