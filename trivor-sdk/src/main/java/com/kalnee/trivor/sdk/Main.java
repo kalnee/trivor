@@ -8,9 +8,9 @@ public class Main {
     public static void main(String[] args) throws URISyntaxException {
         SubtitleProcessor sp = new SubtitleProcessor
                 .Builder(Main.class.getResource("/language/s1e1.srt").toURI())
-                .withDuration(30)
+                .withDuration(43)
                 .build();
-        System.out.println("Pace: " + sp.getInsights().get("pace"));
+        System.out.println("Rate of Speech: " + sp.getInsights().get("rate-of-speech"));
     }
 
 }

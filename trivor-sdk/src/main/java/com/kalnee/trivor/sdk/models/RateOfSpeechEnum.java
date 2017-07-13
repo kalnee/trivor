@@ -1,5 +1,5 @@
 package com.kalnee.trivor.sdk.models;
 
-public enum PaceEnum {
+public enum RateOfSpeechEnum {
     SLOW, MODERATE, FAST, SUPER_FAST, NONE
 }
