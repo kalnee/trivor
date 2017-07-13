@@ -7,6 +7,7 @@ import com.kalnee.trivor.sdk.insights.generators.PostInsightGenerator;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;
 import com.kalnee.trivor.sdk.models.Token;
+import com.kalnee.trivor.sdk.nlp.Lemmatizer;
 import com.kalnee.trivor.sdk.nlp.POSTagger;
 import com.kalnee.trivor.sdk.nlp.SentenceDetector;
 import com.kalnee.trivor.sdk.nlp.SimpleTokenizer;
@@ -45,6 +46,7 @@ public class SubtitleProcessor {
     private final SentenceDetector sentenceDetector;
     private final SimpleTokenizer tokenizer;
     private final POSTagger tagger;
+    private final Lemmatizer lemmatizer;
     private final InsightsProcessor insightsProcessor;
     private String content;
     private Subtitle subtitle;
@@ -63,6 +65,7 @@ public class SubtitleProcessor {
         this.sentenceDetector = new SentenceDetector();
         this.tokenizer = new SimpleTokenizer();
         this.tagger = new POSTagger();
+        this.lemmatizer = new Lemmatizer();
         this.insightsProcessor = new InsightsProcessor();
     }
 
@@ -97,11 +100,12 @@ public class SubtitleProcessor {
             final List<String> rawTokens = tokenizer.tokenize(s);
             final List<String> tags = tagger.tag(rawTokens);
             final List<Double> probs = tagger.probs();
+            final List<String> lemmas = lemmatizer.lemmatize(rawTokens, tags);
 
             final List<Token> tokens = new ArrayList<>();
 
             for (int i = 0; i < rawTokens.size(); i++) {
-                tokens.add(new Token(rawTokens.get(i), tags.get(i), probs.get(i)));
+                tokens.add(new Token(rawTokens.get(i), tags.get(i), lemmas.get(i), probs.get(i)));
             }
 
             return new Sentence(s, tokens);
