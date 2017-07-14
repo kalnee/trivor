@@ -10,6 +10,12 @@ public class Token {
     public Token() {
     }
 
+    public Token(String token, String tag, Double prob) {
+        this.token = token;
+        this.tag = tag;
+        this.prob = prob;
+    }
+
     public Token(String token, String tag, String lemma, Double prob) {
         this.token = token;
         this.tag = tag;
