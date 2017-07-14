@@ -29,6 +29,6 @@ public class InsightsController {
     @RequestMapping(value = "/{insight}/genres/{genre}")
     public Response findInsightsByGenre(@PathVariable("insight") String insight,
                                         @PathVariable("genre") String genre) {
-        return Response.ok().entity(insightService.findInsightsByCodeAndGenre(insight, genre)).build();
+        return Response.ok().entity(insightService.findInsightsByInsightAndGenre(insight, genre)).build();
     }
 }

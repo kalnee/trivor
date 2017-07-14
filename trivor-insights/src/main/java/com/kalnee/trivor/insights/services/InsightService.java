@@ -1,6 +1,10 @@
 package com.kalnee.trivor.insights.services;
 
+import com.kalnee.trivor.insights.models.Subtitle;
 import com.kalnee.trivor.insights.repositories.InsightsRepository;
+import com.kalnee.trivor.insights.repositories.SubtitleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +14,21 @@ import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 @Service
 public class InsightService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(InsightService.class);
+
     private final InsightsRepository insightsRepository;
+    private SubtitleRepository subtitleRepository;
 
     @Autowired
-    public InsightService(InsightsRepository insightsRepository) {
+    public InsightService(InsightsRepository insightsRepository, SubtitleRepository subtitleRepository) {
         this.insightsRepository = insightsRepository;
+        this.subtitleRepository = subtitleRepository;
     }
 
     @SuppressWarnings("unchecked")
@@ -38,8 +47,15 @@ public class InsightService {
                 }, LinkedHashMap::new));
     }
 
-
-    public List<Object> findInsightsByCodeAndGenre(String insight, String genre) {
-        return insightsRepository.findInsightsByCodeAndGenre(insight, genre);
+    public List<Object> findInsightsByInsightAndGenre(String insight, String genre) {
+        final List<String> imdbIds = subtitleRepository.findByGenres(genre).stream()
+                .map(Subtitle::getImdbId)
+                .collect(toList());
+        LOGGER.info("############### IMDBIDS: " + imdbIds);
+        final List<Object> insights = insightsRepository.findByImdbIdIn(imdbIds).stream()
+                .map(i -> i.getInsights().get(insight))
+                .collect(toList());
+        LOGGER.info("############### INSIGHTS: " + insights);
+        return insights;
     }
 }
