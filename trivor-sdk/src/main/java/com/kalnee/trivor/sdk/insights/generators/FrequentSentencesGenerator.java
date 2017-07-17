@@ -36,7 +36,7 @@ public class FrequentSentencesGenerator implements InsightGenerator<Map<String, 
 
 		final Map<String, Long> commonSentences = words.entrySet().parallelStream()
 			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
-			.limit(10)
+			.filter(e -> e.getValue() > 1)
 			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
 				throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
 			}, LinkedHashMap::new));
