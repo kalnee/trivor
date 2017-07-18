@@ -1,6 +1,6 @@
 package com.kalnee.trivor.insights.controllers;
 
-import com.kalnee.trivor.insights.repositories.InsightsRepository;
+import com.kalnee.trivor.insights.services.InsightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,47 +8,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toMap;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(value = "/insights")
 public class InsightsController {
 
-    private final InsightsRepository insightsRepository;
+    private final InsightService insightService;
 
     @Autowired
-    public InsightsController(InsightsRepository insightsRepository) {
-        this.insightsRepository = insightsRepository;
+    public InsightsController(InsightService insightService) {
+        this.insightService = insightService;
     }
 
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/{insight}", method = GET)
-    public Response findByImdbIdAndCode(@PathVariable("insight") String insight, @RequestParam("imdbId") String imdbId) {
-        final Map<String, Long> allInsights = new HashMap<>();
-
-        insightsRepository.findAllByImdbId(imdbId).stream().flatMap(i -> i.getInsights().entrySet().stream())
-                .filter(i -> i.getKey().equals(insight))
-                .flatMap(i -> ((LinkedHashMap<String, Long>) i.getValue()).entrySet().stream())
-                .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0L)));
-
-        final Map<String, Long> sortedInsights =
-                allInsights.entrySet().stream().sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                        // .limit(10)
-                        .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
-                            throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
-                        }, LinkedHashMap::new));
-
-        return Response.ok().entity(sortedInsights).build();
+    @RequestMapping(value = "/{insight}")
+    public Response findByInsightAndImdb(@PathVariable("insight") String insight,
+                                         @RequestParam("imdbId") String imdbId) {
+        return Response.ok().entity(insightService.findByInsightAndImdb(insight, imdbId)).build();
     }
 
     @RequestMapping(value = "/{insight}/genres/{genre}")
-    public Response findInsightsByGenre(@PathVariable("insight") String insight, @PathVariable("genre") String genre) {
-        return Response.ok().entity(insightsRepository.findInsightsByCodeAndGenre(insight, genre)).build();
+    public Response findInsightsByGenre(@PathVariable("insight") String insight,
+                                        @PathVariable("genre") String genre) {
+        return Response.ok().entity(insightService.findInsightsByInsightAndGenre(insight, genre)).build();
     }
 }

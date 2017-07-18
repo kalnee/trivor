@@ -31,8 +31,6 @@ public class SubtitleService {
     public void process(URI uri, SubtitleDTO subtitleDTO) {
         final SubtitleProcessor subtitleProcessor = new SubtitleProcessor.Builder(uri)
                 .withDuration(subtitleDTO.getDuration())
-                .addInsightGenerators(new FirstSentenceGenerator(), new SecondSentenceGenerator())
-                .addPostInsightGenerators(new LengthPostInsightGenerator())
                 .build();
 
         final Subtitle subtitle = subtitleRepository.save(

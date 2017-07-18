@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RepositoryRestResource(path = "insights", collectionResourceRel = "insights")
-public interface InsightsRepository extends PagingAndSortingRepository<Insights, BigInteger>, InsightsRepositoryCustom {
+public interface InsightsRepository extends PagingAndSortingRepository<Insights, BigInteger> {
 
   Page<Insights> findByImdbId(@Param("imdbId") String imdbId, Pageable pageRequest);
 
