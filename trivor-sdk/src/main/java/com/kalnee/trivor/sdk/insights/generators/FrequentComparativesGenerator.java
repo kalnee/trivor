@@ -3,6 +3,7 @@ package com.kalnee.trivor.sdk.insights.generators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
 
+import com.kalnee.trivor.sdk.models.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +42,12 @@ public class FrequentComparativesGenerator implements InsightGenerator<Map<Strin
 			.flatMap(s -> s.getTokens().stream())
 			.filter(t -> t.getToken().matches(WORD_REGEX))
 			.filter(t -> TAGS.contains(t.getTag()))
-			.map(t -> t.getToken().toLowerCase())
+			.map(Token::getLemma)
 			.filter(w -> !NOT_ADJECTIVES.contains(w))
 			.collect(groupingBy(Function.identity(), counting()));
 
 		final Map<String, Long> commonWords = words.entrySet().parallelStream()
 			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
-			//.limit(10)
 			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
 				throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
 			}, LinkedHashMap::new));

@@ -33,7 +33,7 @@ public class Lemmatizer {
         );
         for (int i = 0; i < tokens.size(); i++) {
             if (NOT_IDENTIFIED.equals(lemmas[i])) {
-                lemmas[i] = tokens.get(i);
+                lemmas[i] = tokens.get(i).toLowerCase();
             }
         }
         return Arrays.asList(lemmas);
