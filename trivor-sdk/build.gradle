@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile('org.apache.opennlp:opennlp-tools:1.8.0')
+    compile('org.apache.opennlp:opennlp-tools:1.8.1')
     compile('com.amazonaws:aws-java-sdk-s3:1.11.136')
     compile('org.apache.commons:commons-lang3:3.5')
     compile('commons-io:commons-io:2.4')

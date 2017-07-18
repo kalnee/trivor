@@ -3,6 +3,7 @@ package com.kalnee.trivor.sdk.insights.generators;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
 
+import com.kalnee.trivor.sdk.models.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ import java.util.function.Function;
 import static com.kalnee.trivor.sdk.models.InsightsEnum.FREQUENT_ADJECTIVES;
 import static com.kalnee.trivor.sdk.models.TagsEnum.JJ;
 import static com.kalnee.trivor.sdk.utils.LanguageUtils.NOT_ADJECTIVES;
+import static java.lang.Character.isUpperCase;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.*;
 
@@ -41,13 +43,13 @@ public class FrequentAdjectivesGenerator implements InsightGenerator<Map<String,
 			.flatMap(s -> s.getTokens().stream())
 			.filter(t -> t.getToken().matches(WORD_REGEX))
 			.filter(t -> TAGS.contains(t.getTag()))
-			.map(t -> t.getToken().toLowerCase())
+			.filter(t -> !isUpperCase(t.getToken().charAt(0)))
+			.map(Token::getLemma)
 			.filter(w -> !NOT_ADJECTIVES.contains(w))
 			.collect(groupingBy(Function.identity(), counting()));
 
 		final Map<String, Long> commonWords = words.entrySet().parallelStream()
 			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
-			//.limit(10)
 			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
 				throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
 			}, LinkedHashMap::new));

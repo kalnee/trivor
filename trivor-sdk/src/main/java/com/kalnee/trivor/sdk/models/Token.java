@@ -4,6 +4,7 @@ public class Token {
 
     private String token;
     private String tag;
+    private String lemma;
     private Double prob;
 
     public Token() {
@@ -12,6 +13,13 @@ public class Token {
     public Token(String token, String tag, Double prob) {
         this.token = token;
         this.tag = tag;
+        this.prob = prob;
+    }
+
+    public Token(String token, String tag, String lemma, Double prob) {
+        this.token = token;
+        this.tag = tag;
+        this.lemma = lemma;
         this.prob = prob;
     }
 
@@ -29,6 +37,14 @@ public class Token {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getLemma() {
+        return lemma;
+    }
+
+    public void setLemma(String lemma) {
+        this.lemma = lemma;
     }
 
     public Double getProb() {
