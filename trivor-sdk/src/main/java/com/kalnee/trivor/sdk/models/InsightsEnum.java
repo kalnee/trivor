@@ -2,6 +2,7 @@ package com.kalnee.trivor.sdk.models;
 
 public enum InsightsEnum {
 
+    RATE_OF_SPEECH("rate-of-speech", "Rate of Speech"),
     NUM_SENTENCES("number-of-sentences", "Number of Sentences"),
     FREQUENT_ADJECTIVES("frequent-adjectives", "Most Frequently Adjectives"),
     FREQUENT_COMPARATIVES("frequent-comparatives", "Most Frequently Used Comparatives"),
