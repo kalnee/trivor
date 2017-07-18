@@ -42,7 +42,7 @@ public class FrequentComparativesGenerator implements InsightGenerator<Map<Strin
 			.flatMap(s -> s.getTokens().stream())
 			.filter(t -> t.getToken().matches(WORD_REGEX))
 			.filter(t -> TAGS.contains(t.getTag()))
-			.map(Token::getLemma)
+			.map(t -> t.getToken().toLowerCase())
 			.filter(w -> !NOT_ADJECTIVES.contains(w))
 			.collect(groupingBy(Function.identity(), counting()));
 

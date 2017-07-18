@@ -9,6 +9,7 @@ public enum InsightsEnum {
     FREQUENT_NOUNS("frequent-nouns", "Most Frequently Used Nouns"),
     FREQUENT_SENTENCES("frequent-sentences", "Most Frequently Used Sentences"),
     FREQUENT_SUPERLATIVES("frequent-superlatives", "Most Frequently Used Superlatives"),
+    VERBS_FREQUENCY("verbs-frequency", "Verbs Frequency"),
     FUTURE_PERFECT("future-perfect", "Future Perfect"),
     FUTURE_PROGRESSIVE("future-progressive", "Future Progressive"),
     PAST_PERFECT("past-perfect", "Past Perfect"),

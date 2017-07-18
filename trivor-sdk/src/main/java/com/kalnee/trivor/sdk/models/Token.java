@@ -23,13 +23,6 @@ public class Token {
         this.prob = prob;
     }
 
-    public Token(String token, String tag, String lemma, Double prob) {
-        this.token = token;
-        this.tag = tag;
-        this.lemma = lemma;
-        this.prob = prob;
-    }
-
     public String getToken() {
         return token;
     }
