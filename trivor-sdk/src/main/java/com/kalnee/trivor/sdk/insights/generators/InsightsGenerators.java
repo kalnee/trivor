@@ -9,12 +9,12 @@ public class InsightsGenerators {
 
     public static final List<InsightGenerator> DEFAULT_GENERATORS = Arrays.asList(
             new NumberOfSentencesGenerator(),
-            new RateOfSpeechInsightGenerator(),
-            new FrequentAdjectivesGenerator(),
-            new FrequentComparativesGenerator(),
-            new FrequentNounsGenerator(),
+            new RateOfSpeechGenerator(),
+            new AdjectivesFrequencyGenerator(),
+            new ComparativesFrequencyGenerator(),
+            new NounsFrequencyGenerator(),
             new FrequentSentencesGenerator(),
-            new FrequentSuperlativesGenerator(),
+            new SuperlativesFrequencyGenerator(),
             new VerbsFrequencyGenerator(),
             new SimplePresentGenerator(),
             new SimplePastGenerator(),
