@@ -16,6 +16,7 @@ public class InsightsGenerators {
             new FrequentSentencesGenerator(),
             new SuperlativesFrequencyGenerator(),
             new VerbsFrequencyGenerator(),
+            new ModalsFrequencyGenerator(),
             new SimplePresentGenerator(),
             new SimplePastGenerator(),
             new SimpleFutureGenerator(),
