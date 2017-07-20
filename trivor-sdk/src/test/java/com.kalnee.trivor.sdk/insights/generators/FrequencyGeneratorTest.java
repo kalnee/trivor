@@ -58,6 +58,11 @@ public class FrequencyGeneratorTest {
         assertTrue(getFrequency(SUPERLATIVES_FREQUENCY.getCode(), "least") == 2);
     }
 
+    @Test
+    public void testWhWordsFrequency() {
+        assertTrue(getFrequency(WH_FREQUENCY.getCode(), "what") == 21);
+    }
+
     @SuppressWarnings("unchecked")
     private Long getFrequency(String code, String word) {
         return ((Map<String, Long>) subtitleProcessor.getInsights().get(code)).get(word);
