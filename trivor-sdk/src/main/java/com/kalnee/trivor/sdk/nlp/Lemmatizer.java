@@ -7,15 +7,24 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Lemmatizer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Lemmatizer.class);
     private static final String MODEL = "/nlp/models/en-lemmatizer.dict";
     private static final String NOT_IDENTIFIED = "O";
+    private static final Map<String, String> CONTRACTIONS = new HashMap<>();
 
     private DictionaryLemmatizer lemmatizer;
+
+    static {
+        CONTRACTIONS.put("ca", "can");
+        CONTRACTIONS.put("wo", "will");
+        CONTRACTIONS.put("wouldn", "would");
+    }
 
     public Lemmatizer() {
         try (InputStream modelStream = Lemmatizer.class.getResourceAsStream(MODEL)) {
@@ -35,6 +44,7 @@ public class Lemmatizer {
             if (NOT_IDENTIFIED.equals(lemmas[i])) {
                 lemmas[i] = tokens.get(i).toLowerCase();
             }
+            lemmas[i] = CONTRACTIONS.getOrDefault(lemmas[i], lemmas[i]);
         }
         return Arrays.asList(lemmas);
     }

@@ -48,4 +48,14 @@ public class Token {
     public void setProb(Double prob) {
         this.prob = prob;
     }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "token='" + token + '\'' +
+                ", tag='" + tag + '\'' +
+                ", lemma='" + lemma + '\'' +
+                ", prob=" + prob +
+                '}';
+    }
 }
