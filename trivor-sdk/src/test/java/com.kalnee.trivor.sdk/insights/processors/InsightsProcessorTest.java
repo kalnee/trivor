@@ -20,9 +20,9 @@ public class InsightsProcessorTest {
 	public void testInsertion() throws URISyntaxException {
 		final List<Sentence> sentences = Collections.singletonList(new Sentence(
 				"I want to kill you.",
-				Arrays.asList(new Token("I", "PRP", 0.99), new Token("want", "VB", 0.99),
-						new Token("to", "TO", 0.99), new Token("kill", "VB", 0.99),
-						new Token("you", "PR", 0.99), new Token(".", ".", 0.99)))
+				Arrays.asList(new Token("I", "PRP", "i", 0.99), new Token("want", "VB", "want", 0.99),
+						new Token("to", "TO", "to", 0.99), new Token("kill", "VB", "kill", 0.99),
+						new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)))
 		);
 		
 		final Subtitle subtitle = new Subtitle(sentences);

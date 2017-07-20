@@ -27,7 +27,6 @@ public class FrequentSentencesGenerator implements InsightGenerator<Map<String, 
 
 	@Override
 	public Insight<Map<String, Long>> getInsight(Subtitle subtitle) {
-
 		final Map<String, Long> words = subtitle.getSentences().parallelStream()
 			.filter(s -> s.getTokens().size() > 3)
 			.map(Sentence::getSentence)
@@ -37,9 +36,7 @@ public class FrequentSentencesGenerator implements InsightGenerator<Map<String, 
 		final Map<String, Long> commonSentences = words.entrySet().parallelStream()
 			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
 			.filter(e -> e.getValue() > 1)
-			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
-				throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
-			}, LinkedHashMap::new));
+			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
 
     	return new Insight<>(getCode(), commonSentences);
 	}

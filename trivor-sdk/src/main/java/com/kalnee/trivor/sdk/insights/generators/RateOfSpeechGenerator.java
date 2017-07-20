@@ -20,9 +20,9 @@ import static com.kalnee.trivor.sdk.models.RateOfSpeechEnum.*;
  * 200wpm - 160 = 40 SUPER_FAST
  *
  */
-public class RateOfSpeechInsightGenerator implements InsightGenerator<String> {
+public class RateOfSpeechGenerator implements InsightGenerator<String> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RateOfSpeechInsightGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RateOfSpeechGenerator.class);
 
     @Override
     public String getDescription() {
@@ -63,7 +63,7 @@ public class RateOfSpeechInsightGenerator implements InsightGenerator<String> {
             rateOfSpeech = SUPER_FAST;
         }
 
-        LOGGER.info("{}: {}w / {}m = {}wpm", getCode(), words, subtitle.getDuration(), rateOfSpeech);
+        LOGGER.info("{}: {}w / {}m = {}wpm ({})", getCode(), words, subtitle.getDuration(), wpm, rateOfSpeech);
 
         return new Insight<>(getCode(), rateOfSpeech.toString());
     }

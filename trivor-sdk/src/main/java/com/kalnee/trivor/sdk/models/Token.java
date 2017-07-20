@@ -10,12 +10,6 @@ public class Token {
     public Token() {
     }
 
-    public Token(String token, String tag, Double prob) {
-        this.token = token;
-        this.tag = tag;
-        this.prob = prob;
-    }
-
     public Token(String token, String tag, String lemma, Double prob) {
         this.token = token;
         this.tag = tag;
@@ -53,5 +47,15 @@ public class Token {
 
     public void setProb(Double prob) {
         this.prob = prob;
+    }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "token='" + token + '\'' +
+                ", tag='" + tag + '\'' +
+                ", lemma='" + lemma + '\'' +
+                ", prob=" + prob +
+                '}';
     }
 }
