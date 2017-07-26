@@ -22,7 +22,8 @@ public enum InsightsEnum {
     SIMPLE_FUTURE("simple-future", "Simple Future"),
     SIMPLE_PAST("simple-past", "Simple Past"),
     SIMPLE_PRESENT("simple-present", "Simple Present"),
-    NON_SENTENCES("non-sentences", "Non Sentences");
+    NON_SENTENCES("non-sentences", "Non Sentences"),
+    SENTIMENT_ANALYSIS("sentiment-analysis", "Sentiment Analysis");
 
     private String code;
     private String description;

@@ -20,12 +20,11 @@ public class FrequencyGeneratorTest {
                 .Builder(FrequencyGeneratorTest.class.getResource("/language/tt0238784-S01E01.srt").toURI())
                 .withDuration(42)
                 .build();
-
     }
 
     @Test
     public void testAdverbsFrequency() {
-        assertTrue(getFrequency(ADVERBS_FREQUENCY.getCode(), "here") == 19);
+        assertTrue(getFrequency(ADVERBS_FREQUENCY.getCode(), "here") == 18);
     }
 
     @Test
@@ -35,7 +34,7 @@ public class FrequencyGeneratorTest {
 
     @Test
     public void testVerbsFrequency() {
-        assertTrue(getFrequency(VERBS_FREQUENCY.getCode(), "be") == 187);
+        assertTrue(getFrequency(VERBS_FREQUENCY.getCode(), "be") == 185);
     }
 
     @Test

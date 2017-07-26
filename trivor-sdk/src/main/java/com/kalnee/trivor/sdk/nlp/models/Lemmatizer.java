@@ -1,4 +1,4 @@
-package com.kalnee.trivor.sdk.nlp;
+package com.kalnee.trivor.sdk.nlp.models;
 
 import opennlp.tools.lemmatizer.DictionaryLemmatizer;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class Lemmatizer {
         try (InputStream modelStream = Lemmatizer.class.getResourceAsStream(MODEL)) {
             lemmatizer = new DictionaryLemmatizer(modelStream);
         } catch (IOException e) {
-            LOGGER.error("an error occurred while getting tokens", e);
+            LOGGER.error("an error occurred while getting lemmas", e);
             throw new IllegalStateException(e);
         }
     }

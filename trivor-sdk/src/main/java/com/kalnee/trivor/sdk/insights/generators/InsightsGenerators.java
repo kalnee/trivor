@@ -28,7 +28,8 @@ public class InsightsGenerators {
             new PresentPerfectGenerator(),
             new PastPerfectGenerator(),
             new FuturePerfectGenerator(),
-            new NonSentencesGenerator()
+            new NonSentencesGenerator(),
+            new SentimentGenerator()
 
     );
 
