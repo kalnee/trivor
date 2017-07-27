@@ -9,6 +9,7 @@ public class Sentence {
 
     private String sentence;
     private List<Token> tokens;
+    private SentimentEnum sentiment;
 
     public Sentence() {
     }
@@ -16,6 +17,12 @@ public class Sentence {
     public Sentence(String sentence, List<Token> tokens) {
         this.sentence = sentence;
         this.tokens = tokens;
+    }
+
+    public Sentence(String sentence, List<Token> tokens, SentimentEnum sentiment) {
+        this.sentence = sentence;
+        this.tokens = tokens;
+        this.sentiment = sentiment;
     }
 
     public String getSentence() {
@@ -30,8 +37,8 @@ public class Sentence {
         return tokens;
     }
 
-    public void setTokens(List<Token> tokens) {
-        this.tokens = tokens;
+    public SentimentEnum getSentiment() {
+        return sentiment;
     }
 
     public String getSentenceTags() {
@@ -40,6 +47,10 @@ public class Sentence {
 
     @Override
     public String toString() {
-        return "Sentence{" + "sentence='" + sentence + '\'' + ", tokens=" + tokens + '}';
+        return "Sentence{" +
+                "sentence='" + sentence + '\'' +
+                ", tokens=" + tokens +
+                ", sentiment='" + sentiment + '\'' +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.kalnee.trivor.sdk.nlp;
+package com.kalnee.trivor.sdk.nlp.models;
 
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
