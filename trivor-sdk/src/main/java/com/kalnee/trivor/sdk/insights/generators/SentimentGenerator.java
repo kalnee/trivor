@@ -2,18 +2,17 @@ package com.kalnee.trivor.sdk.insights.generators;
 
 
 import com.kalnee.trivor.sdk.models.Insight;
+import com.kalnee.trivor.sdk.models.SentimentEnum;
 import com.kalnee.trivor.sdk.models.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.Map;
-import java.util.function.Function;
 
 import static com.kalnee.trivor.sdk.models.InsightsEnum.SENTIMENT_ANALYSIS;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
 
-public class SentimentGenerator implements InsightGenerator<Map<String, Long>> {
+public class SentimentGenerator implements InsightGenerator<Map<SentimentEnum, BigDecimal>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SentimentGenerator.class);
 
@@ -27,13 +26,13 @@ public class SentimentGenerator implements InsightGenerator<Map<String, Long>> {
 		return SENTIMENT_ANALYSIS.getCode();
 	}
 
-	public Insight<Map<String, Long>> getInsight(Subtitle subtitle) {
-		final Map<String, Long> sentiments = subtitle.getSentences().stream()
-				.filter(s -> s.getSentiment() != null)
-				.map(s -> s.getSentiment().name())
-				.collect(groupingBy(Function.identity(), counting()));
+	@Override
+	public boolean shouldRun(Subtitle subtitle) {
+		return subtitle.getSentiment() != null;
+	}
 
-		LOGGER.info("{}: {}", getCode(), sentiments);
-		return new Insight<>(getCode(), sentiments);
+	public Insight<Map<SentimentEnum, BigDecimal>> getInsight(Subtitle subtitle) {
+		LOGGER.info("{}: {}", getCode(), subtitle.getSentiment());
+		return new Insight<>(getCode(), subtitle.getSentiment());
 	}
 }

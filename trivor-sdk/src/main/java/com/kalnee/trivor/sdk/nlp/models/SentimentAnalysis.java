@@ -8,18 +8,19 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
-import static com.kalnee.trivor.sdk.models.SentimentEnum.NEUTRAL;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 public class SentimentAnalysis {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SentimentAnalysis.class);
     private static final String MODEL = "/nlp/models/en-sentiment.bin";
     private static final String NOT_IMPORTANT = ",|\\.{1,3}";
-    private static final boolean SAFE_RESULT = true;
-    private static final double THRESHOLD = 0.99;
 
     private DocumentCategorizerME categorizer;
 
@@ -33,24 +34,20 @@ public class SentimentAnalysis {
         }
     }
 
-    public SentimentEnum categorize(List<String> tokens) {
-        tokens = tokens.stream().filter(t -> !t.matches(NOT_IMPORTANT)).map(String::toLowerCase).collect(toList());
-        final double[] outcomes = categorizer.categorize(tokens.toArray(new String[tokens.size()]));
-        final String category = categorizer.getBestCategory(outcomes);
-        final double outcome = outcomes[categorizer.getIndex(category)];
+    public Map<SentimentEnum, BigDecimal> categorize(List<String> sentences) {
+        final List<String> tokens = sentences.stream()
+                .flatMap(s -> Stream.of(s.split(" ")))
+                .filter(t -> !t.matches(NOT_IMPORTANT))
+                .map(s -> s.replace("...", ""))
+                .collect(toList());
 
-        if (!SAFE_RESULT) {
-            return SentimentEnum.valueOf(category);
-        }
+        final Map<String, Double> scoreMap = categorizer.scoreMap(tokens.toArray(new String[tokens.size()]));
+        final Map<SentimentEnum, BigDecimal> sortedScoreMap = scoreMap.entrySet().stream()
+                .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
+                .collect(toMap(e -> SentimentEnum.valueOf(e.getKey()), e -> BigDecimal.valueOf(e.getValue())));
+        LOGGER.info("\n {}", tokens);
+        LOGGER.info("Result: {}", sortedScoreMap);
 
-        if (outcome >= THRESHOLD) {
-            LOGGER.info("\n {}", tokens);
-            LOGGER.info("Category: {} - Score: {}", category, outcome);
-            LOGGER.info("Result: {}", categorizer.getAllResults(outcomes));
-
-            return SentimentEnum.valueOf(category);
-        }
-
-        return NEUTRAL;
+        return sortedScoreMap;
     }
 }
