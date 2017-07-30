@@ -23,3 +23,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Training Dataset ###
+/src/main/resource/training/**/*.train
