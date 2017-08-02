@@ -12,7 +12,7 @@ services:
     ports:
       - 27017:27017
     command: --smallfiles --rest
-  trivor-engine:
+  trivor-insights:
     build:
       context: ./trivor-insights
       dockerfile: Dockerfile

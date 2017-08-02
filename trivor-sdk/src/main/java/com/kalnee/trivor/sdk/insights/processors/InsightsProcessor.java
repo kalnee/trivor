@@ -1,7 +1,7 @@
 package com.kalnee.trivor.sdk.insights.processors;
 
 import com.kalnee.trivor.sdk.insights.generators.InsightGenerator;
-import com.kalnee.trivor.sdk.insights.generators.PostInsightGenerator;
+import com.kalnee.trivor.sdk.insights.generators.post.PostInsightGenerator;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
 import org.apache.commons.lang3.time.StopWatch;
@@ -41,6 +41,7 @@ class InsightsProcessor {
         final StopWatch sw = new StopWatch();
         sw.start();
 
+        LOGGER.info("Running Insight Generators");
         final List<InsightGenerator> generators = new ArrayList<>(DEFAULT_GENERATORS);
         generators.addAll(insightGenerators);
         final Map<String, Object> insights = generators
@@ -49,6 +50,7 @@ class InsightsProcessor {
                 .map(i -> i.getInsight(subtitle))
                 .collect(toMap(Insight::getCode, Insight::getValue));
 
+        LOGGER.info("Running Post Insight Generators");
         final List<PostInsightGenerator> postGenerators = new ArrayList<>(DEFAULT_POST_GENERATORS);
         postGenerators.addAll(postInsightGenerators);
         final Map<String, Object> postInsights = postGenerators

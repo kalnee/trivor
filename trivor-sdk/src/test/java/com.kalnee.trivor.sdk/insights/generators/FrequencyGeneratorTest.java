@@ -24,7 +24,7 @@ public class FrequencyGeneratorTest {
 
     @Test
     public void testAdverbsFrequency() {
-        assertTrue(getFrequency(ADVERBS_FREQUENCY.getCode(), "here") == 18);
+        assertTrue(getFrequency(ADVERBS_FREQUENCY.getCode(), "here") == 15);
     }
 
     @Test
@@ -34,12 +34,12 @@ public class FrequencyGeneratorTest {
 
     @Test
     public void testVerbsFrequency() {
-        assertTrue(getFrequency(VERBS_FREQUENCY.getCode(), "be") == 185);
+        assertTrue(getFrequency(VERBS_FREQUENCY.getCode(), "be") == 171);
     }
 
     @Test
     public void testModalsFrequency() {
-        assertTrue(getFrequency(MODALS_FREQUENCY.getCode(), "can") == 33);
+        assertTrue(getFrequency(MODALS_FREQUENCY.getCode(), "can") == 32);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class FrequencyGeneratorTest {
     }
 
     @SuppressWarnings("unchecked")
-    private Long getFrequency(String code, String word) {
-        return ((Map<String, Long>) subtitleProcessor.getInsights().get(code)).get(word);
+    private Integer getFrequency(String code, String word) {
+        return ((Map<String, Integer>) subtitleProcessor.getInsights().get(code)).get(word);
     }
 }

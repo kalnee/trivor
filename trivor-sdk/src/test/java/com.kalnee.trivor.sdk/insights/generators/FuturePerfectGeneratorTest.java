@@ -1,6 +1,7 @@
 package com.kalnee.trivor.sdk.insights.generators;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.kalnee.trivor.sdk.insights.generators.tenses.FuturePerfectGenerator;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;

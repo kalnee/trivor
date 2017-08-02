@@ -42,12 +42,8 @@ public class SentimentAnalysis {
                 .collect(toList());
 
         final Map<String, Double> scoreMap = categorizer.scoreMap(tokens.toArray(new String[tokens.size()]));
-        final Map<SentimentEnum, BigDecimal> sortedScoreMap = scoreMap.entrySet().stream()
+        return scoreMap.entrySet().stream()
                 .sorted(Map.Entry.<String, Double>comparingByValue().reversed())
                 .collect(toMap(e -> SentimentEnum.valueOf(e.getKey()), e -> BigDecimal.valueOf(e.getValue())));
-        LOGGER.info("\n {}", tokens);
-        LOGGER.info("Result: {}", sortedScoreMap);
-
-        return sortedScoreMap;
     }
 }
