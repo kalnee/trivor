@@ -121,7 +121,7 @@ public class SubtitleProcessor {
                 tokens.add(new Token(rawTokens.get(i), tags.get(i), lemmas.get(i), probs.get(i)));
             }
 
-            return new Sentence(s, tokens);
+            return new Sentence(s, tokens, chunks);
         }).collect(toList());
         final Map<SentimentEnum, BigDecimal> sentiment = sentimentAnalysis.categorize(
                 sentences.stream().map(Sentence::getSentence).collect(toList())

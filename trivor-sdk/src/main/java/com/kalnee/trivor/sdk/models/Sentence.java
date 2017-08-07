@@ -9,7 +9,6 @@ public class Sentence {
 
     private String sentence;
     private List<Token> tokens;
-    private SentimentEnum sentiment;
     private List<Chunk> chunks;
 
     public Sentence() {
@@ -25,12 +24,6 @@ public class Sentence {
         this.chunks = chunks;
     }
 
-    public Sentence(String sentence, List<Token> tokens, SentimentEnum sentiment) {
-        this.sentence = sentence;
-        this.tokens = tokens;
-        this.sentiment = sentiment;
-    }
-
     public String getSentence() {
         return sentence;
     }
@@ -43,20 +36,11 @@ public class Sentence {
         return tokens;
     }
 
-    public SentimentEnum getSentiment() {
-        return sentiment;
-    }
-
     public String getSentenceTags() {
         return tokens.stream().map(Token::getTag).collect(joining(SPACE));
     }
 
-    @Override
-    public String toString() {
-        return "Sentence{" +
-                "sentence='" + sentence + '\'' +
-                ", tokens=" + tokens +
-                ", sentiment='" + sentiment + '\'' +
-                '}';
+    public List<Chunk> getChunks() {
+        return chunks;
     }
 }

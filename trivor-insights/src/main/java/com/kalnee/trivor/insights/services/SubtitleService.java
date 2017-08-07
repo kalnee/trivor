@@ -34,7 +34,8 @@ public class SubtitleService {
                 .build();
 
         final Subtitle subtitle = subtitleRepository.save(
-                new Subtitle(subtitleDTO, subtitleProcessor.getSubtitle().getSentences())
+                new Subtitle(subtitleDTO, subtitleProcessor.getSubtitle().getSentences(),
+                        subtitleProcessor.getSubtitle().getSentiment())
         );
 
         LOGGER.info("Subtitle created successfully.");
