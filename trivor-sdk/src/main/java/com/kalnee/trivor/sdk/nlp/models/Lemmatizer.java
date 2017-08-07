@@ -23,7 +23,7 @@ public class Lemmatizer {
     static {
         CONTRACTIONS.put("ca", "can");
         CONTRACTIONS.put("wo", "will");
-        CONTRACTIONS.put("wouldn", "would");
+        CONTRACTIONS.put("wouldn", "will");
     }
 
     public Lemmatizer() {
