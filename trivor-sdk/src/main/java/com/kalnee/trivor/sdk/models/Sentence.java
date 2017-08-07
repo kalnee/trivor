@@ -10,6 +10,7 @@ public class Sentence {
     private String sentence;
     private List<Token> tokens;
     private SentimentEnum sentiment;
+    private List<Chunk> chunks;
 
     public Sentence() {
     }
@@ -17,6 +18,11 @@ public class Sentence {
     public Sentence(String sentence, List<Token> tokens) {
         this.sentence = sentence;
         this.tokens = tokens;
+    }
+
+    public Sentence(String sentence, List<Token> tokens, List<Chunk> chunks) {
+        this(sentence, tokens);
+        this.chunks = chunks;
     }
 
     public Sentence(String sentence, List<Token> tokens, SentimentEnum sentiment) {
