@@ -1,5 +1,6 @@
-package com.kalnee.trivor.sdk.insights.generators;
+package com.kalnee.trivor.sdk.insights.generators.tenses;
 
+import com.kalnee.trivor.sdk.insights.generators.InsightGenerator;
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.Subtitle;

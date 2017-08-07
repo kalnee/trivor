@@ -3,7 +3,7 @@ package com.kalnee.trivor.sdk.insights.processors;
 import com.kalnee.trivor.sdk.handlers.SubtitleHandler;
 import com.kalnee.trivor.sdk.handlers.SubtitleHandlerFactory;
 import com.kalnee.trivor.sdk.insights.generators.InsightGenerator;
-import com.kalnee.trivor.sdk.insights.generators.PostInsightGenerator;
+import com.kalnee.trivor.sdk.insights.generators.post.PostInsightGenerator;
 import com.kalnee.trivor.sdk.models.Sentence;
 import com.kalnee.trivor.sdk.models.SentimentEnum;
 import com.kalnee.trivor.sdk.models.Subtitle;

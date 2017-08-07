@@ -1,6 +1,12 @@
 package com.kalnee.trivor.sdk.insights.generators;
 
 
+import com.kalnee.trivor.sdk.insights.generators.post.frequency.*;
+import com.kalnee.trivor.sdk.insights.generators.post.MixedTensesPostInsightGenerator;
+import com.kalnee.trivor.sdk.insights.generators.post.PostInsightGenerator;
+import com.kalnee.trivor.sdk.insights.generators.sentences.*;
+import com.kalnee.trivor.sdk.insights.generators.tenses.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,15 +16,15 @@ public class InsightsGenerators {
     public static final List<InsightGenerator> DEFAULT_GENERATORS = Arrays.asList(
             new NumberOfSentencesGenerator(),
             new RateOfSpeechGenerator(),
-            new AdjectivesFrequencyGenerator(),
-            new ComparativesFrequencyGenerator(),
-            new NounsFrequencyGenerator(),
+            new AdjectivesSentencesGenerator(),
+            new ComparativesSentencesGenerator(),
+            new NounsSentencesGenerator(),
             new FrequentSentencesGenerator(),
-            new SuperlativesFrequencyGenerator(),
-            new VerbsFrequencyGenerator(),
-            new ModalsFrequencyGenerator(),
-            new AdverbsFrequencyGenerator(),
-            new WhWordsFrequencyGenerator(),
+            new SuperlativesSentencesGenerator(),
+            new VerbsSentencesGenerator(),
+            new ModalsSentencesGenerator(),
+            new AdverbsSentencesGenerator(),
+            new WhWordsSentencesGenerator(),
             new SimplePresentGenerator(),
             new SimplePastGenerator(),
             new SimpleFutureGenerator(),
@@ -30,10 +36,17 @@ public class InsightsGenerators {
             new FuturePerfectGenerator(),
             new NonSentencesGenerator(),
             new SentimentGenerator()
-
     );
 
     public static final List<PostInsightGenerator> DEFAULT_POST_GENERATORS = Arrays.asList(
-            new MixedTensesPostInsightGenerator()
+            new MixedTensesPostInsightGenerator(),
+            new AdjectivesFrequencyGenerator(),
+            new AdverbsFrequencyGenerator(),
+            new ComparativesFrequencyGenerator(),
+            new ModalsFrequencyGenerator(),
+            new NounsFrequencyGenerator(),
+            new SuperlativesFrequencyGenerator(),
+            new VerbsFrequencyGenerator(),
+            new WhWordsFrequencyGenerator()
     );
 }

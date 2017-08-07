@@ -1,4 +1,4 @@
-package com.kalnee.trivor.sdk.insights.generators;
+package com.kalnee.trivor.sdk.insights.generators.post;
 
 import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Sentence;
