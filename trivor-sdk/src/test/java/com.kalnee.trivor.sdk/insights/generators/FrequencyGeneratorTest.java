@@ -62,6 +62,11 @@ public class FrequencyGeneratorTest {
         assertTrue(getFrequency(WH_FREQUENCY.getCode(), "what") == 21);
     }
 
+    @Test
+    public void testPrepositionsFrequency() {
+        assertTrue(getFrequency(PREPOSITIONS_FREQUENCY.getCode(), "at") == 22);
+    }
+
     @SuppressWarnings("unchecked")
     private Integer getFrequency(String code, String word) {
         return ((Map<String, Integer>) subtitleProcessor.getInsights().get(code)).get(word);
