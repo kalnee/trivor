@@ -24,7 +24,7 @@ public class FrequencyGeneratorTest {
 
     @Test
     public void testAdverbsFrequency() {
-        assertTrue(getFrequency(ADVERBS_FREQUENCY.getCode(), "here") == 15);
+        assertTrue(getFrequency(ADVERBS_FREQUENCY.getCode(), "here") == 16);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class FrequencyGeneratorTest {
 
     @Test
     public void testVerbsFrequency() {
-        assertTrue(getFrequency(VERBS_FREQUENCY.getCode(), "be") == 171);
+        assertTrue(getFrequency(VERBS_FREQUENCY.getCode(), "be") == 173);
     }
 
     @Test

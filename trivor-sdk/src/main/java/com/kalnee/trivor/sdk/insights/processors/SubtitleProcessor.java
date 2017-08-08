@@ -4,10 +4,7 @@ import com.kalnee.trivor.sdk.handlers.SubtitleHandler;
 import com.kalnee.trivor.sdk.handlers.SubtitleHandlerFactory;
 import com.kalnee.trivor.sdk.insights.generators.InsightGenerator;
 import com.kalnee.trivor.sdk.insights.generators.post.PostInsightGenerator;
-import com.kalnee.trivor.sdk.models.Sentence;
-import com.kalnee.trivor.sdk.models.SentimentEnum;
-import com.kalnee.trivor.sdk.models.Subtitle;
-import com.kalnee.trivor.sdk.models.Token;
+import com.kalnee.trivor.sdk.models.*;
 import com.kalnee.trivor.sdk.nlp.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +35,7 @@ public class SubtitleProcessor {
     private static final String SUBTITLE_CC2_REGEX = "\\(.*\\)\\s*";
     private static final String SUBTITLE_CC_INITIAL_REGEX = "\\(.*";
     private static final String SUBTITLE_CC_FINAL_REGEX = ".*\\)";
-    private static final String SUBTITLE_CHARACTER_REGEX = "^.*:\\s*";
+    private static final String SUBTITLE_CHARACTER_REGEX = "^[a-zA-z]+:\\s*";
     private static final String SUBTITLE_URL_REGEX = ".*www\\.[a-zA-z]+.*";
     private static final String SUBTITLE_PREVIOUS_REGEX = "^Previously.*$";
     private static final String SUBTITLE_ADS_REGEX = ".*(Subtitle|subtitle|sync by|Sync by|Downloaded|VIP).*";
@@ -52,6 +49,7 @@ public class SubtitleProcessor {
     private final SimpleTokenizer tokenizer;
     private final POSTagger tagger;
     private final Lemmatizer lemmatizer;
+    private final Chunker chunker;
     private final SentimentAnalysis sentimentAnalysis;
     private final InsightsProcessor insightsProcessor;
     private String content;
@@ -72,6 +70,7 @@ public class SubtitleProcessor {
         this.tokenizer = new SimpleTokenizer();
         this.tagger = new POSTagger();
         this.lemmatizer = new Lemmatizer();
+        this.chunker = new Chunker();
         this.sentimentAnalysis = new SentimentAnalysis();
         this.insightsProcessor = new InsightsProcessor();
     }
@@ -114,6 +113,7 @@ public class SubtitleProcessor {
             final List<String> tags = tagger.tag(rawTokens);
             final List<Double> probs = tagger.probs();
             final List<String> lemmas = lemmatizer.lemmatize(rawTokens, tags);
+            final List<Chunk> chunks = chunker.chunk(rawTokens, tags, probs);
 
             final List<Token> tokens = new ArrayList<>();
 
@@ -121,7 +121,7 @@ public class SubtitleProcessor {
                 tokens.add(new Token(rawTokens.get(i), tags.get(i), lemmas.get(i), probs.get(i)));
             }
 
-            return new Sentence(s, tokens);
+            return new Sentence(s, tokens, chunks);
         }).collect(toList());
         final Map<SentimentEnum, BigDecimal> sentiment = sentimentAnalysis.categorize(
                 sentences.stream().map(Sentence::getSentence).collect(toList())

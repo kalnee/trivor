@@ -3,11 +3,14 @@ package com.kalnee.trivor.insights.models;
 import com.kalnee.trivor.insights.dto.SubtitleDTO;
 import com.kalnee.trivor.insights.dto.TypeEnum;
 import com.kalnee.trivor.sdk.models.Sentence;
+import com.kalnee.trivor.sdk.models.SentimentEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @Document(collection = "subtitles")
 public class Subtitle {
@@ -33,6 +36,8 @@ public class Subtitle {
 
     private List<String> genres;
 
+    private Map<SentimentEnum, BigDecimal> sentiment;
+
     public Subtitle(BigInteger id, String imdbId, String name, Integer season, Integer episode,
                     Integer year, Integer duration, List<Sentence> sentences) {
         this.id = id;
@@ -56,7 +61,7 @@ public class Subtitle {
         this.sentences = sentences;
     }
 
-    public Subtitle(SubtitleDTO subtitleDTO, List<Sentence> sentences) {
+    public Subtitle(SubtitleDTO subtitleDTO, List<Sentence> sentences, Map<SentimentEnum, BigDecimal> sentiment) {
         this.imdbId = subtitleDTO.getImdbId();
         this.name = subtitleDTO.getName();
         this.season = subtitleDTO.getSeason();
@@ -66,6 +71,7 @@ public class Subtitle {
         this.duration = subtitleDTO.getDuration();
         this.sentences = sentences;
         this.genres = subtitleDTO.getGenres();
+        this.sentiment = sentiment;
     }
 
     public Subtitle() {
@@ -149,6 +155,14 @@ public class Subtitle {
 
     public void setGenres(List<String> genres) {
         this.genres = genres;
+    }
+
+    public Map<SentimentEnum, BigDecimal> getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Map<SentimentEnum, BigDecimal> sentiment) {
+        this.sentiment = sentiment;
     }
 
     @Override
