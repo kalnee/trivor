@@ -1,9 +1,9 @@
 package com.kalnee.trivor.sdk.insights.generators;
 
 
-import com.kalnee.trivor.sdk.insights.generators.post.frequency.*;
 import com.kalnee.trivor.sdk.insights.generators.post.MixedTensesPostInsightGenerator;
 import com.kalnee.trivor.sdk.insights.generators.post.PostInsightGenerator;
+import com.kalnee.trivor.sdk.insights.generators.post.frequency.*;
 import com.kalnee.trivor.sdk.insights.generators.sentences.*;
 import com.kalnee.trivor.sdk.insights.generators.tenses.*;
 
@@ -25,6 +25,7 @@ public class InsightsGenerators {
             new ModalsSentencesGenerator(),
             new AdverbsSentencesGenerator(),
             new WhWordsSentencesGenerator(),
+            new PrepositionSentencesGenerator(),
             new SimplePresentGenerator(),
             new SimplePastGenerator(),
             new SimpleFutureGenerator(),
@@ -47,6 +48,7 @@ public class InsightsGenerators {
             new NounsFrequencyGenerator(),
             new SuperlativesFrequencyGenerator(),
             new VerbsFrequencyGenerator(),
-            new WhWordsFrequencyGenerator()
+            new WhWordsFrequencyGenerator(),
+            new PrepositionsFrequencyGenerator()
     );
 }
