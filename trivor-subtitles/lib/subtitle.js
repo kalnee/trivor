@@ -64,48 +64,55 @@ class Subtitle {
      */
     addSubtitles(callback) {
         if (this.isMovie()) {
-            this.mdb.movie(this.title.movie_results[0].id, (movie) => {
-                this.subtitles.push({
+            let movieId = this.title.movie_results[0].id;
+            this.mdb.movie(movieId, movie => {
+                this.mdb.keywords("movie", movieId, keywords => {
+                  this.subtitles.push({
                     "imdbId": this.imdbId,
                     "type": "MOVIE",
                     "year": new Date(movie.release_date).getFullYear(),
                     "name": movie.title,
                     "duration": movie.runtime,
                     "genres": movie.genres.map(genre => genre.name.toLowerCase()),
+                    "keywords": keywords.keywords.map(keyword => keyword.name.toLowerCase()),
                     "resend": this.resend
-                });
+                  });
 
-                callback();
+                  callback();
+                });
             });
         }
 
         if (this.isTVShow()) {
-            this.mdb.tv(this.title.tv_results[0].id, (show) => {
-                show.seasons.forEach((season) => {
-                    for (let i = 1; i <= season.episode_count; i++) {
-                        // skipping pilot episodes
-                        if (season.season_number === 0) {
-                            continue;
-                        }
-                        this.subtitles.push({
-                            "imdbId": this.imdbId,
-                            "season": season.season_number,
-                            "episode": i,
-                            "type": "TV_SHOW",
-                            "year": new Date(show.first_air_date).getFullYear(),
-                            "name": show.name,
-                            "duration": show.episode_run_time.sort()[0],
-                            "status": show.status,
-                            "genres": show.genres.map(genre => genre.name.toLowerCase()),
-                            "resend": this.resend
-                        });
+            let tvId = this.title.tv_results[0].id;
+            this.mdb.tv(tvId, show => {
+              this.mdb.keywords("tv", tvId, keywords => {
+                show.seasons.forEach(season => {
+                  for (let i = 1; i <= season.episode_count; i++) {
+                    // skipping pilot episodes
+                    if (season.season_number === 0) {
+                      continue;
                     }
+                    this.subtitles.push({
+                      "imdbId": this.imdbId,
+                      "season": season.season_number,
+                      "episode": i,
+                      "type": "TV_SHOW",
+                      "year": new Date(show.first_air_date).getFullYear(),
+                      "name": show.name,
+                      "duration": show.episode_run_time.sort()[0],
+                      "status": show.status,
+                      "genres": show.genres.map(genre => genre.name.toLowerCase()),
+                      "keywords": keywords.keywords.map(keyword => keyword.name.toLowerCase()),
+                      "resend": this.resend
+                    });
+                  }
                 });
                 callback();
+              });
             });
         }
     }
-
 
     /**
      * Returns the name of the file that will be saved.

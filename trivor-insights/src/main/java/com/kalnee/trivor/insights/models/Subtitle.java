@@ -36,6 +36,8 @@ public class Subtitle {
 
     private List<String> genres;
 
+    private List<String> keywords;
+
     private Map<SentimentEnum, BigDecimal> sentiment;
 
     public Subtitle(BigInteger id, String imdbId, String name, Integer season, Integer episode,
@@ -71,6 +73,7 @@ public class Subtitle {
         this.duration = subtitleDTO.getDuration();
         this.sentences = sentences;
         this.genres = subtitleDTO.getGenres();
+        this.keywords = subtitleDTO.getKeywords();
         this.sentiment = sentiment;
     }
 
@@ -157,6 +160,14 @@ public class Subtitle {
         this.genres = genres;
     }
 
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
     public Map<SentimentEnum, BigDecimal> getSentiment() {
         return sentiment;
     }
@@ -178,6 +189,7 @@ public class Subtitle {
                 ", type=" + type +
                 ", sentences=" + sentences +
                 ", genres=" + genres +
+                ", keywords=" + keywords +
                 '}';
     }
 }
