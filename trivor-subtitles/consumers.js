@@ -25,7 +25,7 @@ const consumers = {
                             let message = JSON.stringify(subtitle);
                             if (!subtitleExists || subtitle.resend) {
                                 delete message.resend;
-                                console.log(`message sent to engine queue: ${message}`);
+                                console.log(`Message sent to engine queue: ${message}`);
                                 engineQ.sendMessage(message);
                             } else {
                                 console.log(`message NOT sent to engine queue: ${message}`);
