@@ -31,4 +31,10 @@ public class InsightsController {
                                         @PathVariable("genre") String genre) {
         return Response.ok().entity(insightService.findInsightsByInsightAndGenre(insight, genre)).build();
     }
+
+    @RequestMapping(value = "/{insight}/keywords/{keyword}")
+    public Response findInsightsByKeyword(@PathVariable("insight") String insight,
+                                          @PathVariable("keyword") String keyword) {
+        return Response.ok().entity(insightService.findInsightsByInsightAndKeyword(insight, keyword)).build();
+    }
 }

@@ -51,11 +51,17 @@ public class InsightService {
         final List<String> imdbIds = subtitleRepository.findByGenres(genre).stream()
                 .map(Subtitle::getImdbId)
                 .collect(toList());
-        LOGGER.info("############### IMDBIDS: " + imdbIds);
-        final List<Object> insights = insightsRepository.findByImdbIdIn(imdbIds).stream()
+        return insightsRepository.findByImdbIdIn(imdbIds).stream()
                 .map(i -> i.getInsights().get(insight))
                 .collect(toList());
-        LOGGER.info("############### INSIGHTS: " + insights);
-        return insights;
+    }
+
+    public List<Object> findInsightsByInsightAndKeyword(String insight, String keyword) {
+        final List<String> imdbIds = subtitleRepository.findByKeywords(keyword).stream()
+                .map(Subtitle::getImdbId)
+                .collect(toList());
+        return insightsRepository.findByImdbIdIn(imdbIds).stream()
+                .map(i -> i.getInsights().get(insight))
+                .collect(toList());
     }
 }

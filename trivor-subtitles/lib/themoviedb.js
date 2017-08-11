@@ -34,22 +34,42 @@ class TheMovieDB {
     }
 
     /**
-     * Returns the url of an endpoint.
+     * Returns the base url of TMDb.
      *
-     * @param {Number} _id
-     * @param {String} _method
      * @api private
      */
-    getUrl(_id, _method) {
-        let _endpoint = `${_url}/${_version}/${_method}/${_id}?api_key=${_apiKey}&language=${_language}`;
-        if (_method === 'find') {
+    getBaseUrl() {
+      return `${_url}/${_version}`;
+    }
+
+    /**
+     * Returns the url of a TMDb endpoint.
+     *
+     * @param {Number} _id
+     * @param {String} _resource
+     * @api private
+     */
+    getUrl(_id, _resource) {
+        let _endpoint = `${this.getBaseUrl()}/${_resource}/${_id}?api_key=${_apiKey}&language=${_language}`;
+        if (_resource === 'find') {
             _endpoint += '&external_source=imdb_id';
         }
         return _endpoint;
     }
 
     /**
-     * Calls the find method of the API
+     * Returns the url of the keywords endpoint of TMDb.
+     *
+     * @param {String} _resource
+     * @param {Number} _id
+     * @api private
+     */
+    getKeywordsUrl(_resource, _id) {
+      return `${this.getBaseUrl()}/${_resource}/${_id}/keywords?api_key=${_apiKey}`;
+    }
+
+    /**
+     * Calls the find endpoint of TMDb
      *
      * @param {Number} _id
      * @param {Function} callback
@@ -98,6 +118,23 @@ class TheMovieDB {
             callback(JSON.parse(body));
         });
     }
+
+  /**
+   * Calls the movie keywords endpoint
+   *
+   * @param {Number} _id
+   * @param {String} _resource
+   * @param {Function} callback
+   * @api public
+   */
+  keywords(_resource, _id, callback) {
+    request(this.getKeywordsUrl(_resource, _id), (error, response, body) => {
+      if (error || response.statusCode !== 200)
+        throw error;
+
+      callback(JSON.parse(body));
+    });
+  }
 }
 
 module.exports = TheMovieDB;

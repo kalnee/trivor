@@ -34,6 +34,8 @@ public class SubtitleDTO {
     @NotNull
     private List<String> genres;
 
+    private List<String> keywords;
+
     public SubtitleDTO(String imdbId, String name, Integer season, Integer episode, Integer year, Integer duration,
                        TypeEnum type) {
         this.imdbId = imdbId;
@@ -128,6 +130,14 @@ public class SubtitleDTO {
         this.genres = genres;
     }
 
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
     @JsonIgnore
     @Override
     public String toString() {
@@ -141,6 +151,7 @@ public class SubtitleDTO {
                 ", type=" + type +
                 ", status='" + status + '\'' +
                 ", genres=" + genres +
+                ", keywords=" + keywords +
                 '}';
     }
 }
