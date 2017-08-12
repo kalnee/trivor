@@ -4,7 +4,10 @@ import com.kalnee.trivor.sdk.models.Insight;
 import com.kalnee.trivor.sdk.models.Subtitle;
 
 public interface InsightGenerator<T> {
-    String getDescription();
+
+    default String getDescription() {
+        return getCode();
+    }
 
     String getCode();
 

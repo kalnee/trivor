@@ -56,16 +56,20 @@ public class SubtitleProcessor {
     private Subtitle subtitle;
     private Map<String, Object> insights;
     private Integer duration;
-    private List<InsightGenerator> insightGenerators;
-    private List<PostInsightGenerator> postInsightGenerators;
+    private List<InsightGenerator> customInsights;
+    private List<PostInsightGenerator> customPostInsights;
+    private List<String> skipInsights;
+    private List<String> skipPostInsights;
 
     private SubtitleProcessor(URI uri, Integer duration,
-                              List<InsightGenerator> insightGenerators,
-                              List<PostInsightGenerator> postInsightGenerators) {
+                              List<InsightGenerator> customInsights,
+                              List<PostInsightGenerator> customPostInsights,
+                              List<String> skipInsights,
+                              List<String> skipPostInsights) {
         this.uri = uri;
         this.duration = duration;
-        this.insightGenerators = insightGenerators;
-        this.postInsightGenerators = postInsightGenerators;
+        this.customInsights = customInsights;
+        this.customPostInsights = customPostInsights;
         this.sentenceDetector = new SentenceDetector();
         this.tokenizer = new SimpleTokenizer();
         this.tagger = new POSTagger();
@@ -73,6 +77,8 @@ public class SubtitleProcessor {
         this.chunker = new Chunker();
         this.sentimentAnalysis = new SentimentAnalysis();
         this.insightsProcessor = new InsightsProcessor();
+        this.skipInsights = skipInsights;
+        this.skipPostInsights = skipPostInsights;
     }
 
     private void preProcess(URI uri) {
@@ -130,7 +136,9 @@ public class SubtitleProcessor {
 
         LOGGER.info("Subtitle generated successfully.");
 
-        insights = insightsProcessor.process(subtitle, insightGenerators, postInsightGenerators);
+        insights = insightsProcessor.process(
+                subtitle, customInsights, customPostInsights, skipInsights, skipPostInsights
+        );
     }
 
     public Subtitle getSubtitle() {
@@ -144,8 +152,10 @@ public class SubtitleProcessor {
     public static class Builder {
         private final URI uri;
         private Integer duration;
-        private List<InsightGenerator> insightGenerators = new ArrayList<>();
-        private List<PostInsightGenerator> postInsightGenerators = new ArrayList<>();
+        private List<InsightGenerator> customInsights = new ArrayList<>();
+        private List<String> skipInsights = new ArrayList<>();
+        private List<PostInsightGenerator> customPostInsights = new ArrayList<>();
+        private List<String> skipPostInsights = new ArrayList<>();
 
         public Builder(URI uri) {
             this.uri = uri;
@@ -156,19 +166,29 @@ public class SubtitleProcessor {
             return this;
         }
 
-        public Builder addInsightGenerators(InsightGenerator... insightGenerators) {
-            this.insightGenerators.addAll(Arrays.asList(insightGenerators));
+        public Builder addCustomInsights(InsightGenerator... insightGenerators) {
+            this.customInsights.addAll(Arrays.asList(insightGenerators));
             return this;
         }
 
-        public Builder addPostInsightGenerators(PostInsightGenerator... postInsightGenerators) {
-            this.postInsightGenerators.addAll(Arrays.asList(postInsightGenerators));
+        public Builder addCustomPostInsights(PostInsightGenerator... postInsightGenerators) {
+            this.customPostInsights.addAll(Arrays.asList(postInsightGenerators));
+            return this;
+        }
+
+        public Builder skipInsights(String... insights) {
+            this.skipInsights.addAll(Arrays.asList(insights));
+            return this;
+        }
+
+        public Builder skipPostInsights(String... postInsights) {
+            this.skipPostInsights.addAll(Arrays.asList(postInsights));
             return this;
         }
 
         public SubtitleProcessor build() {
             final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(
-                    uri, duration, insightGenerators, postInsightGenerators
+                    uri, duration, customInsights, customPostInsights, skipInsights, skipPostInsights
             );
             subtitleProcessor.process();
 
