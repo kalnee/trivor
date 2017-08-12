@@ -2,8 +2,8 @@ package com.kalnee.trivor.insights.models;
 
 import com.kalnee.trivor.insights.dto.SubtitleDTO;
 import com.kalnee.trivor.insights.dto.TypeEnum;
-import com.kalnee.trivor.sdk.models.Sentence;
-import com.kalnee.trivor.sdk.models.SentimentEnum;
+import com.kalnee.trivor.nlp.nlp.models.Sentence;
+import com.kalnee.trivor.nlp.nlp.models.SentimentEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

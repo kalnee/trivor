@@ -5,7 +5,7 @@ import com.kalnee.trivor.insights.models.Insights;
 import com.kalnee.trivor.insights.models.Subtitle;
 import com.kalnee.trivor.insights.repositories.InsightsRepository;
 import com.kalnee.trivor.insights.repositories.SubtitleRepository;
-import com.kalnee.trivor.sdk.insights.processors.SubtitleProcessor;
+import com.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
