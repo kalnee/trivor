@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-	compile project(':trivor-sdk')
+	compile project(':trivor-nlp')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
