@@ -26,11 +26,14 @@ class InsightsProcessor {
     }
 
     Map<String, Object> process(Subtitle subtitle) {
-        return process(subtitle, emptyList(), emptyList());
+        return process(subtitle, emptyList(), emptyList(), emptyList(), emptyList());
     }
 
-    Map<String, Object> process(Subtitle subtitle, List<InsightGenerator> insightGenerators,
-                                List<PostInsightGenerator> postInsightGenerators) {
+    Map<String, Object> process(Subtitle subtitle,
+                                List<InsightGenerator> insightGenerators,
+                                List<PostInsightGenerator> postInsightGenerators,
+                                List<String> skipInsights,
+                                List<String> skipPostInsights) {
         LOGGER.info("############# GENERATING INSIGHTS ###########");
         LOGGER.info("{}", subtitle.getName());
         if (TV_SHOW.equals(subtitle.getType())) {
@@ -46,6 +49,7 @@ class InsightsProcessor {
         generators.addAll(insightGenerators);
         final Map<String, Object> insights = generators
                 .parallelStream()
+                .filter(i -> !skipInsights.contains(i.getCode()))
                 .filter(i -> i.shouldRun(subtitle))
                 .map(i -> i.getInsight(subtitle))
                 .collect(toMap(Insight::getCode, Insight::getValue));
@@ -55,6 +59,7 @@ class InsightsProcessor {
         postGenerators.addAll(postInsightGenerators);
         final Map<String, Object> postInsights = postGenerators
                 .parallelStream()
+                .filter(i -> !skipPostInsights.contains(i.getCode()))
                 .filter(i -> i.shouldRun(subtitle, insights))
                 .map(i -> i.getInsight(subtitle, insights))
                 .collect(toMap(Insight::getCode, Insight::getValue));
