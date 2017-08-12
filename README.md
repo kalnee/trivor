@@ -1,5 +1,8 @@
-![logo](https://github.com/kalnee/trivor/blob/master/docs/logo/transparent-purple.png)
-[![CircleCI](https://circleci.com/gh/kalnee/trivor.svg?style=svg)](https://circleci.com/gh/kalnee/trivor)
+#trivor [![CircleCI](https://circleci.com/gh/kalnee/trivor.svg?style=svg)](https://circleci.com/gh/kalnee/trivor)
+
+<p align="center">
+![logo](https://github.com/kalnee/trivor/blob/master/docs/logo/transparent-purple.png =300x80)
+</p>
 
 <h5 align="center">Trivor is a REST API that brings valuable information for language learners concerning Movies and TV Shows.</h5>
 
