@@ -6,6 +6,7 @@ const config = require('config');
 const Subtitle = require('./lib/subtitle.js');
 const Queue = require('./lib/queue.js');
 const subtitlesQ = new Queue(config.get('SQS.subtitles_url'));
+const logger = require('winston');
 
 router.route('/subtitles').post((req, res) => {
   if (!req.body || !req.body.imdbIds) {
@@ -18,9 +19,9 @@ router.route('/subtitles').post((req, res) => {
 
     subtitle.load((err, message) => {
       if (err) {
-        console.log(`A problem occurred while loading the subtitle for ${imdbId}`);
+        logger.error(`A problem occurred while loading the subtitle for ${imdbId}`);
       }
-      console.log(message);
+      logger.info(message);
     });
   }
 
