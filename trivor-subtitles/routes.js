@@ -8,27 +8,29 @@ const Queue = require('./lib/queue.js');
 const subtitlesQ = new Queue(config.get('SQS.subtitles_url'));
 
 router.route('/subtitles').post((req, res) => {
-    if (!req.body || !req.body.imdbId) {
-        res.status(400).send('imdbId is required');
-    }
+  if (!req.body || !req.body.imdbIds) {
+    res.status(400).json({error: "imdbIds is required"});
+    return;
+  }
 
-    const subtitle = new Subtitle(req.body.imdbId, req.body.resend, subtitlesQ);
+  for (let imdbId of req.body.imdbIds) {
+    const subtitle = new Subtitle(imdbId, req.body.resend, subtitlesQ);
 
     subtitle.load((err, message) => {
-        if (err) {
-            res.status(400).send({error: 'a problem occurred while loading the subtitle'});
-        } else {
-            res.json({
-                "message": message
-            });
-        }
+      if (err) {
+        console.log(`A problem occurred while loading the subtitle for ${imdbId}`);
+      }
+      console.log(message);
     });
+  }
+
+  res.json({"message": `${req.body.imdbIds.length} items sent to queue`});
 });
 
 router.route('/info').get((req, res) => {
-    res.send({
-        status: "UP"
-    });
+  res.send({
+    status: "UP"
+  });
 });
 
 module.exports = router;
