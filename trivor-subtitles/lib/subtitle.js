@@ -130,7 +130,7 @@ class Subtitle {
     load(callback) {
         this.mdb.find(this.imdbId, (err, title) => {
             if (err) {
-                callback(err, "no subtitles queued");
+                callback(err, `No subtitles queued (${this.imdbId})`);
                 return;
             }
             this.title = title;
@@ -139,7 +139,7 @@ class Subtitle {
                     this.subtitlesQ.sendMessage(JSON.stringify(subtitle));
                 });
 
-                callback(err, this.getSubtitles().length + " subtitle(s) queued for processing.");
+                callback(err, `${this.getSubtitles().length} subtitle(s) queued for processing (${this.imdbId})`);
             });
         });
     }
