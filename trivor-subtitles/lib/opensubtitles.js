@@ -80,7 +80,9 @@ class OpenSubtitles {
                 if (status.code === '200' && subtitles.data) {
                     logger.info("Sorting subtitles");
                     let filteredSubtitles = subtitles.data.filter(sub => {
-                        return sub.SubFormat === "srt" && parseInt(sub.SubSize) > 0;
+                        return sub.SubFormat === "srt"
+                          && parseInt(sub.SubSize) > 0
+                          && sub.SubFileName.toLowerCase().indexOf('trailer') === -1;
                     });
                     filteredSubtitles.sort((a, b) => {
                        return b.SubRating - a.SubRating;
