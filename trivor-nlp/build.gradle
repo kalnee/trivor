@@ -39,7 +39,7 @@ publishing {
     publications {
         MyPublication(MavenPublication) {
             from components.java
-            groupId 'com.kalnee'
+            groupId 'org.kalnee'
             artifactId 'trivor-nlp'
             version "${version}"
         }
