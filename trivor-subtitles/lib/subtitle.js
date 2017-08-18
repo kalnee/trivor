@@ -103,7 +103,7 @@ class Subtitle {
                       "duration": show.episode_run_time.sort()[0],
                       "status": show.status,
                       "genres": show.genres.map(genre => genre.name.toLowerCase()),
-                      "keywords": keywords.keywords.map(keyword => keyword.name.toLowerCase()),
+                      "keywords": keywords.results.map(keyword => keyword.name.toLowerCase()),
                       "resend": this.resend
                     });
                   }
