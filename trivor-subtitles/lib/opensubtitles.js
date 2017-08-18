@@ -9,6 +9,7 @@ const request = require('request');
 const zlib = require('zlib');
 const fs = require('fs');
 const config = require('config');
+const logger = require('winston');
 
 const client = xmlrpc.createClient({
     url: config.get('OpenSubtitles.url'),
@@ -77,14 +78,14 @@ class OpenSubtitles {
                 let status = this.parseStatus(subtitles.status);
 
                 if (status.code === '200' && subtitles.data) {
-                    console.log("Sorting subtitles");
+                    logger.info("Sorting subtitles");
                     let filteredSubtitles = subtitles.data.filter(sub => {
                         return sub.SubFormat === "srt" && parseInt(sub.SubSize) > 0;
                     });
                     filteredSubtitles.sort((a, b) => {
                        return b.SubRating - a.SubRating;
                     });
-                    console.log(`File found on OpenSubtitles: ${JSON.stringify(filteredSubtitles[0])}`)
+                    logger.info(`File found on OpenSubtitles: ${JSON.stringify(filteredSubtitles[0])}`)
                     _callback(null, filteredSubtitles[0]);
                 } else {
                     _callback(status.msg, null);
@@ -104,18 +105,18 @@ class OpenSubtitles {
     static fetch(subtitle, fileName, callback) {
         this.search(subtitle.imdbId, subtitle.season, subtitle.episode, (error, srt) => {
             if (error) {
-                console.log(error);
+                logger.error(error);
                 return;
             }
 
             if (!srt) {
-                console.log(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
+                logger.warn(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
                 return;
             }
 
             fs.stat("/tmp/" + fileName, function(err) {
                 if(err === null) {
-                    console.log(`File ${fileName} exists locally.`);
+                    logger.info(`File ${fileName} exists locally.`);
                     callback();
                 } else if(err.code === 'ENOENT') {
                     let output = fs.createWriteStream("/tmp/" + fileName);
@@ -131,12 +132,12 @@ class OpenSubtitles {
 
                     output.on('close', () => {
                         if (callback) {
-                            console.log(`File ${fileName} downloaded.`);
+                            logger.info(`File ${fileName} downloaded.`);
                             callback();
                         }
                     });
                 } else {
-                    console.log('Unexpected error: ', err.code);
+                    logger.error('Unexpected error: ', err.code);
                 }
             });
         });

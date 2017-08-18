@@ -8,6 +8,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const config = require('config');
 const Subtitle = require('./subtitle.js');
+const logger = require('winston');
 
 AWS.config.loadFromPath('./config.json');
 const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
@@ -68,7 +69,7 @@ class Storage {
 
 		let fileStream = fs.createReadStream('/tmp/' + this.fileName);
 		fileStream.on('error', (err) => {
-			console.log('File Error', err);
+			logger.error('File Error', err);
 		});
 
 		uploadParams.Body = fileStream;
@@ -76,15 +77,15 @@ class Storage {
 			if (err)  {
 				s3.upload(uploadParams, (err, data) => {
 					if (err) {
-						console.log("Error", err);
+            logger.error("Error", err);
 					} if (data) {
-						console.log("Upload Success", data.Location);
+            logger.info("Upload Success", data.Location);
 						callback(false);
 					}
 				});
 			} else {
-				console.log(`Object found on S3: ${headParams.Key}`);
-                callback(true);
+        logger.info(`Object found on S3: ${headParams.Key}`);
+				callback(true);
 			}
 		});
 	}

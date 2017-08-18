@@ -8,13 +8,14 @@ const trivorSubtitles = config.get('TrivorSubtitles');
 const eureka = require('./lib/eureka.js');
 const routes = require('./routes');
 const consumers = require('./consumers');
+const logger = require('winston');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(trivorSubtitles.port, () => {
-    console.log(`Listening on port ${trivorSubtitles.port}`);
+    logger.info(`Listening on port ${trivorSubtitles.port}`);
     if (config.get('Env') !== 'development') {
         eureka.start();
     }
