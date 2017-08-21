@@ -15,6 +15,9 @@ public interface SubtitleRepository extends MongoRepository<Subtitle, BigInteger
 
   List<Subtitle> findByImdbId(@Param("imdbId") String imdbId);
 
+  List<Subtitle> findByImdbIdAndSeasonAndEpisode(@Param("imdbId") String imdbId, @Param("season") Integer season,
+                                                 @Param("episode") Integer episode);
+
   List<Subtitle> findByGenres(@Param("genre") String genre);
 
   List<Subtitle> findByKeywords(@Param("keyword") String keyword);

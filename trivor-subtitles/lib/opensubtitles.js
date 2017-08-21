@@ -114,7 +114,7 @@ class OpenSubtitles {
             }
 
             if (!srt) {
-                logger.warn(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
+                logger.warn(`Subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
                 return;
             }
 
