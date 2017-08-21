@@ -61,7 +61,7 @@ public class NounsSentencesGenerator extends SentencesExampleGenerator implement
 	@Override
 	public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
 		final Map<String, Set<String>> sentences = getSentences(subtitle, w -> !MOST_COMMON_WORDS.contains(w));
-		LOGGER.info("{} - {}", getCode(), sentences);
+		LOGGER.info("{} - {}", getCode(), getExamples(sentences));
 
     	return new Insight<>(getCode(), sentences);
 	}

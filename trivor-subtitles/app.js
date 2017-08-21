@@ -10,6 +10,8 @@ const routes = require('./routes');
 const consumers = require('./consumers');
 const logger = require('winston');
 
+logger.add(logger.transports.File, { filename: `${config.get('Env')}.log` });
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

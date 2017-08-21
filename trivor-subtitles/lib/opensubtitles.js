@@ -40,10 +40,10 @@ class OpenSubtitles {
      */
     static login(_callback) {
         client.methodCall('LogIn', [
+            process.env.OPENSUBTITLES_USER,
+            process.env.OPENSUBTITLES_PASSWORD,
             null,
-            null,
-            null,
-            'PopcornHour v1'
+            config.get('OpenSubtitles.user_agent')
         ], (error, auth) => {
             if (error)
                 throw error;
@@ -87,7 +87,9 @@ class OpenSubtitles {
                     filteredSubtitles.sort((a, b) => {
                        return b.SubRating - a.SubRating;
                     });
-                    logger.info(`File found on OpenSubtitles: ${JSON.stringify(filteredSubtitles[0])}`)
+                    if (filteredSubtitles[0] !== undefined) {
+                      logger.info(`File found on OpenSubtitles: ${JSON.stringify(filteredSubtitles[0])}`);
+                    }
                     _callback(null, filteredSubtitles[0]);
                 } else {
                     _callback(status.msg, null);
@@ -112,7 +114,7 @@ class OpenSubtitles {
             }
 
             if (!srt) {
-                logger.warn(`subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
+                logger.warn(`Subtitle not found for ${subtitle.imdbId} (${subtitle.season}-${subtitle.episode})`);
                 return;
             }
 

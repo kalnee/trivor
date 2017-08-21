@@ -23,17 +23,17 @@ const consumers = {
                         let storage = new Storage(subtitle);
                         storage.upload((subtitleExists) => {
                             logger.info(`File ${Subtitle.getFileName(subtitle)} uploaded locally.`);
-                            let message = JSON.stringify(subtitle);
+                            let subtitleAsString = JSON.stringify(subtitle);
                             if (!subtitleExists || subtitle.resend) {
-                                delete message.resend;
-                                logger.info(`Message sent to engine queue: ${message}`);
-                                engineQ.sendMessage(message);
+                                delete subtitleAsString.resend;
+                                logger.info(`Message sent to engine queue: ${subtitleAsString}`);
+                                engineQ.sendMessage(subtitleAsString);
+                                subtitlesQ.deleteMessage(message);
                             } else {
                                 logger.info(`message NOT sent to engine queue: ${message}`);
                             }
                         });
                     });
-                    subtitlesQ.deleteMessage(message);
                 });
 
             });

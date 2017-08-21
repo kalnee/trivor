@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 
+import static org.kalnee.trivor.insights.dto.TypeEnum.TV_SHOW;
+
 @Service
 public class SubtitleService {
 
@@ -29,6 +31,8 @@ public class SubtitleService {
     }
 
     public void process(URI uri, SubtitleDTO subtitleDTO) {
+        deleteIfExists(subtitleDTO);
+
         final SubtitleProcessor subtitleProcessor = new SubtitleProcessor.Builder(uri)
                 .withDuration(subtitleDTO.getDuration())
                 .build();
@@ -45,5 +49,16 @@ public class SubtitleService {
         );
 
         LOGGER.info("Insights created successfully.");
+    }
+
+    private void deleteIfExists(SubtitleDTO subtitleDTO) {
+        if (TV_SHOW == subtitleDTO.getType()) {
+            subtitleRepository.delete(
+                    subtitleRepository.findByImdbIdAndSeasonAndEpisode(
+                    subtitleDTO.getImdbId(), subtitleDTO.getSeason(), subtitleDTO.getEpisode())
+            );
+        } else {
+            subtitleRepository.delete(subtitleRepository.findByImdbId(subtitleDTO.getImdbId()));
+        }
     }
 }

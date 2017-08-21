@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 import static java.util.stream.Collectors.toMap;
@@ -42,5 +43,10 @@ abstract class FrequencyGenerator {
                 .entrySet().parallelStream()
                 .sorted(Map.Entry.<String, Integer> comparingByValue().reversed())
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
+    }
+
+    Map<String, Integer> getExamples(Map<String, Integer> frequency) {
+        return frequency.entrySet().stream().limit(10)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

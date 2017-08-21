@@ -48,7 +48,7 @@ class Queue {
     }
 
     /**
-     * Fetchs a message from the queue.
+     * Fetch a message from the queue.
      *
      * @param {Function} callback
      * @api public
