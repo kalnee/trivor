@@ -53,7 +53,7 @@ public class ModalsFrequencyGenerator extends FrequencyGenerator implements Post
     @Override
     public Insight<Map<String, Integer>> getInsight(Subtitle subtitle, Map<String, Object> insights) {
         final Map<String, Integer> frequency = getFrequency(insights);
-        LOGGER.info("{} - {}", getCode(), frequency);
+        LOGGER.info("{} - {}", getCode(), getExamples(frequency));
 
         return new Insight<>(getCode(), frequency);
     }

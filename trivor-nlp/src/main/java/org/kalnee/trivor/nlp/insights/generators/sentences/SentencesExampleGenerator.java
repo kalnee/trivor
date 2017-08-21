@@ -29,6 +29,7 @@ import org.kalnee.trivor.nlp.nlp.models.Token;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.Character.isUpperCase;
@@ -71,5 +72,10 @@ abstract class SentencesExampleGenerator {
         }
 
         return words;
+    }
+
+    Map<String, Set<String>> getExamples(Map<String, Set<String>> sentences) {
+        return sentences.entrySet().stream().limit(2)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

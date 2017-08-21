@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.ADJECTIVES_SENTENCES;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.JJ;
@@ -59,7 +60,7 @@ public class AdjectivesSentencesGenerator extends SentencesExampleGenerator impl
 	@Override
 	public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
 		final Map<String, Set<String>> sentences = getSentences(subtitle, w -> !NOT_ADJECTIVES.contains(w));
-		LOGGER.info("{} - {}", getCode(), sentences);
+		LOGGER.info("{} - {}", getCode(), getExamples(sentences));
 
     	return new Insight<>(getCode(), sentences);
 	}

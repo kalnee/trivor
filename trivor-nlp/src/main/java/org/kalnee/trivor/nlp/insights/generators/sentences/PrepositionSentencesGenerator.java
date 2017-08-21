@@ -57,7 +57,7 @@ public class PrepositionSentencesGenerator extends SentencesExampleGenerator imp
 	@Override
 	public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
 		final Map<String, Set<String>> sentences = getSentences(subtitle);
-		LOGGER.info("{} - {}", getCode(), sentences);
+		LOGGER.info("{} - {}", getCode(), getExamples(sentences));
 
     	return new Insight<>(getCode(), sentences);
 	}

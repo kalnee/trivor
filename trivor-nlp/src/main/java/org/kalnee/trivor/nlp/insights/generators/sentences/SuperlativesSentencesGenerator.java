@@ -61,7 +61,7 @@ public class SuperlativesSentencesGenerator extends SentencesExampleGenerator im
 		final Map<String, Set<String>> sentences = getSentences(
 				subtitle, t -> t.getToken().toLowerCase(), w -> !NOT_ADJECTIVES.contains(w)
 		);
-		LOGGER.info("{} - {}", getCode(), sentences);
+		LOGGER.info("{} - {}", getCode(), getExamples(sentences));
 
     	return new Insight<>(getCode(), sentences);
 	}
