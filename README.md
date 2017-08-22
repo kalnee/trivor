@@ -4,7 +4,7 @@
 <img src="https://github.com/kalnee/trivor/blob/master/docs/logo/transparent-purple.png" width="300">
 </p>
 
-<h5 align="center">Trivor is a REST API that brings valuable information for language learners concerning Movies and TV Shows.</h5>
+<h5 align="center">Trivor is a REST API that provides useful insights into spoken language found in Movies and TV Shows. By leveraging the use of NLP (Natural Language Processing), Trivor is capable of identifying context from subtitle files which has several applications, mainly as a language learning content provider.</h5>
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@
 
 ![diagram](https://github.com/kalnee/trivor/blob/master/docs/architecture/architecture-diagram.png?raw=true)
 
-Trivor is composed by the following Microservices:
+Trivor is composed by the following Microservices and libraries:
 
 - [trivor-subtitle](https://github.com/kalnee/trivor/tree/master/trivor-subtitles)
 - [trivor-insights](https://github.com/kalnee/trivor/tree/master/trivor-insights)
