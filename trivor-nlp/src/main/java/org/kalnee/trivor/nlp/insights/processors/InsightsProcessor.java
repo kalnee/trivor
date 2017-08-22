@@ -22,13 +22,12 @@
 
 package org.kalnee.trivor.nlp.insights.processors;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
+import org.kalnee.trivor.nlp.insights.generators.InsightsGenerators;
 import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
 import org.kalnee.trivor.nlp.nlp.models.Insight;
 import org.kalnee.trivor.nlp.nlp.models.Subtitle;
-import org.apache.commons.lang3.time.StopWatch;
-import org.kalnee.trivor.nlp.insights.generators.InsightsGenerators;
-import org.kalnee.trivor.nlp.nlp.models.TypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,13 +54,6 @@ class InsightsProcessor {
                                 List<PostInsightGenerator> postInsightGenerators,
                                 List<String> skipInsights,
                                 List<String> skipPostInsights) {
-        LOGGER.info("############# GENERATING INSIGHTS ###########");
-        LOGGER.info("{}", subtitle.getName());
-        if (TypeEnum.TV_SHOW.equals(subtitle.getType())) {
-            LOGGER.info("S{}E{}", subtitle.getSeason(), subtitle.getEpisode());
-        }
-        LOGGER.info("Duration: {}min", subtitle.getDuration());
-
         final StopWatch sw = new StopWatch();
         sw.start();
 
@@ -89,7 +81,7 @@ class InsightsProcessor {
 
         sw.stop();
         LOGGER.info(
-                "Total time {}ms, average {}ms/insight",
+                "Insights generated in {}ms, average {}ms/insight",
                 new Object[]{sw.getTime(), sw.getTime() / insights.size()}
         );
 

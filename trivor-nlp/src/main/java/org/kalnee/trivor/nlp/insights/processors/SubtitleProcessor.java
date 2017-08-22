@@ -155,7 +155,7 @@ public class SubtitleProcessor {
         );
         subtitle = new Subtitle(duration, sentences, sentiment);
 
-        LOGGER.info("Subtitle generated successfully.");
+        LOGGER.info("Subtitle generated successfully");
 
         insights = insightsProcessor.process(
                 subtitle, customInsights, customPostInsights, skipInsights, skipPostInsights

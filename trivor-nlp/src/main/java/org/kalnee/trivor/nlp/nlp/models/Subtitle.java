@@ -28,11 +28,7 @@ import java.util.Map;
 
 public class Subtitle {
 
-    private String name;
-    private Integer season;
-    private Integer episode;
     private Integer duration;
-    private TypeEnum type;
     private List<Sentence> sentences;
     private Map<SentimentEnum, BigDecimal> sentiment;
 
@@ -53,32 +49,8 @@ public class Subtitle {
         this.sentiment = sentiment;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getSeason() {
-        return season;
-    }
-
-    public Integer getEpisode() {
-        return episode;
-    }
-
     public Integer getDuration() {
         return duration;
-    }
-
-    public TypeEnum getType() {
-        return type;
-    }
-
-    public void setType(TypeEnum type) {
-        this.type = type;
     }
 
     public List<Sentence> getSentences() {
