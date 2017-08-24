@@ -35,6 +35,14 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.stream.Stream;
 
+/**
+ * AWS S3 bucket handler implementation of the <tt>SubtitleHandler</tt> interface.
+ *
+ * @see SubtitleHandler
+ * @see SubtitleHandlerFactory
+ *
+ * @since 0.0.1
+ */
 class S3SubtitleHandler implements SubtitleHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileSubtitleHandler.class);
@@ -44,6 +52,11 @@ class S3SubtitleHandler implements SubtitleHandler {
 	private final URI uri;
 	private final AmazonS3 s3Client;
 
+	/**
+	 * Constructs a S3 handler for a specified uri
+	 *
+	 * @param  uri  the file uri
+	 */
 	S3SubtitleHandler(URI uri) {
 		this.uri = uri;
 		this.s3Client = new AmazonS3Client();

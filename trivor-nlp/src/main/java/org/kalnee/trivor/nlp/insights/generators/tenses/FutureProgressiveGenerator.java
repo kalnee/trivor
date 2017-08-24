@@ -39,6 +39,13 @@ import static java.util.stream.Collectors.toList;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.FUTURE_PROGRESSIVE;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
 
+/**
+ * Future progressive verb tense insight generator.
+ *
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class FutureProgressiveGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FutureProgressiveGenerator.class);

@@ -32,6 +32,15 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.stream.Stream;
 
+/**
+ * File handler implementation of the <tt>SubtitleHandler</tt> interface. it accepts
+ * both plain text files and jar files.
+ *
+ * @see SubtitleHandler
+ * @see SubtitleHandlerFactory
+ *
+ * @since 0.0.1
+ */
 class FileSubtitleHandler implements SubtitleHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSubtitleHandler.class);
@@ -39,8 +48,16 @@ class FileSubtitleHandler implements SubtitleHandler {
     static final String FILE_SCHEME = "file";
     static final String JAR_SCHEME = "jar";
 
+    /**
+     * File uri
+     */
     private final URI uri;
 
+    /**
+     * Constructs a file handler for an uri
+     *
+     * @param  uri  the file uri
+     */
     public FileSubtitleHandler(URI uri) {
         this.uri = uri;
     }

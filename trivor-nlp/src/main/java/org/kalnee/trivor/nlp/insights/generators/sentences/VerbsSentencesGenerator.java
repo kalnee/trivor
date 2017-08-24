@@ -36,6 +36,14 @@ import java.util.Set;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.VERBS_SENTENCES;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
 
+/**
+ * Sentence generator for verbs.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class VerbsSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerbsSentencesGenerator.class);

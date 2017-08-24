@@ -28,16 +28,47 @@ import org.kalnee.trivor.nlp.nlp.models.Subtitle;
 
 import java.util.Map;
 
+/**
+ * Generates a insight that should run after all other insights
+ * have been processed for a subtitle.
+ *
+ * @since 0.0.1
+ */
+
 public interface PostInsightGenerator<T> {
 
+    /**
+     * Retuns a description for the insight
+     *
+     * @return a string with the description of the insight
+     */
     default String getDescription() {
         return getCode();
     }
 
+    /**
+     * Returns the unique code of the insight
+     *
+     * @return a string with the code of the insight
+     */
     String getCode();
 
+    /**
+     * Returns the generated insight
+     *
+     * @param subtitle the subtitle used to generate all insights
+     * @param insights the insights already generated for a subtitle
+     * @return an insight
+     */
     Insight<T> getInsight(Subtitle subtitle, Map<String, Object> insights);
 
+    /**
+     * Returns if this insight should run or not
+     *
+     * @param subtitle the subtitle used to generate all insights
+     * @param insights the insights already generated for a subtitle
+     * @return true if the insight should run, false otherwise
+     */
     default boolean shouldRun(Subtitle subtitle, Map<String, Object> insights) {
         return true;
     }

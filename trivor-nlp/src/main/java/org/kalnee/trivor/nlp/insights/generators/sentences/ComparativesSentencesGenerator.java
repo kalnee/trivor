@@ -37,6 +37,14 @@ import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.COMPARATIVES_SENTENC
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.JJR;
 import static org.kalnee.trivor.nlp.utils.LanguageUtils.NOT_ADJECTIVES;
 
+/**
+ * Sentence generator for comparatives.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class ComparativesSentencesGenerator extends SentencesExampleGenerator
 		implements InsightGenerator<Map<String, Set<String>>> {
 

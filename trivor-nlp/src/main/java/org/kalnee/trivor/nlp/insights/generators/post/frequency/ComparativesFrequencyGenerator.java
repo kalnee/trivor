@@ -33,6 +33,14 @@ import java.util.Map;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.COMPARATIVES_FREQUENCY;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.COMPARATIVES_SENTENCES;
 
+/**
+ * Frequency generator for comparatives.
+ *
+ * @see FrequencyGenerator
+ * @see PostInsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class ComparativesFrequencyGenerator extends FrequencyGenerator implements PostInsightGenerator<Map<String, Integer>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ComparativesFrequencyGenerator.class);

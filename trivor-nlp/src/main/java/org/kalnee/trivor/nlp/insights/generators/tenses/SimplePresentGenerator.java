@@ -34,6 +34,13 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Simple present verb tense insight generator.
+ *
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class SimplePresentGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimplePresentGenerator.class);

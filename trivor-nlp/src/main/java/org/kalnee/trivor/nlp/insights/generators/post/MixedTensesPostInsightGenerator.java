@@ -36,6 +36,13 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.*;
 
+/**
+ * Generator for sentences that have more than one verb tense.
+ *
+ * @see PostInsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class MixedTensesPostInsightGenerator implements PostInsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MixedTensesPostInsightGenerator.class);

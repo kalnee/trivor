@@ -38,6 +38,13 @@ import static java.util.stream.Collectors.toList;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.SIMPLE_FUTURE;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
 
+/**
+ * Simple future verb tense insight generator.
+ *
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFutureGenerator.class);

@@ -36,6 +36,14 @@ import java.util.Set;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.ADVERBS_SENTENCES;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.RB;
 
+/**
+ * Sentence generator for adverbs.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class AdverbsSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdverbsSentencesGenerator.class);

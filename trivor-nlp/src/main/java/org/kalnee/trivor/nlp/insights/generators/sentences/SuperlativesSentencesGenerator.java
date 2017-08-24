@@ -37,6 +37,14 @@ import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.SUPERLATIVES_SENTENC
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.JJS;
 import static org.kalnee.trivor.nlp.utils.LanguageUtils.NOT_ADJECTIVES;
 
+/**
+ * Sentence generator for superlatives.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class SuperlativesSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SuperlativesSentencesGenerator.class);
