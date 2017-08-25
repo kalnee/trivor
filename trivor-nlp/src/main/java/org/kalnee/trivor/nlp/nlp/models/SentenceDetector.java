@@ -24,7 +24,6 @@ package org.kalnee.trivor.nlp.nlp.models;
 
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

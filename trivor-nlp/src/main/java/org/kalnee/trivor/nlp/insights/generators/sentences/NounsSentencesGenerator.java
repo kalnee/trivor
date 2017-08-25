@@ -39,6 +39,14 @@ import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.NN;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.NNS;
 import static org.kalnee.trivor.nlp.utils.LanguageUtils.MOST_COMMON_WORDS;
 
+/**
+ * Sentence generator for nouns.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class NounsSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NounsSentencesGenerator.class);

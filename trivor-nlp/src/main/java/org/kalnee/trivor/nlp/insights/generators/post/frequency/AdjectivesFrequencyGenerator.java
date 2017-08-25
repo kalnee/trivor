@@ -31,6 +31,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * Frequency generator for adjectives.
+ *
+ * @see FrequencyGenerator
+ * @see PostInsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class AdjectivesFrequencyGenerator extends FrequencyGenerator implements PostInsightGenerator<Map<String, Integer>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdjectivesFrequencyGenerator.class);

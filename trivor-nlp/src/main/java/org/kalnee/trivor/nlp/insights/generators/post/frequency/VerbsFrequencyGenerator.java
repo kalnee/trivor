@@ -31,6 +31,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * Frequency generator for verbs.
+ *
+ * @see FrequencyGenerator
+ * @see PostInsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class VerbsFrequencyGenerator extends FrequencyGenerator implements PostInsightGenerator<Map<String, Integer>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerbsFrequencyGenerator.class);

@@ -25,7 +25,6 @@ package org.kalnee.trivor.nlp.nlp.models;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

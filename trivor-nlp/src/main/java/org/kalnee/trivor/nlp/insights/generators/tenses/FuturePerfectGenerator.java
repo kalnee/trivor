@@ -39,6 +39,13 @@ import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
 import static org.kalnee.trivor.nlp.utils.CollectionUtils.allMatch;
 import static org.kalnee.trivor.nlp.utils.CollectionUtils.anyMatch;
 
+/**
+ * Future perfect verb tense insight generator.
+ *
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class FuturePerfectGenerator implements InsightGenerator<List<String>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FuturePerfectGenerator.class);

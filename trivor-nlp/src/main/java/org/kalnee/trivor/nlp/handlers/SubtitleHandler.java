@@ -24,6 +24,18 @@ package org.kalnee.trivor.nlp.handlers;
 
 import java.util.stream.Stream;
 
+/**
+ * A handler for a subtitle source.
+ *
+ * The <tt>SubtitleHandler</tt> interface provides a method that returns
+ * all lines of a subtitle.
+ *
+ * @see FileSubtitleHandler
+ * @see S3SubtitleHandler
+ * @see SubtitleHandlerFactory
+ *
+ * @since 0.0.1
+ */
 public interface SubtitleHandler {
 
     /**

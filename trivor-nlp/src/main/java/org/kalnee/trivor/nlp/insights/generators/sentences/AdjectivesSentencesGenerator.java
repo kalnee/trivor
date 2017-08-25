@@ -32,12 +32,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.ADJECTIVES_SENTENCES;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.JJ;
 import static org.kalnee.trivor.nlp.utils.LanguageUtils.NOT_ADJECTIVES;
 
+/**
+ * Sentence generator for adjectives.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class AdjectivesSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdjectivesSentencesGenerator.class);

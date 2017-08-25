@@ -38,6 +38,13 @@ import static java.util.stream.Collectors.toList;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.PAST_PROGRESSIVE;
 import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
 
+/**
+ * Past progressive verb tense insight generator.
+ *
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class PastProgressiveGenerator implements InsightGenerator<List<String>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PastProgressiveGenerator.class);

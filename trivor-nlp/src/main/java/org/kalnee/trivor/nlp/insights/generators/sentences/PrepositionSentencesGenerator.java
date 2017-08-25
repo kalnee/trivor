@@ -35,6 +35,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Sentence generator for prepositions.
+ *
+ * @see SentencesExampleGenerator
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class PrepositionSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrepositionSentencesGenerator.class);

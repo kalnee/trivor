@@ -33,6 +33,14 @@ import java.util.Map;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.NOUNS_FREQUENCY;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.NOUNS_SENTENCES;
 
+/**
+ * Frequency generator for nouns.
+ *
+ * @see FrequencyGenerator
+ * @see PostInsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class NounsFrequencyGenerator extends FrequencyGenerator implements PostInsightGenerator<Map<String, Integer>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NounsFrequencyGenerator.class);

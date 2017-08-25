@@ -35,6 +35,13 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Present progressive verb tense insight generator.
+ *
+ * @see InsightGenerator
+ *
+ * @since 0.0.1
+ */
 public class PresentProgressiveGenerator implements InsightGenerator<List<String>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PresentProgressiveGenerator.class);
