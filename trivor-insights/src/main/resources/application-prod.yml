@@ -12,3 +12,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URL:http://127.0.0.1:8761}/eureka/
+spring:
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@ds161713.mlab.com:61713/trivor-prod
