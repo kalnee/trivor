@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.util.List;
 
 import static org.kalnee.trivor.insights.dto.TypeEnum.TV_SHOW;
 
@@ -53,12 +54,16 @@ public class SubtitleService {
 
     private void deleteIfExists(SubtitleDTO subtitleDTO) {
         if (TV_SHOW == subtitleDTO.getType()) {
-            subtitleRepository.delete(
-                    subtitleRepository.findByImdbIdAndSeasonAndEpisode(
-                    subtitleDTO.getImdbId(), subtitleDTO.getSeason(), subtitleDTO.getEpisode())
+            final List<Subtitle> subtitles = subtitleRepository.findByImdbIdAndSeasonAndEpisode(
+                    subtitleDTO.getImdbId(), subtitleDTO.getSeason(), subtitleDTO.getEpisode()
             );
+            subtitles.forEach(s -> insightsRepository.delete(
+                    insightsRepository.findByImdbIdAndSubtitleId(s.getImdbId(), s.getId())
+            ));
+            subtitleRepository.delete(subtitles);
         } else {
             subtitleRepository.delete(subtitleRepository.findByImdbId(subtitleDTO.getImdbId()));
+            insightsRepository.delete(insightsRepository.findAllByImdbId(subtitleDTO.getImdbId()));
         }
     }
 }
