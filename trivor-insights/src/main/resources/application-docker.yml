@@ -1,8 +1,7 @@
 spring:
   data:
     mongodb:
-      host: mongo
-      port: 27017
+      uri: mongodb://mongo:27017/trivor-insights
 eureka:
   client:
     registerWithEureka: false
