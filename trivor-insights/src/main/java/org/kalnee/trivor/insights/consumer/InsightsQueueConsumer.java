@@ -1,4 +1,4 @@
-package org.kalnee.trivor.insights.consumers;
+package org.kalnee.trivor.insights.consumer;
 
 import org.kalnee.trivor.insights.dto.SubtitleDTO;
 import org.kalnee.trivor.insights.services.SubtitleService;
