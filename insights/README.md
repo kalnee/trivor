@@ -1,3 +1,52 @@
+<h1 align="center">Insights</h1>
+
+<h5 align="center">REST API to detect and generate insights over spoken language found in Movies and TV Shows.</h5>
+
+## Prerequisites
+
+- Docker or...
+- Java 8+
+
+## Usage
+
+- `> docker-compose -f src/main/docker/mongodb.yml up -d`
+- `> ./mvnw`
+
+## Endpoints
+
+`GET /insights/:imdbId`
+
+Return all insights for a Movie or TV Show episodes filtered by `imdbId`.
+
+`GET /insights/:imdbId?subtitleId=:subtitleId:`
+
+Return all insights for a Movie or TV Show filtered by `imdbId` and `subtitleId`.
+
+## Insights
+
+The list of current insights is:
+
+- number-of-sentences: `Integer`
+- frequent-adjectives: `Map<String, Integer>`
+- frequent-superlative: `Map<String, Integer>`
+- frequent-comparative: `Map<String, Integer>`
+- frequent-nouns: `Map<String, Integer>` 
+- frequent-sentences: `Map<String, Integer>`
+- rate-of-speech: `String` Values: SLOW, MODERATE, FAST, SUPER_FAST
+- simple-present: `List<String>`
+- simple-past: `List<String>`
+- simple-future: `List<String>`
+- present-progressive: `List<String>`
+- past-progressive: `List<String>`
+- future-progressive: `List<String>`
+- present-perfect: `List<String>`
+- past-perfect: `List<String>`
+- future-perfect: `List<String>`
+- non-sentences: `List<String>`
+- mixed-sentences: `List<String>`
+
+See JSON [example](https://github.com/kalnee/trivor/tree/master/trivor-insights/docs/examples/insights.json).
+
 # insights
 This application was generated using JHipster 4.7.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.7.0](https://jhipster.github.io/documentation-archive/v4.7.0).
 

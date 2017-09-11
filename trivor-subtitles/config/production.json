@@ -22,7 +22,7 @@
     "user_agent": "PopcornHour v1"
   },
   "Eureka": {
-    "host": "127.0.0.1",
+    "host": "admin:admin@127.0.0.1",
     "port": 8761
   }
 }
