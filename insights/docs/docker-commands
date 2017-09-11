@@ -1,0 +1,23 @@
+#build the docker image
+docker build -t kalnee/trivor-engine .
+
+#run image
+docker run -p 8080:8080 -t --name trivor-engine kalnee/trivor-engine
+
+#list docker images
+docker images
+
+#list active containers
+docker ps
+
+#run trivor-engine + mongodb using docker-compose
+docker-compose up -d
+
+#build images using docker-compose
+docker-compose build
+
+#list active container using docker-compose
+docker-compose ps
+
+#stop containers using docker-compose
+docker-compose stop

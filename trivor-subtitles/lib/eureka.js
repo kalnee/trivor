@@ -2,13 +2,16 @@ const config = require('config');
 const Eureka = require('eureka-js-client').Eureka;
 const eureka = config.get("Eureka");
 const trivorSubtitles = config.get('TrivorSubtitles');
+const uuidv1 = require('uuid/v1');
 
 const client = new Eureka({
   instance: {
-    app: 'trivor-subtitles',
+    app: 'subtitles',
     hostName: trivorSubtitles.host,
     ipAddr: trivorSubtitles.host,
-    statusPageUrl: `http://${trivorSubtitles.host}:${trivorSubtitles.port}/info`,
+    instanceId: `subtitles:${uuidv1()}`,
+    statusPageUrl: `http://${trivorSubtitles.host}:${trivorSubtitles.port}/api/info`,
+    homePageUrl: `http://${trivorSubtitles.host}:${trivorSubtitles.port}`,
     port: {
       '$': trivorSubtitles.port,
       '@enabled': 'true',
