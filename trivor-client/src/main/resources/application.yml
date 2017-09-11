@@ -1,9 +1,0 @@
-server:
-  port: 8081
-trivor:
-  subtitles:
-    url: http://localhost:3000
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URL:http://127.0.0.1:8761}/eureka/

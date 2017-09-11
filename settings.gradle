@@ -1,3 +1,2 @@
 rootProject.name = 'trivor'
-include ':trivor-insights'
 include ':trivor-nlp'

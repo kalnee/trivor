@@ -12,9 +12,13 @@
 - NodeJS 6.5+
 - AWS IAM user
 
-## Usage
+## Usage (To Be Improved)
 
-`./scripts/start`
+- `> docker-compose -f gateway/src/main/docker/jhipster-registry.yml up`
+- `> docker-compose -f gateway/src/main/docker/mysql.yml up`
+- `> docker-compose -f insights/src/main/docker/mongodb.yml up`
+- `> cd gateway` and `./mvnw`
+- `> cd insights` and `./mvnw`
 
 ## Architecture
 
@@ -22,13 +26,13 @@
 
 Trivor is composed by the following Microservices and libraries:
 
-- [trivor-subtitle](https://github.com/kalnee/trivor/tree/master/trivor-subtitles)
-- [trivor-insights](https://github.com/kalnee/trivor/tree/master/trivor-insights)
-- [trivor-client](https://github.com/kalnee/trivor/tree/master/trivor-client)
+- [gateway](https://github.com/kalnee/trivor/tree/master/gateway)
+- [insights](https://github.com/kalnee/trivor/tree/master/insights)
+- [subtitles](https://github.com/kalnee/trivor/tree/master/subtitles)
 
-Microservice Registration and Discovery:
+Microservice Registration and Discovery with JHipster Registry Docker image:
 
-- [trivor-eureka](https://github.com/kalnee/trivor/blob/master/trivor-eureka)
+- [jhipster-registry](https://github.com/kalnee/trivor/blob/master/gateway/src/main/docker)
 
 Natural Language Processing lib to parse and generate insights from subtitles:
 
