@@ -29,7 +29,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
     },
     entry: {
         polyfills: './src/main/webapp/app/polyfills',
-        global: './src/main/webapp/content/css/global.css',
+        global: './src/main/webapp/content/scss/global.scss',
         main: './src/main/webapp/app/app.main'
     },
     output: {
@@ -51,6 +51,15 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                 'awesome-typescript-loader'
             ],
             exclude: ['node_modules/generator-jhipster']
+        },
+        {
+            test: /\.scss$/,
+            loaders: ['to-string-loader', 'css-loader', 'sass-loader'],
+            exclude: /(vendor\.scss|global\.scss)/
+        },
+        {
+            test: /(vendor\.scss|global\.scss)/,
+            loaders: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
         },
         {
             test: /\.css$/,

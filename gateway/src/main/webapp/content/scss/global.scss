@@ -1,0 +1,424 @@
+@import 'bootstrap-variables';
+
+/* ==============================================================
+Bootstrap tweaks
+===============================================================*/
+
+body, h1, h2, h3, h4 {
+    font-weight: 300;
+}
+
+
+/* ==========================================================================
+Browser Upgrade Prompt
+========================================================================== */
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* ==========================================================================
+Generic styles
+========================================================================== */
+
+/* Error highlight on input fields */
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid green;
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid red;
+}
+
+/* other generic styles */
+
+.jh-card {
+    padding: 1.5%;
+    margin-top: 20px;
+    border: none;
+}
+
+.error {
+    color: white;
+    background-color: red;
+}
+
+.pad {
+    padding: 10px;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+.w-60 {
+    width: 60% !important;
+}
+
+.break {
+    white-space: normal;
+    word-break:break-all;
+}
+
+.readonly {
+    background-color: #eee;
+    opacity: 1;
+}
+
+.footer {
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+
+/* ==========================================================================
+make sure browsers use the pointer cursor for anchors, even with no href
+========================================================================== */
+a:hover {
+  cursor: pointer;
+}
+
+.hand, [jhisortby] {
+    cursor: pointer;
+}
+
+/* ==========================================================================
+Custom alerts for notification
+========================================================================== */
+.alerts {
+    .alert {
+        text-overflow: ellipsis;
+        pre{
+            background: none;
+            border: none;
+            font: inherit;
+            color: inherit;
+            padding: 0;
+            margin: 0;
+        }
+        .popover pre {
+            font-size: 10px;
+        }
+    }
+    .toast {
+        position: fixed;
+        width: 100%;
+        &.left {
+            left: 5px;
+        }
+        &.right {
+            right: 5px;
+        }
+        &.top {
+            top: 55px;
+        }
+        &.bottom {
+            bottom: 55px;
+        }
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .alerts .toast {
+        width: 50%;
+    }
+}
+
+/* ==========================================================================
+entity tables helpers
+========================================================================== */
+
+/* Remove Bootstrap padding from the element
+   http://stackoverflow.com/questions/19562903/remove-padding-from-columns-in-bootstrap-3 */
+@mixin no-padding($side) {
+    @if $side == 'all' {
+        .no-padding {
+            padding: 0 !important;
+        }
+    } @else {
+        .no-padding-#{$side} {
+            padding-#{$side}: 0 !important;
+        }
+    }
+}
+@include no-padding("left");
+@include no-padding("right");
+@include no-padding("top");
+@include no-padding("bottom");
+@include no-padding("all");
+
+/* bootstrap 3 input-group 100% width
+   http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
+.width-min { width: 1% !important; }
+
+/* Makes toolbar not wrap on smaller screens
+   http://www.sketchingwithcss.com/samplechapter/cheatsheet.html#right */
+.flex-btn-group-container {
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row;
+   flex-direction: row;
+   -webkit-justify-content: flex-end;
+   justify-content: flex-end;
+}
+
+/* ==========================================================================
+entity detail page css
+========================================================================== */
+.row.jh-entity-details > {
+    dd {
+        margin-bottom: 15px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .row.jh-entity-details > {
+        dt {
+            margin-bottom: 15px;
+        }
+        dd {
+            border-bottom: 1px solid #eee;
+            padding-left: 180px;
+            margin-left: 0;
+        }
+    }
+}
+
+/* ==========================================================================
+ui bootstrap tweaks
+========================================================================== */
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}
+
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default,
+.uib-datepicker-popup  > li > div.uib-datepicker > table .btn-default {
+    border: 0;
+}
+
+.datetime-picker-dropdown > li.date-picker-menu div > table:focus,
+.uib-datepicker-popup  > li > div.uib-datepicker > table:focus {
+    outline: none;
+}
+
+/* jhipster-needle-scss-add-main JHipster will add new css style */
+
+/* ==========================================================================
+custom bootstrap 4 primary color - SASS not working
+========================================================================== */
+
+.btn-primary {
+    color: #fff;
+    background-color: #331F5E;
+    border-color: #331F5E;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #231641;
+    border-color: #1e1238;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 3px rgba(51, 31, 94, 0.5);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #331F5E;
+    border-color: #331F5E;
+}
+
+.btn-primary:active, .btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    background-color: #231641;
+    background-image: none;
+    border-color: #1e1238;
+}
+
+.btn-outline-primary {
+    color: #331F5E;
+    background-color: transparent;
+    background-image: none;
+    border-color: #331F5E;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #331F5E;
+    border-color: #331F5E;
+}
+
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+    box-shadow: 0 0 0 3px rgba(51, 31, 94, 0.5);
+}
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+    color: #331F5E;
+    background-color: transparent;
+}
+
+.btn-outline-primary:active, .btn-outline-primary.active,
+.show > .btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #331F5E;
+    border-color: #331F5E;
+}
+
+.custom-control-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.custom-control-input:checked ~ .custom-control-indicator {
+    color: #fff;
+    background-color: #331F5E;
+}
+
+.custom-control-input:focus ~ .custom-control-indicator {
+    box-shadow: 0 0 0 1px white, 0 0 0 3px #331F5E;
+}
+
+.custom-control-input:active ~ .custom-control-indicator {
+    color: #fff;
+    background-color: #8564cc;
+}
+
+.custom-control-input:disabled ~ .custom-control-indicator {
+    background-color: #e9ecef;
+}
+
+.custom-control-input:disabled ~ .custom-control-description {
+    color: #868e96;
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-indicator {
+    background-color: #331F5E;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Cpath stroke='%23fff' d='M0 2h4'/%3E%3C/svg%3E");
+}
+
+.custom-file-input {
+    min-width: 14rem;
+    max-width: 100%;
+    height: calc(2.25rem + 2px);
+    margin: 0;
+    opacity: 0;
+}
+
+.custom-file-input:focus ~ .custom-file-control {
+    box-shadow: 0 0 0 0.075rem #fff, 0 0 0 0.2rem #331F5E;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: normal;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background: none;
+    border: 0;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #331F5E;
+}
+
+.dropdown-item.disabled, .dropdown-item:disabled {
+    color: #868e96;
+    background-color: transparent;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.list-group-item:focus, .list-group-item:hover {
+    text-decoration: none;
+}
+
+.list-group-item.disabled, .list-group-item:disabled {
+    color: #868e96;
+    background-color: #fff;
+}
+
+.list-group-item.active {
+    z-index: 2;
+    color: #fff;
+    background-color: #331F5E;
+    border-color: #331F5E;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+}
+
+.nav-pills .nav-link.active,
+.show > .nav-pills .nav-link {
+    color: #fff;
+    background-color: #331F5E;
+}
+
+.page-item.active .page-link {
+    z-index: 2;
+    color: #fff;
+    background-color: #331F5E;
+    border-color: #331F5E;
+}
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: #331F5E;
+}
+
+.bg-primary {
+    background-color: #331F5E !important;
+}
+
+.border-primary {
+    border-color: #331F5E !important;
+}
+
+.text-primary {
+    color: #331F5E !important;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #331F5E;
+}
+
+.badge-primary[href]:focus, .badge-primary[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #1e1238;
+}

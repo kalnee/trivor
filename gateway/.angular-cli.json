@@ -19,8 +19,8 @@
         "prefix": "jhi",
         "mobile": false,
         "styles": [
-            "content/css/vendor.css",
-            "content/css/global.css"
+            "content/scss/vendor.scss",
+            "content/scss/global.scss"
         ],
         "scripts": []
     }],
@@ -42,7 +42,7 @@
         }
     },
     "defaults": {
-        "styleExt": "css",
+        "styleExt": "scss",
         "prefixInterfaces": false,
         "component" : {
             "inlineStyle" : true,

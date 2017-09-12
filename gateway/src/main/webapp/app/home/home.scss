@@ -1,13 +1,10 @@
+
 /* ==========================================================================
 Main page styles
 ========================================================================== */
 
-.hipster {
-    display: inline-block;
-    width: 347px;
-    height: 497px;
-    background: url("../../content/images/hipster.png") no-repeat center top;
-    background-size: contain;
+.cover {
+    background-image: url("../../content/images/cover.jpg");
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
@@ -18,9 +15,24 @@ only screen and (     -o-min-device-pixel-ratio: 2/1),
 only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
-    .hipster {
-        background: url("../../content/images/hipster2x.png") no-repeat center top;
-        background-size: contain;
+    .cover {
+        background-image: url("../../content/images/cover.jpg");
     }
 }
 
+.opaque-overlay {
+    overflow: hidden;
+    position: relative;
+}
+
+.opaque-overlay > *:first-child:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    background: rgba(52, 58, 64, 0.5);
+}

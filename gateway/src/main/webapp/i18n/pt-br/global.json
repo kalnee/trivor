@@ -32,7 +32,9 @@
                 "database": "Banco de dados",
                 "jhipster-needle-menu-add-admin-element": "JHipster will add additional menu entries here (do not translate!)"
             },
-            "language": "Idioma"
+            "language": "Idioma",
+            "dashboard": "Dashboard",
+            "insights": "Insights"
         },
         "form": {
             "username": "Usuário",
