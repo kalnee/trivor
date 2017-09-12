@@ -2,7 +2,8 @@
   "generator-jhipster": {
     "promptValues": {
       "packageName": "org.kalnee.trivor.gateway",
-      "nativeLanguage": "en"
+      "nativeLanguage": "en",
+      "microservicePath": "../insights"
     },
     "jhipsterVersion": "4.7.0",
     "baseName": "gateway",
