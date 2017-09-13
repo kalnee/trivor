@@ -1,0 +1,10 @@
+{
+    "gatewayApp": {
+        "TranscriptTypeEnum" : {
+            "null": "",
+            "TRANSCRIPT": "TRANSCRIPT",
+            "MOVIE": "MOVIE",
+            "TV_SHOW": "TV_SHOW"
+        }
+    }
+}

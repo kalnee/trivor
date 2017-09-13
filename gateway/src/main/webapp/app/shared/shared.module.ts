@@ -15,6 +15,7 @@ import {
     HasAnyAuthorityDirective,
     JhiLoginModalComponent
 } from './';
+import {ShortenPipe} from './shorten/shorten.pipe';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        ShortenPipe
     ],
     providers: [
         LoginService,
@@ -41,7 +43,8 @@ import {
         GatewaySharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
-        DatePipe
+        DatePipe,
+        ShortenPipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
