@@ -1,7 +1,10 @@
 package org.kalnee.trivor.insights.web.rest;
 
+import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.service.InsightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +23,14 @@ public class InsightsResource {
         this.insightService = insightService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<Page<Insights>> findByInsightAndImdb(@RequestParam("imdbId") String imdbId,
+                                                               Pageable pageable) {
+        return ResponseEntity.ok().body(insightService.findByImdbId(imdbId, pageable));
+    }
+
     @GetMapping("/{insight}")
-    public ResponseEntity<Map<String, Long>> findByInsightAndImdb(@PathVariable("insight") String insight,
+    public ResponseEntity<Map<String, Integer>> findByInsightAndImdb(@PathVariable("insight") String insight,
                                                                   @RequestParam("imdbId") String imdbId) {
         return ResponseEntity.ok().body(insightService.findByInsightAndImdb(insight, imdbId));
     }
