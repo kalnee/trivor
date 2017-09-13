@@ -1,11 +1,14 @@
 package org.kalnee.trivor.insights.service;
 
+import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.domain.Subtitle;
 import org.kalnee.trivor.insights.repository.InsightsRepository;
 import org.kalnee.trivor.insights.repository.SubtitleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -32,15 +35,15 @@ public class InsightService {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, Long> findByInsightAndImdb(String insight, String imdbId) {
-        final Map<String, Long> allInsights = new HashMap<>();
+    public Map<String, Integer> findByInsightAndImdb(String insight, String imdbId) {
+        final Map<String, Integer> allInsights = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream().flatMap(i -> i.getInsights().entrySet().stream())
                 .filter(i -> i.getKey().equals(insight))
-                .flatMap(i -> ((LinkedHashMap<String, Long>) i.getValue()).entrySet().stream())
-                .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0L)));
+                .flatMap(i -> ((LinkedHashMap<String, Integer>) i.getValue()).entrySet().stream())
+                .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0)));
 
-        return allInsights.entrySet().stream().sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+        return allInsights.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .filter(e -> e.getValue() > 1)
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
                     throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
@@ -63,5 +66,9 @@ public class InsightService {
         return insightsRepository.findByImdbIdIn(imdbIds).stream()
                 .map(i -> i.getInsights().get(insight))
                 .collect(toList());
+    }
+
+    public Page<Insights> findByImdbId(String imdbId, Pageable pageable) {
+        return insightsRepository.findByImdbId(imdbId, pageable);
     }
 }

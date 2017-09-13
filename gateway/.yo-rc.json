@@ -2,7 +2,8 @@
   "generator-jhipster": {
     "promptValues": {
       "packageName": "org.kalnee.trivor.gateway",
-      "nativeLanguage": "en"
+      "nativeLanguage": "en",
+      "microservicePath": "../insights"
     },
     "jhipsterVersion": "4.7.0",
     "baseName": "gateway",
@@ -22,9 +23,9 @@
     "buildTool": "maven",
     "enableSocialSignIn": false,
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "f7e96055bcea46aa04f25d0159a533c8d02e7d37",
+    "jwtSecretKey": "2a88b237be08ef7dca7fd71de73d964d537a3424",
     "clientFramework": "angularX",
-    "useSass": false,
+    "useSass": true,
     "clientPackageManager": "yarn",
     "applicationType": "gateway",
     "testFrameworks": [
