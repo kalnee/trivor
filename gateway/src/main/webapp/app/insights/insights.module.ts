@@ -2,19 +2,21 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { GatewaySharedModule } from '../shared';
-import {INSIGHTS_ROUTE} from './insights.route';
+import {INSIGHTS_DETAIL_ROUTE, INSIGHTS_ROUTE} from './insights.route';
 import {InsightsComponent} from './insights.component';
 import {InsightsService} from './insights.service';
 import { TranscriptCardComponent } from './transcript-card/transcript-card.component';
+import { InsightsDetailComponent } from './insights-detail/insights-detail.component';
 
 @NgModule({
     imports: [
         GatewaySharedModule,
-        RouterModule.forRoot([ INSIGHTS_ROUTE ], { useHash: true })
+        RouterModule.forRoot([ INSIGHTS_ROUTE, INSIGHTS_DETAIL_ROUTE ], { useHash: true })
     ],
     declarations: [
         InsightsComponent,
-        TranscriptCardComponent
+        TranscriptCardComponent,
+        InsightsDetailComponent
     ],
     entryComponents: [
     ],
