@@ -5,6 +5,7 @@ import { GatewaySharedModule } from '../shared';
 import {INSIGHTS_ROUTE} from './insights.route';
 import {InsightsComponent} from './insights.component';
 import {InsightsService} from './insights.service';
+import { TranscriptCardComponent } from './transcript-card/transcript-card.component';
 
 @NgModule({
     imports: [
@@ -12,7 +13,8 @@ import {InsightsService} from './insights.service';
         RouterModule.forRoot([ INSIGHTS_ROUTE ], { useHash: true })
     ],
     declarations: [
-        InsightsComponent
+        InsightsComponent,
+        TranscriptCardComponent
     ],
     entryComponents: [
     ],
