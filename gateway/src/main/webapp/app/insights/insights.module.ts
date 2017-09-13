@@ -7,10 +7,12 @@ import {InsightsComponent} from './insights.component';
 import {InsightsService} from './insights.service';
 import { TranscriptCardComponent } from './transcript-card/transcript-card.component';
 import { InsightsDetailComponent } from './insights-detail/insights-detail.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 @NgModule({
     imports: [
         GatewaySharedModule,
+        NgxChartsModule,
         RouterModule.forRoot([ INSIGHTS_ROUTE, INSIGHTS_DETAIL_ROUTE ], { useHash: true })
     ],
     declarations: [
