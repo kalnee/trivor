@@ -15,15 +15,10 @@
             </ul>
         </div>
         <div class="col-md-10">
-            <div class="row justify-content-center">
-                <div class="col-md-5 mb-3">
-                    <input type="text"
-                           placeholder="Find movies, tv shows and transcripts..."
-                           class="form-control input-lg"/>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <jhi-transcript-card *ngFor="let transcript of transcripts" [transcript]="transcript"></jhi-transcript-card>
+            <div class="row justify-content-center" infinite-scroll (scrolled)="loadPage(page + 1)"
+                 [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <jhi-transcript-card *ngFor="let transcript of transcripts;trackBy: trackId"
+                                     [transcript]="transcript"></jhi-transcript-card>
             </div>
         </div>
     </div>

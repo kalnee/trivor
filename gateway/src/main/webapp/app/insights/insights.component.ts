@@ -59,4 +59,9 @@ export class InsightsComponent implements OnInit {
     trackId(index: number, item: Transcript) {
         return item.id;
     }
+
+    loadPage(page) {
+        this.page = page;
+        this.loadAllTranscripts();
+    }
 }
