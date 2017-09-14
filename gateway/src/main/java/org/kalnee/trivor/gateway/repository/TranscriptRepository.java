@@ -13,4 +13,5 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface TranscriptRepository extends JpaRepository<Transcript, Long> {
 
+    Transcript findOneByImdbId(String imdbId);
 }

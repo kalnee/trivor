@@ -39,6 +39,14 @@ export class TranscriptService {
         });
     }
 
+    findByImdbId(imdbId: string): Observable<Transcript> {
+        return this.http.get(`${this.resourceUrl}/imdb/${imdbId}`).map((res: Response) => {
+            const jsonResponse = res.json();
+            this.convertItemFromServer(jsonResponse);
+            return jsonResponse;
+        });
+    }
+
     query(req?: any): Observable<ResponseWrapper> {
         const options = createRequestOption(req);
         return this.http.get(this.resourceUrl, options)

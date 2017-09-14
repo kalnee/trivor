@@ -4,7 +4,7 @@ import {Transcript} from '../../entities/transcript/transcript.model';
 @Component({
     selector: 'jhi-transcript-card',
     template: `
-        <div class="card">
+        <div class="card jhi-card">
             <img class="card-img-top img-responsive card-img-max-height"
                  [src]="transcript.coverUrl"
                  [alt]="transcript.name">
@@ -15,26 +15,22 @@ import {Transcript} from '../../entities/transcript/transcript.model';
                     <span class="badge badge-info">{{transcript.country}}</span>
                 </p>
             </div>
-            <div class="card-footer">
+            <div class="card-footer text-center">
                 <small class="text-muted">{{transcript.name}}</small>
-                <a [routerLink]="['/insights', transcript.id]" class="btn btn-primary btn-sm float-right"
-                   title="Insights">
-                    <span class="fa fa-language"></span> Insights
-                </a>
+                <div>
+                    <a [routerLink]="['/insights', transcript.imdbId, 'summary']" class="btn btn-primary btn-sm"
+                       title="Insights">
+                        <span class="fa fa-language"></span> Insights
+                    </a>
+                </div>
             </div>
         </div>
     `,
     styles: [
-            `.card {
-            width: 14rem;
-            overflow: hidden;
-            padding: 0;
-            border: none;
-            border-radius: .28571429rem;
-            box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
-        }`,
+        '.jhi-card {width: 13rem;}',
         '.card-img-max-height {max-height: 300px}',
         '.card-text-mt {margin-top: 250px}',
+        '.card-footer {padding: 0 0 10px 0}',
             `.card-img-overlay-custom {
             position: absolute;
             top: 0;
@@ -46,7 +42,7 @@ import {Transcript} from '../../entities/transcript/transcript.model';
 })
 export class TranscriptCardComponent implements OnInit {
 
-    @HostBinding('class') cssClass = 'col-md-3 ml-5 mb-3';
+    @HostBinding('class') cssClass = 'col-md-3 mb-3';
 
     @Input()
     transcript: Transcript;
