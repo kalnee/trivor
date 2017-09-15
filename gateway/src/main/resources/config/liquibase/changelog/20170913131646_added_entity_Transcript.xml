@@ -38,10 +38,6 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="banner_url" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
             <column name="created_at" type="timestamp">
                 <constraints nullable="true" />
             </column>

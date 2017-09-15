@@ -13,7 +13,6 @@ export class Transcript implements BaseEntity {
         public type?: TranscriptTypeEnum,
         public imdbId?: string,
         public coverUrl?: string,
-        public bannerUrl?: string,
         public createdAt?: any,
         public description?: string,
         public year?: number,

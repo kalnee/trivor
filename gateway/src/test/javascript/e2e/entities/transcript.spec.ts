@@ -42,8 +42,6 @@ describe('Transcript e2e test', () => {
         expect(transcriptDialogPage.getImdbIdInput()).toMatch('imdbId');
         transcriptDialogPage.setCoverUrlInput('coverUrl');
         expect(transcriptDialogPage.getCoverUrlInput()).toMatch('coverUrl');
-        transcriptDialogPage.setBannerUrlInput('bannerUrl');
-        expect(transcriptDialogPage.getBannerUrlInput()).toMatch('bannerUrl');
         transcriptDialogPage.setCreatedAtInput(12310020012301);
         expect(transcriptDialogPage.getCreatedAtInput()).toMatch('2001-12-31T02:30');
         transcriptDialogPage.setDescriptionInput('description');
@@ -84,7 +82,6 @@ export class TranscriptDialogPage {
     typeSelect = element(by.css('select#field_type'));
     imdbIdInput = element(by.css('input#field_imdbId'));
     coverUrlInput = element(by.css('input#field_coverUrl'));
-    bannerUrlInput = element(by.css('input#field_bannerUrl'));
     createdAtInput = element(by.css('input#field_createdAt'));
     descriptionInput = element(by.css('input#field_description'));
     yearInput = element(by.css('input#field_year'));
@@ -128,14 +125,6 @@ export class TranscriptDialogPage {
 
     getCoverUrlInput = function () {
         return this.coverUrlInput.getAttribute('value');
-    }
-
-    setBannerUrlInput = function (bannerUrl) {
-        this.bannerUrlInput.sendKeys(bannerUrl);
-    }
-
-    getBannerUrlInput = function () {
-        return this.bannerUrlInput.getAttribute('value');
     }
 
     setCreatedAtInput = function (createdAt) {

@@ -55,9 +55,6 @@ public class TranscriptResourceIntTest {
     private static final String DEFAULT_COVER_URL = "AAAAAAAAAA";
     private static final String UPDATED_COVER_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANNER_URL = "AAAAAAAAAA";
-    private static final String UPDATED_BANNER_URL = "BBBBBBBBBB";
-
     private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
@@ -114,7 +111,6 @@ public class TranscriptResourceIntTest {
             .type(DEFAULT_TYPE)
             .imdbId(DEFAULT_IMDB_ID)
             .coverUrl(DEFAULT_COVER_URL)
-            .bannerUrl(DEFAULT_BANNER_URL)
             .createdAt(DEFAULT_CREATED_AT)
             .description(DEFAULT_DESCRIPTION)
             .year(DEFAULT_YEAR)
@@ -147,7 +143,6 @@ public class TranscriptResourceIntTest {
         assertThat(testTranscript.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testTranscript.getImdbId()).isEqualTo(DEFAULT_IMDB_ID);
         assertThat(testTranscript.getCoverUrl()).isEqualTo(DEFAULT_COVER_URL);
-        assertThat(testTranscript.getBannerUrl()).isEqualTo(DEFAULT_BANNER_URL);
         assertThat(testTranscript.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testTranscript.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testTranscript.getYear()).isEqualTo(DEFAULT_YEAR);
@@ -230,24 +225,6 @@ public class TranscriptResourceIntTest {
 
     @Test
     @Transactional
-    public void checkBannerUrlIsRequired() throws Exception {
-        int databaseSizeBeforeTest = transcriptRepository.findAll().size();
-        // set the field null
-        transcript.setBannerUrl(null);
-
-        // Create the Transcript, which fails.
-
-        restTranscriptMockMvc.perform(post("/api/transcripts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(transcript)))
-            .andExpect(status().isBadRequest());
-
-        List<Transcript> transcriptList = transcriptRepository.findAll();
-        assertThat(transcriptList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkDescriptionIsRequired() throws Exception {
         int databaseSizeBeforeTest = transcriptRepository.findAll().size();
         // set the field null
@@ -279,7 +256,6 @@ public class TranscriptResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].imdbId").value(hasItem(DEFAULT_IMDB_ID.toString())))
             .andExpect(jsonPath("$.[*].coverUrl").value(hasItem(DEFAULT_COVER_URL.toString())))
-            .andExpect(jsonPath("$.[*].bannerUrl").value(hasItem(DEFAULT_BANNER_URL.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
@@ -302,7 +278,6 @@ public class TranscriptResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.imdbId").value(DEFAULT_IMDB_ID.toString()))
             .andExpect(jsonPath("$.coverUrl").value(DEFAULT_COVER_URL.toString()))
-            .andExpect(jsonPath("$.bannerUrl").value(DEFAULT_BANNER_URL.toString()))
             .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
@@ -332,7 +307,6 @@ public class TranscriptResourceIntTest {
             .type(UPDATED_TYPE)
             .imdbId(UPDATED_IMDB_ID)
             .coverUrl(UPDATED_COVER_URL)
-            .bannerUrl(UPDATED_BANNER_URL)
             .createdAt(UPDATED_CREATED_AT)
             .description(UPDATED_DESCRIPTION)
             .year(UPDATED_YEAR)
@@ -352,7 +326,6 @@ public class TranscriptResourceIntTest {
         assertThat(testTranscript.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testTranscript.getImdbId()).isEqualTo(UPDATED_IMDB_ID);
         assertThat(testTranscript.getCoverUrl()).isEqualTo(UPDATED_COVER_URL);
-        assertThat(testTranscript.getBannerUrl()).isEqualTo(UPDATED_BANNER_URL);
         assertThat(testTranscript.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testTranscript.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTranscript.getYear()).isEqualTo(UPDATED_YEAR);

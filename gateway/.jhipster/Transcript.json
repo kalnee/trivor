@@ -31,13 +31,6 @@
             ]
         },
         {
-            "fieldName": "bannerUrl",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "createdAt",
             "fieldType": "ZonedDateTime"
         },

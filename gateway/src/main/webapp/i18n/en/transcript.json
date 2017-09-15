@@ -19,7 +19,6 @@
             "type": "Type",
             "imdbId": "Imdb Id",
             "coverUrl": "Cover Url",
-            "bannerUrl": "Banner Url",
             "createdAt": "Created At",
             "description": "Description",
             "year": "Year",

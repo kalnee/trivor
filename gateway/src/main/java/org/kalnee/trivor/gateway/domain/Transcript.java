@@ -42,10 +42,6 @@ public class Transcript implements Serializable {
     @Column(name = "cover_url", nullable = false)
     private String coverUrl;
 
-    @NotNull
-    @Column(name = "banner_url", nullable = false)
-    private String bannerUrl;
-
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
 
@@ -123,19 +119,6 @@ public class Transcript implements Serializable {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
-    }
-
-    public String getBannerUrl() {
-        return bannerUrl;
-    }
-
-    public Transcript bannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
-        return this;
-    }
-
-    public void setBannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
     }
 
     public ZonedDateTime getCreatedAt() {
@@ -232,7 +215,6 @@ public class Transcript implements Serializable {
             ", type='" + getType() + "'" +
             ", imdbId='" + getImdbId() + "'" +
             ", coverUrl='" + getCoverUrl() + "'" +
-            ", bannerUrl='" + getBannerUrl() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", description='" + getDescription() + "'" +
             ", year='" + getYear() + "'" +
