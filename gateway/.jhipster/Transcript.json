@@ -41,7 +41,7 @@
                 "required",
                 "maxlength"
             ],
-            "fieldValidateRulesMaxlength": "500"
+            "fieldValidateRulesMaxlength": "1000"
         },
         {
             "fieldName": "year",

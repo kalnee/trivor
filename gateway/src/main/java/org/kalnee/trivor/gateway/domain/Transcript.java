@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.kalnee.trivor.gateway.domain.enumeration.TranscriptTypeEnum;
 
 /**
@@ -42,12 +43,13 @@ public class Transcript implements Serializable {
     @Column(name = "cover_url", nullable = false)
     private String coverUrl;
 
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
     private ZonedDateTime createdAt;
 
     @NotNull
-    @Size(max = 500)
-    @Column(name = "description", length = 500, nullable = false)
+    @Size(max = 1000)
+    @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
     @Column(name = "jhi_year")
