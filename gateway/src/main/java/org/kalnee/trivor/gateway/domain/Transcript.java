@@ -60,6 +60,14 @@ public class Transcript implements Serializable {
     @Column(name = "country", length = 3)
     private String country;
 
+    @Min(value = 0)
+    @Column(name = "duration")
+    private Integer duration;
+
+    @Size(max = 2)
+    @Column(name = "language", length = 2)
+    private String language;
+
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -185,6 +193,32 @@ public class Transcript implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public Transcript duration(Integer duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public Transcript language(String language) {
+        this.language = language;
+        return this;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
@@ -220,6 +254,8 @@ public class Transcript implements Serializable {
             ", year='" + getYear() + "'" +
             ", genres='" + getGenres() + "'" +
             ", country='" + getCountry() + "'" +
+            ", duration='" + getDuration() + "'" +
+            ", language='" + getLanguage() + "'" +
             "}";
     }
 }

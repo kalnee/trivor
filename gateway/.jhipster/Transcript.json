@@ -58,6 +58,22 @@
                 "maxlength"
             ],
             "fieldValidateRulesMaxlength": "3"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": "0"
+        },
+        {
+            "fieldName": "language",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "2"
         }
     ],
     "changelogDate": "20170913131646",

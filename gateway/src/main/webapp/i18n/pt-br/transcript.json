@@ -23,7 +23,9 @@
             "description": "Description",
             "year": "Year",
             "genres": "Genres",
-            "country": "Country"
+            "country": "Country",
+            "duration": "Duration",
+            "language": "Language"
         }
     }
 }

@@ -52,6 +52,10 @@ describe('Transcript e2e test', () => {
         expect(transcriptDialogPage.getGenresInput()).toMatch('genres');
         transcriptDialogPage.setCountryInput('country');
         expect(transcriptDialogPage.getCountryInput()).toMatch('country');
+        transcriptDialogPage.setDurationInput('5');
+        expect(transcriptDialogPage.getDurationInput()).toMatch('5');
+        transcriptDialogPage.setLanguageInput('language');
+        expect(transcriptDialogPage.getLanguageInput()).toMatch('language');
         transcriptDialogPage.save();
         expect(transcriptDialogPage.getSaveButton().isPresent()).toBeFalsy();
     }); 
@@ -87,6 +91,8 @@ export class TranscriptDialogPage {
     yearInput = element(by.css('input#field_year'));
     genresInput = element(by.css('input#field_genres'));
     countryInput = element(by.css('input#field_country'));
+    durationInput = element(by.css('input#field_duration'));
+    languageInput = element(by.css('input#field_language'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -165,6 +171,22 @@ export class TranscriptDialogPage {
 
     getCountryInput = function () {
         return this.countryInput.getAttribute('value');
+    }
+
+    setDurationInput = function (duration) {
+        this.durationInput.sendKeys(duration);
+    }
+
+    getDurationInput = function () {
+        return this.durationInput.getAttribute('value');
+    }
+
+    setLanguageInput = function (language) {
+        this.languageInput.sendKeys(language);
+    }
+
+    getLanguageInput = function () {
+        return this.languageInput.getAttribute('value');
     }
 
     save() {

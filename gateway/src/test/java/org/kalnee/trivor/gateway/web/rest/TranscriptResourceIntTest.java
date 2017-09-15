@@ -70,6 +70,12 @@ public class TranscriptResourceIntTest {
     private static final String DEFAULT_COUNTRY = "AAA";
     private static final String UPDATED_COUNTRY = "BBB";
 
+    private static final Integer DEFAULT_DURATION = 0;
+    private static final Integer UPDATED_DURATION = 1;
+
+    private static final String DEFAULT_LANGUAGE = "AA";
+    private static final String UPDATED_LANGUAGE = "BB";
+
     @Autowired
     private TranscriptRepository transcriptRepository;
 
@@ -115,7 +121,9 @@ public class TranscriptResourceIntTest {
             .description(DEFAULT_DESCRIPTION)
             .year(DEFAULT_YEAR)
             .genres(DEFAULT_GENRES)
-            .country(DEFAULT_COUNTRY);
+            .country(DEFAULT_COUNTRY)
+            .duration(DEFAULT_DURATION)
+            .language(DEFAULT_LANGUAGE);
         return transcript;
     }
 
@@ -148,6 +156,8 @@ public class TranscriptResourceIntTest {
         assertThat(testTranscript.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testTranscript.getGenres()).isEqualTo(DEFAULT_GENRES);
         assertThat(testTranscript.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testTranscript.getDuration()).isEqualTo(DEFAULT_DURATION);
+        assertThat(testTranscript.getLanguage()).isEqualTo(DEFAULT_LANGUAGE);
     }
 
     @Test
@@ -260,7 +270,9 @@ public class TranscriptResourceIntTest {
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].genres").value(hasItem(DEFAULT_GENRES.toString())))
-            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())));
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
+            .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())));
     }
 
     @Test
@@ -282,7 +294,9 @@ public class TranscriptResourceIntTest {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.genres").value(DEFAULT_GENRES.toString()))
-            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()));
+            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()))
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION))
+            .andExpect(jsonPath("$.language").value(DEFAULT_LANGUAGE.toString()));
     }
 
     @Test
@@ -311,7 +325,9 @@ public class TranscriptResourceIntTest {
             .description(UPDATED_DESCRIPTION)
             .year(UPDATED_YEAR)
             .genres(UPDATED_GENRES)
-            .country(UPDATED_COUNTRY);
+            .country(UPDATED_COUNTRY)
+            .duration(UPDATED_DURATION)
+            .language(UPDATED_LANGUAGE);
 
         restTranscriptMockMvc.perform(put("/api/transcripts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -331,6 +347,8 @@ public class TranscriptResourceIntTest {
         assertThat(testTranscript.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testTranscript.getGenres()).isEqualTo(UPDATED_GENRES);
         assertThat(testTranscript.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testTranscript.getDuration()).isEqualTo(UPDATED_DURATION);
+        assertThat(testTranscript.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
     }
 
     @Test
