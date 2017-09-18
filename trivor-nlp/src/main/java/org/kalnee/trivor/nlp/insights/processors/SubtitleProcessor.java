@@ -56,12 +56,11 @@ public class SubtitleProcessor {
     private static final String SUBTITLE_CC2_REGEX = "\\(.*\\)\\s*";
     private static final String SUBTITLE_CC_INITIAL_REGEX = "\\(.*";
     private static final String SUBTITLE_CC_FINAL_REGEX = ".*\\)";
-    private static final String SUBTITLE_CHARACTER_REGEX = "^[a-zA-z]+:\\s*";
-    private static final String SUBTITLE_URL_REGEX = ".*www\\.[a-zA-z]+.*";
+    private static final String SUBTITLE_CHARACTER_REGEX = "^[a-zA-Z]+:\\s*";
+    private static final String SUBTITLE_URL_REGEX = ".*www\\.[a-zA-Z]+.*";
     private static final String SUBTITLE_PREVIOUS_REGEX = "^Previously.*$";
     private static final String SUBTITLE_ADS_REGEX = ".*(Subtitle|subtitle|sync by|Sync by|Downloaded|VIP).*";
     private static final String SUBTITLE_SONG_REGEX = ".*♪.*";
-    private static final String SUBTITLE_CONTINUATION_REGEX = "\\.{3}";
     private static final String SUBTITLE_INITIAL_QUOTE_REGEX = "^'|\\s'";
     private static final String SUBTITLE_FINAL_QUOTE_REGEX = "'\\s";
 
@@ -113,7 +112,6 @@ public class SubtitleProcessor {
                 .filter(line -> !line.matches(SUBTITLE_URL_REGEX))
                 .filter(line -> !line.matches(SUBTITLE_PREVIOUS_REGEX))
                 .filter(line -> !line.matches(SUBTITLE_ADS_REGEX))
-                //.map(line -> line.replaceAll(SUBTITLE_CONTINUATION_REGEX, EMPTY))
                 .map(line -> line.replaceAll(SUBTITLE_DIALOG_REGEX, EMPTY))
                 .map(line -> line.replaceAll(SUBTITLE_HTML_REGEX, EMPTY))
                 .map(line -> line.replaceAll(SUBTITLE_CC_REGEX, EMPTY))
