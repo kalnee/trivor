@@ -422,3 +422,34 @@ custom bootstrap 4 primary color - SASS not working
     text-decoration: none;
     background-color: #1e1238;
 }
+
+.margin-top-s {
+    margin-top: 5px !important;
+}
+
+.margin-top-m {
+    margin-top: 15px !important;
+}
+
+.margin-top-l {
+    margin-top: 25px !important;
+}
+
+.jhi-card {
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    background-color: #ffffff;
+}
+
+.overflow {
+    overflow: auto;
+}
+
+.list-group-item.active > {
+    a {
+        color: #ffffff !important;
+    }
+}

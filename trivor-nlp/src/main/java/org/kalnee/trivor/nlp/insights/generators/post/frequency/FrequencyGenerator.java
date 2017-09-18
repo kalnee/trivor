@@ -70,7 +70,7 @@ abstract class FrequencyGenerator {
     }
 
     /**
-     * Retuns a list with up to 10 insights
+     * Returns a list with up to 10 insights
      *
      * @param frequency the map of frequencies
      * @return a list with examples of the generated insights

@@ -1,8 +1,25 @@
-<div class="container-fluid p-2">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
             <h2>Insights</h2>
-            {{insights | json}}
+            <hr>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-2">
+            <ul class="list-group">
+                <li class="list-group-item active">All</li>
+                <li class="list-group-item">Movies</li>
+                <li class="list-group-item">TV Shows</li>
+                <li class="list-group-item">Transcripts</li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="row justify-content-center" infinite-scroll (scrolled)="loadPage(page + 1)"
+                 [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <jhi-transcript-card *ngFor="let transcript of transcripts;trackBy: trackId"
+                                     [transcript]="transcript"></jhi-transcript-card>
+            </div>
         </div>
     </div>
 </div>

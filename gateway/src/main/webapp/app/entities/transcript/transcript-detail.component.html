@@ -1,0 +1,65 @@
+
+<div *ngIf="transcript">
+    <h2><span jhiTranslate="gatewayApp.transcript.detail.title">Transcript</span> {{transcript.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gatewayApp.transcript.name">Name</span></dt>
+        <dd>
+            <span>{{transcript.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'gatewayApp.TranscriptTypeEnum.' + transcript.type}}">{{transcript.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.imdbId">Imdb Id</span></dt>
+        <dd>
+            <span>{{transcript.imdbId}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.coverUrl">Cover Url</span></dt>
+        <dd>
+            <span>{{transcript.coverUrl}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.createdAt">Created At</span></dt>
+        <dd>
+            <span>{{transcript.createdAt | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.description">Description</span></dt>
+        <dd>
+            <span>{{transcript.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.year">Year</span></dt>
+        <dd>
+            <span>{{transcript.year}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.genres">Genres</span></dt>
+        <dd>
+            <span>{{transcript.genres}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.country">Country</span></dt>
+        <dd>
+            <span>{{transcript.country}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.duration">Duration</span></dt>
+        <dd>
+            <span>{{transcript.duration}}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayApp.transcript.language">Language</span></dt>
+        <dd>
+            <span>{{transcript.language}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'transcript/'+ transcript.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

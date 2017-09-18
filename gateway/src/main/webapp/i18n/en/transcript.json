@@ -1,0 +1,31 @@
+{
+    "gatewayApp": {
+        "transcript" : {
+            "home": {
+                "title": "Transcripts",
+                "createLabel": "Create a new Transcript",
+                "createOrEditLabel": "Create or edit a Transcript"
+            },
+            "created": "A new Transcript is created with identifier {{ param }}",
+            "updated": "A Transcript is updated with identifier {{ param }}",
+            "deleted": "A Transcript is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Transcript {{ id }}?"
+            },
+            "detail": {
+                "title": "Transcript"
+            },
+            "name": "Name",
+            "type": "Type",
+            "imdbId": "Imdb Id",
+            "coverUrl": "Cover Url",
+            "createdAt": "Created At",
+            "description": "Description",
+            "year": "Year",
+            "genres": "Genres",
+            "country": "Country",
+            "duration": "Duration",
+            "language": "Language"
+        }
+    }
+}

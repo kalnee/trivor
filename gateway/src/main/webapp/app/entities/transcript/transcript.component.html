@@ -1,0 +1,76 @@
+<div class="container-fluid p-2">
+    <h2>
+        <span jhiTranslate="gatewayApp.transcript.home.title">Transcripts</span>
+        <button class="btn btn-primary float-right jh-create-entity create-transcript" [routerLink]="['/', { outlets: { popup: ['transcript-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="gatewayApp.transcript.home.createLabel">
+            Create new Transcript
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="transcripts">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="gatewayApp.transcript.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="gatewayApp.transcript.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="type"><span jhiTranslate="gatewayApp.transcript.type">Type</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="imdbId"><span jhiTranslate="gatewayApp.transcript.imdbId">Imdb Id</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="coverUrl"><span jhiTranslate="gatewayApp.transcript.coverUrl">Cover Url</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="createdAt"><span jhiTranslate="gatewayApp.transcript.createdAt">Created At</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="year"><span jhiTranslate="gatewayApp.transcript.year">Year</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="genres"><span jhiTranslate="gatewayApp.transcript.genres">Genres</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="duration"><span jhiTranslate="gatewayApp.transcript.duration">Duration</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="country"><span jhiTranslate="gatewayApp.transcript.country">Country</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="language"><span jhiTranslate="gatewayApp.transcript.language">Language</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let transcript of transcripts ;trackBy: trackId">
+                <td><a [routerLink]="['../transcript', transcript.id ]">{{transcript.id}}</a></td>
+                <td>{{transcript.name}}</td>
+                <td>{{transcript.description | shorten:30}}</td>
+                <td jhiTranslate="{{'gatewayApp.TranscriptTypeEnum.' + transcript.type}}">{{transcript.type}}</td>
+                <td>{{transcript.imdbId}}</td>
+                <td><img [src]="transcript.coverUrl" alt="cover" class="img-responsive" style="max-height: 50px;"></td>
+                <td>{{transcript.createdAt | date:'medium'}}</td>
+                <td>{{transcript.year}}</td>
+                <td>{{transcript.genres}}</td>
+                <td>{{transcript.duration}}</td>
+                <td>{{transcript.country}}</td>
+                <td>{{transcript.language}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../transcript', transcript.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'transcript/'+ transcript.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'transcript/'+ transcript.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

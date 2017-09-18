@@ -1,0 +1,132 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myTranscriptLabel" jhiTranslate="gatewayApp.transcript.home.createOrEditLabel">Create or edit a Transcript</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!transcript.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="transcript.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="transcript.name" required maxlength="255" />
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
+                   This field cannot be longer than 255 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.description" for="field_description">Description</label>
+            <textarea class="form-control" name="description" id="field_description" cols="8"
+                      [(ngModel)]="transcript.description" required maxlength="1000"></textarea>
+            <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.description?.errors?.required" jhiTranslate="entity.validation.required">
+                    This field is required.
+                </small>
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.description?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 1000 }">
+                    This field cannot be longer than 1000 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.type" for="field_type">Type</label>
+            <select class="form-control" name="type" [(ngModel)]="transcript.type" id="field_type"  required>
+                <option value="TRANSCRIPT">{{'gatewayApp.TranscriptTypeEnum.TRANSCRIPT' | translate}}</option>
+                <option value="MOVIE">{{'gatewayApp.TranscriptTypeEnum.MOVIE' | translate}}</option>
+                <option value="TV_SHOW">{{'gatewayApp.TranscriptTypeEnum.TV_SHOW' | translate}}</option>
+            </select>
+            <div [hidden]="!(editForm.controls.type?.dirty && editForm.controls.type?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.type?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.imdbId" for="field_imdbId">Imdb Id</label>
+            <input type="text" class="form-control" name="imdbId" id="field_imdbId"
+                [(ngModel)]="transcript.imdbId"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.coverUrl" for="field_coverUrl">Cover Url</label>
+            <input type="text" class="form-control" name="coverUrl" id="field_coverUrl"
+                [(ngModel)]="transcript.coverUrl" required />
+            <div [hidden]="!(editForm.controls.coverUrl?.dirty && editForm.controls.coverUrl?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.coverUrl?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.year" for="field_year">Year</label>
+            <input type="number" class="form-control" name="year" id="field_year"
+                [(ngModel)]="transcript.year"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.genres" for="field_genres">Genres</label>
+            <input type="text" class="form-control" name="genres" id="field_genres"
+                [(ngModel)]="transcript.genres"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.duration" for="field_duration">Duration</label>
+            <input type="number" class="form-control" name="duration" id="field_duration"
+                   [(ngModel)]="transcript.duration" min="0" />
+            <div [hidden]="!(editForm.controls.duration?.dirty && editForm.controls.duration?.invalid)">
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.duration?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                       [hidden]="!editForm.controls.duration?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.country" for="field_country">Country</label>
+            <input type="text" class="form-control" name="country" id="field_country"
+                [(ngModel)]="transcript.country" maxlength="3" />
+            <div [hidden]="!(editForm.controls.country?.dirty && editForm.controls.country?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.country?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 3 }">
+                   This field cannot be longer than 3 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gatewayApp.transcript.language" for="field_language">Language</label>
+            <input type="text" class="form-control" name="language" id="field_language"
+                [(ngModel)]="transcript.language" maxlength="2" />
+            <div [hidden]="!(editForm.controls.language?.dirty && editForm.controls.language?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.language?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 2 }">
+                   This field cannot be longer than 2 characters.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
