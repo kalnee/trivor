@@ -23,7 +23,6 @@ import {
     ProfileService
 } from './layouts';
 import {GatewayInsightsModule} from './insights/insights.module';
-import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here

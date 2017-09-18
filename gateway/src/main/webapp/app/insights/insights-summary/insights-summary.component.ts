@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InsightsService} from '../insights.service';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
     selector: 'jhi-insights-summary',
@@ -22,7 +22,8 @@ export class InsightsSummaryComponent implements OnInit {
     summary: any;
 
     constructor(private insightsService: InsightsService,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -40,8 +41,14 @@ export class InsightsSummaryComponent implements OnInit {
         });
     }
 
-    onSelect(event) {
-        console.log(event);
+    onSelectFrequency(event) {
+        const name = event.name.toLowerCase();
+        this.router.navigate(['../frequency', name], {relativeTo: this.route});
+    }
+
+    onSelectTense(event) {
+        const name = event.name.toLowerCase();
+        this.router.navigate(['./tense', name], {relativeTo: this.route});
     }
 
     private pushFrequencyInsights(summary: any) {

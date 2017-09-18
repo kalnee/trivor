@@ -24,4 +24,11 @@ export class InsightsService {
                 return response.json();
             });
     }
+
+    findSentencesByInsightAndImdb(insight: string, imdbId: string): Observable<any> {
+        return this.http.get(`insights/api/insights/sentences/${insight}`, {params: {'imdbId': imdbId}})
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
 }
