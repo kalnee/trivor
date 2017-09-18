@@ -447,3 +447,9 @@ custom bootstrap 4 primary color - SASS not working
 .overflow {
     overflow: auto;
 }
+
+.list-group-item.active > {
+    a {
+        color: #ffffff !important;
+    }
+}

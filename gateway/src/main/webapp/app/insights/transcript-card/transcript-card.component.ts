@@ -16,7 +16,7 @@ import {Transcript} from '../../entities/transcript/transcript.model';
                 </p>
             </div>
             <div class="card-footer text-center">
-                <small class="text-muted">{{transcript.name}}</small>
+                <small class="text-muted" [title]="transcript.name">{{transcript.name | shorten:28}}</small>
                 <div>
                     <a [routerLink]="['/insights', transcript.imdbId, 'summary']" class="btn btn-primary btn-sm"
                        title="Insights">

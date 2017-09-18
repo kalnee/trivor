@@ -44,7 +44,7 @@ public class InsightService {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, Integer> findByInsightAndImdb(String insight, String imdbId) {
+    public Map<String, Integer> findFrequencyByInsightAndImdb(String insight, String imdbId) {
         final Map<String, Integer> allInsights = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream().flatMap(i -> i.getInsights().entrySet().stream())
@@ -57,6 +57,16 @@ public class InsightService {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
                     throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
                 }, LinkedHashMap::new));
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, List<String>> findSentencesByInsightAndImdb(String insight, String imdbId) {
+        return insightsRepository.findAllByImdbId(imdbId).stream()
+            .flatMap(i -> i.getInsights().entrySet().stream())
+            .filter(i -> i.getKey().equals(insight))
+            .flatMap(i -> ((LinkedHashMap<String, List<String>>) i.getValue()).entrySet().stream())
+            .sorted(Comparator.<Map.Entry<String, List<String>>>comparingInt(o -> o.getValue().size()).reversed())
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
     }
 
     public List<Object> findInsightsByInsightAndGenre(String insight, String genre) {
