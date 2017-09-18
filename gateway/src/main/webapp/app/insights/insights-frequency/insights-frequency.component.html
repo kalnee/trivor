@@ -1,0 +1,28 @@
+<div class="container-fluid margin-top-l" *ngIf="insight">
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="card" *ngFor="let word of words">
+            <div class="card-header" role="tab" id="heading">
+                <h6 class="mb-0">
+                    <span class="badge badge-primary">{{insight[word].length}}</span>
+                    &nbsp;
+                    <a data-toggle="collapse" data-parent="#accordion" aria-expanded="true"
+                       aria-controls="collapse" jhiCollapse>
+                        {{word}}
+                    </a>
+                    <button class="btn btn-primary btn-sm float-right" style="font-size: 8px;" type="button" title="Play">
+                        <span class="fa fa-volume-up"></span>
+                    </button>
+                </h6>
+            </div>
+            <div id="collapse" class="collapse" role="tabpanel" aria-labelledby="heading">
+                <div class="card-block">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let sentence of insight[word]">
+                            {{sentence}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

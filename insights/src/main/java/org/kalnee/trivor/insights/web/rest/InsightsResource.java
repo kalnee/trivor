@@ -36,10 +36,17 @@ public class InsightsResource {
         return ResponseEntity.ok().body(insightService.getInsightsSummaryCached(imdbId));
     }
 
-    @GetMapping("/{insight}")
-    public ResponseEntity<Map<String, Integer>> findByInsightAndImdb(@PathVariable("insight") String insight,
-                                                                     @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findByInsightAndImdb(insight, imdbId));
+    @GetMapping("/frequency/{insight}")
+    public ResponseEntity<Map<String, Integer>> findFrequencyByInsightAndImdb(@PathVariable("insight") String insight,
+                                                                              @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findFrequencyByInsightAndImdb(insight, imdbId));
+    }
+
+    @GetMapping("/sentences/{insight}")
+    public ResponseEntity<Map<String, List<String>>> findSentencesByInsightAndImdb(
+        @PathVariable("insight") String insight,
+        @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findSentencesByInsightAndImdb(insight, imdbId));
     }
 
     @GetMapping("/{insight}/genres/{genre}")

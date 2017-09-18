@@ -9,12 +9,33 @@
             <div class="row margin-top-s">
                 <div class="col-md-12 col-sm-12">
                     <ul class="list-group">
-                        <li class="list-group-item active">Summary</li>
-                        <li class="list-group-item">Nouns</li>
-                        <li class="list-group-item">Verbs</li>
-                        <li class="list-group-item">Adverbs</li>
-                        <li class="list-group-item">Adjectives</li>
-                        <li class="list-group-item">Frequent Sentences</li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'summary']">Summary</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'nouns']">Nouns</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'verbs']">Verbs</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'adjectives']">Adjectives</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'adverbs']">Adverbs</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'prepositions']">Prepositions</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'modals']">Modals</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'comparatives']">Comparatives</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'superlatives']">Superlatives</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -27,8 +48,10 @@
                     </h2>
                     <p>
                         <span class="badge badge-primary float-left">{{transcript.type}}</span>
+                        <span class="badge badge-primary float-left ml-1">{{transcript.duration}}min</span>
                         <span class="badge badge-success float-left ml-1">{{transcript.genres}}</span>
                         <span class="badge badge-info float-left ml-1">{{transcript.country}}</span>
+                        <span class="badge badge-info float-left ml-1">{{transcript.language}}</span>
                     </p>
                 </div>
             </div>

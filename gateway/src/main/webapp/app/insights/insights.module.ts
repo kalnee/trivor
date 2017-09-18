@@ -9,6 +9,7 @@ import { TranscriptCardComponent } from './transcript-card/transcript-card.compo
 import { InsightsDetailComponent } from './insights-detail/insights-detail.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { InsightsSummaryComponent } from './insights-summary/insights-summary.component';
+import { InsightsFrequencyComponent } from './insights-frequency/insights-frequency.component';
 
 @NgModule({
     imports: [
@@ -20,7 +21,8 @@ import { InsightsSummaryComponent } from './insights-summary/insights-summary.co
         InsightsComponent,
         TranscriptCardComponent,
         InsightsDetailComponent,
-        InsightsSummaryComponent
+        InsightsSummaryComponent,
+        InsightsFrequencyComponent
     ],
     entryComponents: [
     ],

@@ -42,8 +42,6 @@ describe('Transcript e2e test', () => {
         expect(transcriptDialogPage.getImdbIdInput()).toMatch('imdbId');
         transcriptDialogPage.setCoverUrlInput('coverUrl');
         expect(transcriptDialogPage.getCoverUrlInput()).toMatch('coverUrl');
-        transcriptDialogPage.setBannerUrlInput('bannerUrl');
-        expect(transcriptDialogPage.getBannerUrlInput()).toMatch('bannerUrl');
         transcriptDialogPage.setCreatedAtInput(12310020012301);
         expect(transcriptDialogPage.getCreatedAtInput()).toMatch('2001-12-31T02:30');
         transcriptDialogPage.setDescriptionInput('description');
@@ -54,6 +52,10 @@ describe('Transcript e2e test', () => {
         expect(transcriptDialogPage.getGenresInput()).toMatch('genres');
         transcriptDialogPage.setCountryInput('country');
         expect(transcriptDialogPage.getCountryInput()).toMatch('country');
+        transcriptDialogPage.setDurationInput('5');
+        expect(transcriptDialogPage.getDurationInput()).toMatch('5');
+        transcriptDialogPage.setLanguageInput('language');
+        expect(transcriptDialogPage.getLanguageInput()).toMatch('language');
         transcriptDialogPage.save();
         expect(transcriptDialogPage.getSaveButton().isPresent()).toBeFalsy();
     }); 
@@ -84,12 +86,13 @@ export class TranscriptDialogPage {
     typeSelect = element(by.css('select#field_type'));
     imdbIdInput = element(by.css('input#field_imdbId'));
     coverUrlInput = element(by.css('input#field_coverUrl'));
-    bannerUrlInput = element(by.css('input#field_bannerUrl'));
     createdAtInput = element(by.css('input#field_createdAt'));
     descriptionInput = element(by.css('input#field_description'));
     yearInput = element(by.css('input#field_year'));
     genresInput = element(by.css('input#field_genres'));
     countryInput = element(by.css('input#field_country'));
+    durationInput = element(by.css('input#field_duration'));
+    languageInput = element(by.css('input#field_language'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -130,14 +133,6 @@ export class TranscriptDialogPage {
         return this.coverUrlInput.getAttribute('value');
     }
 
-    setBannerUrlInput = function (bannerUrl) {
-        this.bannerUrlInput.sendKeys(bannerUrl);
-    }
-
-    getBannerUrlInput = function () {
-        return this.bannerUrlInput.getAttribute('value');
-    }
-
     setCreatedAtInput = function (createdAt) {
         this.createdAtInput.sendKeys(createdAt);
     }
@@ -176,6 +171,22 @@ export class TranscriptDialogPage {
 
     getCountryInput = function () {
         return this.countryInput.getAttribute('value');
+    }
+
+    setDurationInput = function (duration) {
+        this.durationInput.sendKeys(duration);
+    }
+
+    getDurationInput = function () {
+        return this.durationInput.getAttribute('value');
+    }
+
+    setLanguageInput = function (language) {
+        this.languageInput.sendKeys(language);
+    }
+
+    getLanguageInput = function () {
+        return this.languageInput.getAttribute('value');
     }
 
     save() {

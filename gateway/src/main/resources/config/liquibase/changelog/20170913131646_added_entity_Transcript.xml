@@ -38,15 +38,11 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="banner_url" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
             <column name="created_at" type="timestamp">
                 <constraints nullable="true" />
             </column>
 
-            <column name="description" type="varchar(500)">
+            <column name="description" type="text">
                 <constraints nullable="false" />
             </column>
 
@@ -62,10 +58,18 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="duration" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="language" type="varchar(2)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <dropDefaultValue tableName="transcript" columnName="created_at" columnDataType="datetime"/>
-        
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
