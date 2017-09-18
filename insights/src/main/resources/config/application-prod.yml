@@ -28,8 +28,7 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://localhost:27017
-            database: insights
+            uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@ds161713.mlab.com:61713/trivor-prod
     mail:
         host: localhost
         port: 25
