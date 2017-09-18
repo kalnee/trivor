@@ -31,13 +31,6 @@
             ]
         },
         {
-            "fieldName": "bannerUrl",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "createdAt",
             "fieldType": "ZonedDateTime"
         },
@@ -48,7 +41,7 @@
                 "required",
                 "maxlength"
             ],
-            "fieldValidateRulesMaxlength": "500"
+            "fieldValidateRulesMaxlength": "1000"
         },
         {
             "fieldName": "year",
@@ -65,6 +58,22 @@
                 "maxlength"
             ],
             "fieldValidateRulesMaxlength": "3"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": "0"
+        },
+        {
+            "fieldName": "language",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "2"
         }
     ],
     "changelogDate": "20170913131646",

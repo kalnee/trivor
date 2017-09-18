@@ -1,84 +1,61 @@
 <div class="container-fluid mt-3 mb-3">
     <div class="row" *ngIf="transcript">
-        <div class="col-2">
+        <div class="col-md-2 col-sm-2">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12 col-sm-12">
                     <img [src]="transcript.coverUrl" class="img-responsive img-thumbnail" alt="cover">
                 </div>
             </div>
             <div class="row margin-top-s">
-                <div class="col-12">
+                <div class="col-md-12 col-sm-12">
                     <ul class="list-group">
-                        <li class="list-group-item active">Summary</li>
-                        <li class="list-group-item">Nouns</li>
-                        <li class="list-group-item">Verbs</li>
-                        <li class="list-group-item">Adverbs</li>
-                        <li class="list-group-item">Adjectives</li>
-                        <li class="list-group-item">Frequent Sentences</li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'summary']">Summary</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'nouns']">Nouns</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'verbs']">Verbs</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'adjectives']">Adjectives</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'adverbs']">Adverbs</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'prepositions']">Prepositions</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'modals']">Modals</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'comparatives']">Comparatives</a>
+                        </li>
+                        <li class="list-group-item" routerLinkActive="active">
+                            <a [routerLink]="['/insights', transcript.imdbId, 'frequency', 'superlatives']">Superlatives</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-10">
+        <div class="col-md-10 col-sm-10">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12 col-sm-12">
                     <h2>{{transcript.name}}
                         <small class="text-muted">({{transcript.year}})</small>
                     </h2>
                     <p>
                         <span class="badge badge-primary float-left">{{transcript.type}}</span>
+                        <span class="badge badge-primary float-left ml-1">{{transcript.duration}}min</span>
                         <span class="badge badge-success float-left ml-1">{{transcript.genres}}</span>
                         <span class="badge badge-info float-left ml-1">{{transcript.country}}</span>
+                        <span class="badge badge-info float-left ml-1">{{transcript.language}}</span>
                     </p>
                 </div>
             </div>
-
-            <h4 class="margin-top-l">Summary</h4>
-            <hr>
-            <div class="row">
-                <div class="col-3">
-                    <p class="font-weight-bold"># of Sentences</p>
-                    <p>987</p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold">Rate of Speech</p>
-                    <p class="badge badge-danger">SUPER_FAST</p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold">High Frequency (%)</p>
-                    <p>87%</p>
-                </div>
-                <div class="col-3">
-                    <p class="font-weight-bold">Sentiment Analysis</p>
-                    <p class="badge badge-success"><span class="fa fa-2x fa-smile-o"></span></p>
-                </div>
-            </div>
-
-            <h4 class="margin-top-m">Tags</h4>
-            <hr>
-            <div class="row margin-top-l justify-content-center">
-                <div class="col-9">
-                    <ngx-charts-number-card
-                        [view]="view"
-                        scheme="nightLights"
-                        cardColor="#232837"
-                        [results]="single"
-                        (select)="onSelect($event)">
-                    </ngx-charts-number-card>
-                </div>
-            </div>
-            <h4>Verb Tenses</h4>
-            <hr>
-            <div class="row margin-top-m justify-content-center">
-                <div class="col-9">
-                    <ngx-charts-pie-grid
-                        [view]="view"
-                        scheme="nightLights"
-                        [results]="multi"
-                        (select)="onSelect($event)">
-                    </ngx-charts-pie-grid>
-                </div>
-            </div>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

@@ -1,0 +1,89 @@
+<div *ngIf="summary; else loadingSummary">
+    <div class="row margin-top-l">
+        <div class="col-md-4">
+            <div class="card jhi-card">
+                <div class="card-header">
+                    Summary
+                </div>
+                <div class="card-block p-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="font-size: 1.5rem;height: 35px;">{{numOfSentences}}</div>
+                            <div class="text-muted small">Sentences</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="height: 35px;" >
+                                <span class="badge" [ngClass]="getROSClass()">{{rateOfSpeech}}</span>
+                            </div>
+                            <div class="text-muted small">Rate of Speech</div>
+                        </div>
+                    </div>
+                    <div class="row margin-top-m">
+                        <div class="col-md-6">
+                            <div style="font-size: 1.5rem;height: 35px;">87%</div>
+                            <div class="text-muted small">High Frequency (%)</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="height: 35px;">
+                                <span class="fa fa-2x fa-smile-o"></span>
+                            </div>
+                            <div class="text-muted small">Sentiment Analysis</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card jhi-card overflow">
+                <div class="card-header">
+                    Frequency
+                </div>
+                <div class="card-block p-2">
+                    <div class="row margin-top-l justify-content-center">
+                        <div class="col-12">
+                            <ngx-charts-number-card
+                                [view]="viewFrequency"
+                                scheme="nightLights"
+                                cardColor="#232837"
+                                [results]="frequency"
+                                (select)="onSelectFrequency($event)">
+                            </ngx-charts-number-card>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row margin-top-l">
+        <div class="col-md-12">
+            <div class="card jhi-card overflow">
+                <div class="card-header">
+                    Verb Tenses
+                </div>
+                <div class="card-block p-2">
+                    <div class="row margin-top-l justify-content-center">
+                        <div class="col-10">
+                            <ngx-charts-pie-grid
+                                [view]="viewTenses"
+                                scheme="nightLights"
+                                [results]="tenses"
+                                (select)="onSelectTense($event)">
+                            </ngx-charts-pie-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #loadingSummary>
+    <p class="margin-top-l alert alert-warning">
+        Insights summary is not available at the moment, please try again later.
+    </p>
+    <p>
+        <a [routerLink]="['../../']" class="btn btn-info btn-sm">
+            <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+        </a>
+    </p>
+</ng-template>

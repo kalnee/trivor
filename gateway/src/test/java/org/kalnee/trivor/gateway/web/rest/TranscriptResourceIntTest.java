@@ -55,9 +55,6 @@ public class TranscriptResourceIntTest {
     private static final String DEFAULT_COVER_URL = "AAAAAAAAAA";
     private static final String UPDATED_COVER_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANNER_URL = "AAAAAAAAAA";
-    private static final String UPDATED_BANNER_URL = "BBBBBBBBBB";
-
     private static final ZonedDateTime DEFAULT_CREATED_AT = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_CREATED_AT = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
@@ -72,6 +69,12 @@ public class TranscriptResourceIntTest {
 
     private static final String DEFAULT_COUNTRY = "AAA";
     private static final String UPDATED_COUNTRY = "BBB";
+
+    private static final Integer DEFAULT_DURATION = 0;
+    private static final Integer UPDATED_DURATION = 1;
+
+    private static final String DEFAULT_LANGUAGE = "AA";
+    private static final String UPDATED_LANGUAGE = "BB";
 
     @Autowired
     private TranscriptRepository transcriptRepository;
@@ -114,12 +117,13 @@ public class TranscriptResourceIntTest {
             .type(DEFAULT_TYPE)
             .imdbId(DEFAULT_IMDB_ID)
             .coverUrl(DEFAULT_COVER_URL)
-            .bannerUrl(DEFAULT_BANNER_URL)
             .createdAt(DEFAULT_CREATED_AT)
             .description(DEFAULT_DESCRIPTION)
             .year(DEFAULT_YEAR)
             .genres(DEFAULT_GENRES)
-            .country(DEFAULT_COUNTRY);
+            .country(DEFAULT_COUNTRY)
+            .duration(DEFAULT_DURATION)
+            .language(DEFAULT_LANGUAGE);
         return transcript;
     }
 
@@ -147,12 +151,13 @@ public class TranscriptResourceIntTest {
         assertThat(testTranscript.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testTranscript.getImdbId()).isEqualTo(DEFAULT_IMDB_ID);
         assertThat(testTranscript.getCoverUrl()).isEqualTo(DEFAULT_COVER_URL);
-        assertThat(testTranscript.getBannerUrl()).isEqualTo(DEFAULT_BANNER_URL);
         assertThat(testTranscript.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
         assertThat(testTranscript.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testTranscript.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testTranscript.getGenres()).isEqualTo(DEFAULT_GENRES);
         assertThat(testTranscript.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testTranscript.getDuration()).isEqualTo(DEFAULT_DURATION);
+        assertThat(testTranscript.getLanguage()).isEqualTo(DEFAULT_LANGUAGE);
     }
 
     @Test
@@ -230,24 +235,6 @@ public class TranscriptResourceIntTest {
 
     @Test
     @Transactional
-    public void checkBannerUrlIsRequired() throws Exception {
-        int databaseSizeBeforeTest = transcriptRepository.findAll().size();
-        // set the field null
-        transcript.setBannerUrl(null);
-
-        // Create the Transcript, which fails.
-
-        restTranscriptMockMvc.perform(post("/api/transcripts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(transcript)))
-            .andExpect(status().isBadRequest());
-
-        List<Transcript> transcriptList = transcriptRepository.findAll();
-        assertThat(transcriptList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkDescriptionIsRequired() throws Exception {
         int databaseSizeBeforeTest = transcriptRepository.findAll().size();
         // set the field null
@@ -279,12 +266,13 @@ public class TranscriptResourceIntTest {
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].imdbId").value(hasItem(DEFAULT_IMDB_ID.toString())))
             .andExpect(jsonPath("$.[*].coverUrl").value(hasItem(DEFAULT_COVER_URL.toString())))
-            .andExpect(jsonPath("$.[*].bannerUrl").value(hasItem(DEFAULT_BANNER_URL.toString())))
             .andExpect(jsonPath("$.[*].createdAt").value(hasItem(sameInstant(DEFAULT_CREATED_AT))))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].genres").value(hasItem(DEFAULT_GENRES.toString())))
-            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())));
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
+            .andExpect(jsonPath("$.[*].duration").value(hasItem(DEFAULT_DURATION)))
+            .andExpect(jsonPath("$.[*].language").value(hasItem(DEFAULT_LANGUAGE.toString())));
     }
 
     @Test
@@ -302,12 +290,13 @@ public class TranscriptResourceIntTest {
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.imdbId").value(DEFAULT_IMDB_ID.toString()))
             .andExpect(jsonPath("$.coverUrl").value(DEFAULT_COVER_URL.toString()))
-            .andExpect(jsonPath("$.bannerUrl").value(DEFAULT_BANNER_URL.toString()))
             .andExpect(jsonPath("$.createdAt").value(sameInstant(DEFAULT_CREATED_AT)))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.genres").value(DEFAULT_GENRES.toString()))
-            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()));
+            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()))
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION))
+            .andExpect(jsonPath("$.language").value(DEFAULT_LANGUAGE.toString()));
     }
 
     @Test
@@ -332,12 +321,13 @@ public class TranscriptResourceIntTest {
             .type(UPDATED_TYPE)
             .imdbId(UPDATED_IMDB_ID)
             .coverUrl(UPDATED_COVER_URL)
-            .bannerUrl(UPDATED_BANNER_URL)
             .createdAt(UPDATED_CREATED_AT)
             .description(UPDATED_DESCRIPTION)
             .year(UPDATED_YEAR)
             .genres(UPDATED_GENRES)
-            .country(UPDATED_COUNTRY);
+            .country(UPDATED_COUNTRY)
+            .duration(UPDATED_DURATION)
+            .language(UPDATED_LANGUAGE);
 
         restTranscriptMockMvc.perform(put("/api/transcripts")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -352,12 +342,13 @@ public class TranscriptResourceIntTest {
         assertThat(testTranscript.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testTranscript.getImdbId()).isEqualTo(UPDATED_IMDB_ID);
         assertThat(testTranscript.getCoverUrl()).isEqualTo(UPDATED_COVER_URL);
-        assertThat(testTranscript.getBannerUrl()).isEqualTo(UPDATED_BANNER_URL);
         assertThat(testTranscript.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
         assertThat(testTranscript.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTranscript.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testTranscript.getGenres()).isEqualTo(UPDATED_GENRES);
         assertThat(testTranscript.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testTranscript.getDuration()).isEqualTo(UPDATED_DURATION);
+        assertThat(testTranscript.getLanguage()).isEqualTo(UPDATED_LANGUAGE);
     }
 
     @Test

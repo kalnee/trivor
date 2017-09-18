@@ -1,5 +1,8 @@
 package org.kalnee.trivor.insights.service;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.domain.Subtitle;
 import org.kalnee.trivor.insights.repository.InsightsRepository;
@@ -11,10 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
@@ -28,6 +29,14 @@ public class InsightService {
     private final InsightsRepository insightsRepository;
     private SubtitleRepository subtitleRepository;
 
+    private final LoadingCache<String, Map<String, Object>> summaryCache = CacheBuilder.newBuilder()
+        .build(
+            new CacheLoader<String, Map<String, Object>>() {
+                public Map<String, Object> load(String key) {
+                    return getInsightsSummary(key);
+                }
+            });
+
     @Autowired
     public InsightService(InsightsRepository insightsRepository, SubtitleRepository subtitleRepository) {
         this.insightsRepository = insightsRepository;
@@ -35,7 +44,7 @@ public class InsightService {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, Integer> findByInsightAndImdb(String insight, String imdbId) {
+    public Map<String, Integer> findFrequencyByInsightAndImdb(String insight, String imdbId) {
         final Map<String, Integer> allInsights = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream().flatMap(i -> i.getInsights().entrySet().stream())
@@ -48,6 +57,16 @@ public class InsightService {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
                     throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
                 }, LinkedHashMap::new));
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, List<String>> findSentencesByInsightAndImdb(String insight, String imdbId) {
+        return insightsRepository.findAllByImdbId(imdbId).stream()
+            .flatMap(i -> i.getInsights().entrySet().stream())
+            .filter(i -> i.getKey().equals(insight))
+            .flatMap(i -> ((LinkedHashMap<String, List<String>>) i.getValue()).entrySet().stream())
+            .sorted(Comparator.<Map.Entry<String, List<String>>>comparingInt(o -> o.getValue().size()).reversed())
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
     }
 
     public List<Object> findInsightsByInsightAndGenre(String insight, String genre) {
@@ -70,5 +89,29 @@ public class InsightService {
 
     public Page<Insights> findByImdbId(String imdbId, Pageable pageable) {
         return insightsRepository.findByImdbId(imdbId, pageable);
+    }
+
+    private Map<String, Object> getInsightsSummary(String imdbId) {
+        final Map<String, Object> summary = new HashMap<>();
+        insightsRepository.findAllByImdbId(imdbId).stream()
+            .flatMap(i -> i.getInsights().entrySet().stream())
+            .forEach(entry -> {
+                if (entry.getValue() instanceof Map) {
+                    summary.put(entry.getKey(), ((Map) entry.getValue()).values().size());
+                } else if (entry.getValue() instanceof Collection) {
+                    summary.put(entry.getKey(), ((Collection) entry.getValue()).size());
+                } else {
+                    summary.put(entry.getKey(), entry.getValue());
+                }
+            });
+        return summary;
+    }
+
+    public Map<String, Object> getInsightsSummaryCached(String imdbId) {
+        try {
+            return summaryCache.get(imdbId);
+        } catch (ExecutionException e) {
+            throw new IllegalStateException("an error occurred while fetching insights summary", e.getCause());
+        }
     }
 }

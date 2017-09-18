@@ -1,5 +1,6 @@
 package org.kalnee.trivor.insights.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.service.InsightService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,29 @@ public class InsightsResource {
         this.insightService = insightService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<Page<Insights>> findByInsightAndImdb(@RequestParam("imdbId") String imdbId,
                                                                Pageable pageable) {
         return ResponseEntity.ok().body(insightService.findByImdbId(imdbId, pageable));
     }
 
-    @GetMapping("/{insight}")
-    public ResponseEntity<Map<String, Integer>> findByInsightAndImdb(@PathVariable("insight") String insight,
-                                                                  @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findByInsightAndImdb(insight, imdbId));
+    @GetMapping("/summary")
+    @Timed
+    public ResponseEntity<Map<String, Object>> getInsightsSummary(@RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.getInsightsSummaryCached(imdbId));
+    }
+
+    @GetMapping("/frequency/{insight}")
+    public ResponseEntity<Map<String, Integer>> findFrequencyByInsightAndImdb(@PathVariable("insight") String insight,
+                                                                              @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findFrequencyByInsightAndImdb(insight, imdbId));
+    }
+
+    @GetMapping("/sentences/{insight}")
+    public ResponseEntity<Map<String, List<String>>> findSentencesByInsightAndImdb(
+        @PathVariable("insight") String insight,
+        @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findSentencesByInsightAndImdb(insight, imdbId));
     }
 
     @GetMapping("/{insight}/genres/{genre}")

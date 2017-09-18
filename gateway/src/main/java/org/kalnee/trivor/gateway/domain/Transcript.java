@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.kalnee.trivor.gateway.domain.enumeration.TranscriptTypeEnum;
 
 /**
@@ -42,16 +43,13 @@ public class Transcript implements Serializable {
     @Column(name = "cover_url", nullable = false)
     private String coverUrl;
 
-    @NotNull
-    @Column(name = "banner_url", nullable = false)
-    private String bannerUrl;
-
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
     private ZonedDateTime createdAt;
 
     @NotNull
-    @Size(max = 500)
-    @Column(name = "description", length = 500, nullable = false)
+    @Size(max = 1000)
+    @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
     @Column(name = "jhi_year")
@@ -63,6 +61,14 @@ public class Transcript implements Serializable {
     @Size(max = 3)
     @Column(name = "country", length = 3)
     private String country;
+
+    @Min(value = 0)
+    @Column(name = "duration")
+    private Integer duration;
+
+    @Size(max = 2)
+    @Column(name = "language", length = 2)
+    private String language;
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
@@ -123,19 +129,6 @@ public class Transcript implements Serializable {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
-    }
-
-    public String getBannerUrl() {
-        return bannerUrl;
-    }
-
-    public Transcript bannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
-        return this;
-    }
-
-    public void setBannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
     }
 
     public ZonedDateTime getCreatedAt() {
@@ -202,6 +195,32 @@ public class Transcript implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public Transcript duration(Integer duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public Transcript language(String language) {
+        this.language = language;
+        return this;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override
@@ -232,12 +251,13 @@ public class Transcript implements Serializable {
             ", type='" + getType() + "'" +
             ", imdbId='" + getImdbId() + "'" +
             ", coverUrl='" + getCoverUrl() + "'" +
-            ", bannerUrl='" + getBannerUrl() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", description='" + getDescription() + "'" +
             ", year='" + getYear() + "'" +
             ", genres='" + getGenres() + "'" +
             ", country='" + getCountry() + "'" +
+            ", duration='" + getDuration() + "'" +
+            ", language='" + getLanguage() + "'" +
             "}";
     }
 }

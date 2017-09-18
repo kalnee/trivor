@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -95,6 +96,20 @@ public class TranscriptResource {
         Page<Transcript> page = transcriptRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/transcripts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /transcripts/imdb/:imdbId : get the "imdbId" transcript.
+     *
+     * @param imdbId the imdbId of the transcript to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the transcript, or with status 404 (Not Found)
+     */
+    @GetMapping("/transcripts/imdb/{imdbId}")
+    @Timed
+    public ResponseEntity<Transcript> getTranscript(@PathVariable String imdbId) {
+        log.debug("REST request to get Transcript : {}", imdbId);
+        Transcript transcript = transcriptRepository.findOneByImdbId(imdbId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(transcript));
     }
 
     /**
