@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InsightsService} from '../insights.service';
 import {ActivatedRoute, Params} from '@angular/router';
-import {logging} from 'selenium-webdriver';
 
 @Component({
     selector: 'jhi-insights-frequency',
