@@ -9,9 +9,7 @@
                        aria-controls="collapse" jhiCollapse>
                         {{word}}
                     </a>
-                    <button class="btn btn-primary btn-sm float-right" style="font-size: 8px;" type="button" title="Play">
-                        <span class="fa fa-volume-up"></span>
-                    </button>
+                    <jhi-voice-button [message]="word"></jhi-voice-button>
                 </h6>
             </div>
             <div id="collapse" class="collapse" role="tabpanel" aria-labelledby="heading">
@@ -19,6 +17,7 @@
                     <ul class="list-group">
                         <li class="list-group-item" *ngFor="let sentence of insight[word]">
                             {{sentence}}
+                            <jhi-voice-button [message]="sentence"></jhi-voice-button>
                         </li>
                     </ul>
                 </div>
