@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 public class InsightService {
@@ -67,6 +68,15 @@ public class InsightService {
             .flatMap(i -> ((LinkedHashMap<String, List<String>>) i.getValue()).entrySet().stream())
             .sorted(Comparator.<Map.Entry<String, List<String>>>comparingInt(o -> o.getValue().size()).reversed())
             .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
+    }
+
+    @SuppressWarnings("unchecked")
+    public Set<String> findVerbTensesByInsightAndImdb(String insight, String imdbId) {
+        return insightsRepository.findAllByImdbId(imdbId).stream()
+            .flatMap(i -> i.getInsights().entrySet().stream())
+            .filter(i -> i.getKey().equals(insight))
+            .flatMap(i -> ((List<String>) i.getValue()).stream())
+            .collect(toSet());
     }
 
     public List<Object> findInsightsByInsightAndGenre(String insight, String genre) {

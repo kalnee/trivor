@@ -31,7 +31,6 @@ export class InsightsComponent implements OnInit {
 
     ngOnInit() {
         this.loadAllTranscripts();
-        // this.insightsService.findByImdbId(this.imdbId).subscribe((data) => this.insights = data);
     }
 
     loadAllTranscripts() {

@@ -1,22 +1,25 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {DatePipe} from '@angular/common';
 
 import {
-    GatewaySharedLibsModule,
-    GatewaySharedCommonModule,
-    CSRFService,
-    AuthServerProvider,
     AccountService,
-    UserService,
-    StateStorageService,
-    LoginService,
-    LoginModalService,
-    Principal,
+    AuthServerProvider,
+    CSRFService,
+    GatewaySharedCommonModule,
+    GatewaySharedLibsModule,
     HasAnyAuthorityDirective,
-    JhiLoginModalComponent
+    JhiLoginModalComponent,
+    LoginModalService,
+    LoginService,
+    Principal,
+    StateStorageService,
+    UserService
 } from './';
 import {ShortenPipe} from './shorten/shorten.pipe';
 import {CollapseDirective} from './collapse/collapse.directive';
+import {VoiceButtonComponent} from './voice/voice-button.component';
+import {VoiceComponent} from './voice/voice.component';
+import {VoiceService} from './voice/voice.service';
 
 @NgModule({
     imports: [
@@ -27,7 +30,9 @@ import {CollapseDirective} from './collapse/collapse.directive';
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
         ShortenPipe,
-        CollapseDirective
+        CollapseDirective,
+        VoiceComponent,
+        VoiceButtonComponent
     ],
     providers: [
         LoginService,
@@ -38,7 +43,8 @@ import {CollapseDirective} from './collapse/collapse.directive';
         CSRFService,
         AuthServerProvider,
         UserService,
-        DatePipe
+        DatePipe,
+        VoiceService
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [
@@ -47,7 +53,9 @@ import {CollapseDirective} from './collapse/collapse.directive';
         HasAnyAuthorityDirective,
         DatePipe,
         ShortenPipe,
-        CollapseDirective
+        CollapseDirective,
+        VoiceComponent,
+        VoiceButtonComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

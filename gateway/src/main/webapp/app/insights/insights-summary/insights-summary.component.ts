@@ -47,8 +47,8 @@ export class InsightsSummaryComponent implements OnInit {
     }
 
     onSelectTense(event) {
-        const name = event.name.toLowerCase();
-        this.router.navigate(['./tense', name], {relativeTo: this.route});
+        const name = event.name.toLowerCase().replace(/ /g, '-');
+        this.router.navigate(['../verb-tenses', name], {relativeTo: this.route});
     }
 
     private pushFrequencyInsights(summary: any) {

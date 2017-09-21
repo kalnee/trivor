@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InsightsService} from '../insights.service';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {logging} from 'selenium-webdriver';
-import Entry = logging.Entry;
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
     selector: 'jhi-insights-frequency',
@@ -18,8 +16,7 @@ export class InsightsFrequencyComponent implements OnInit {
     insight: any;
 
     constructor(private insightsService: InsightsService,
-                private route: ActivatedRoute,
-                private router: Router) {
+                private route: ActivatedRoute) {
     }
 
     ngOnInit() {

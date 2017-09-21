@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @RestController
@@ -47,6 +48,13 @@ public class InsightsResource {
         @PathVariable("insight") String insight,
         @RequestParam("imdbId") String imdbId) {
         return ResponseEntity.ok().body(insightService.findSentencesByInsightAndImdb(insight, imdbId));
+    }
+
+    @GetMapping("/verb-tenses/{insight}")
+    public ResponseEntity<Set<String>> findVerbTensesByInsightAndImdb(
+        @PathVariable("insight") String insight,
+        @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findVerbTensesByInsightAndImdb(insight, imdbId));
     }
 
     @GetMapping("/{insight}/genres/{genre}")

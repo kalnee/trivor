@@ -453,3 +453,15 @@ custom bootstrap 4 primary color - SASS not working
         color: #ffffff !important;
     }
 }
+
+.list-group > .list-group-item {
+    font-size: 0.8rem;
+}
+
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
