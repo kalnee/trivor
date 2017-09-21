@@ -10,6 +10,7 @@ import { InsightsDetailComponent } from './insights-detail/insights-detail.compo
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { InsightsSummaryComponent } from './insights-summary/insights-summary.component';
 import { InsightsFrequencyComponent } from './insights-frequency/insights-frequency.component';
+import { InsightsVerbTenseComponent } from './insights-verb-tense/insights-verb-tense.component';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { InsightsFrequencyComponent } from './insights-frequency/insights-freque
         TranscriptCardComponent,
         InsightsDetailComponent,
         InsightsSummaryComponent,
-        InsightsFrequencyComponent
+        InsightsFrequencyComponent,
+        InsightsVerbTenseComponent
     ],
     entryComponents: [
     ],

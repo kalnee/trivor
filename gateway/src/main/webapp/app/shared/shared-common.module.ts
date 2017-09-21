@@ -1,12 +1,12 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {Title} from '@angular/platform-browser';
 
 import {
-    GatewaySharedLibsModule,
-    JhiLanguageHelper,
     FindLanguageFromKeyPipe,
+    GatewaySharedLibsModule,
     JhiAlertComponent,
-    JhiAlertErrorComponent
+    JhiAlertErrorComponent,
+    JhiLanguageHelper
 } from './';
 
 @NgModule({
@@ -24,7 +24,7 @@ import {
         {
             provide: LOCALE_ID,
             useValue: 'en'
-        },
+        }
     ],
     exports: [
         GatewaySharedLibsModule,

@@ -31,4 +31,11 @@ export class InsightsService {
                 return response.json();
             });
     }
+
+    findVerbTensesByInsightAndImdb(insight: string, imdbId: string): Observable<any> {
+        return this.http.get(`insights/api/insights/verb-tenses/${insight}`, {params: {'imdbId': imdbId}})
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
 }

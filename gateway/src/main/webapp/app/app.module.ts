@@ -24,6 +24,7 @@ import {
 } from './layouts';
 import {GatewayInsightsModule} from './insights/insights.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -33,6 +34,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         BrowserModule,
         LayoutRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        ToastrModule.forRoot(),
         GatewaySharedModule,
         GatewayHomeModule,
         GatewayAdminModule,
