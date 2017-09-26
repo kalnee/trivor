@@ -11,6 +11,7 @@ import {VoiceService} from './voice.service';
                         <span class="fa fa-microphone text-muted"></span>
                         <span class="small text-muted">You've said: </span>
                         <span class="voice-text" #voiceText>Say something...</span>
+                        <span class="small text-muted fa fa-check-circle hide" #check></span>
                     </div>
                 </div>
             </div>
@@ -19,12 +20,13 @@ import {VoiceService} from './voice.service';
     styles: [
         'button {font-size: 8px;}',
             `.voice-container {
-            background-color: #ffffff;
+            background-color: #331F5E;
+            color: #ffffff;
             position: fixed;
             bottom: 0;
             width: 100%;
             z-index: 100;
-            opacity: 0.8;
+            opacity: 0.9;
             border-top: 1px solid #331F5E
         }`,
         '.voice-text {font-size: 20px;}'
@@ -38,6 +40,9 @@ export class VoiceComponent implements OnInit, OnDestroy {
     @ViewChild('voiceText')
     private voiceTextEl: ElementRef;
 
+    @ViewChild('check')
+    private checkEl: ElementRef;
+
     constructor(private voiceService: VoiceService,
                 private renderer: Renderer2) {
     }
@@ -48,8 +53,12 @@ export class VoiceComponent implements OnInit, OnDestroy {
         this.voiceService.artyom.redirectRecognizedTextOutput((recognized, isFinal) => {
             if (isFinal) {
                 this.renderer.removeClass(this.voiceTextEl.nativeElement, 'font-italic');
+                this.renderer.removeClass(this.checkEl.nativeElement, 'hide');
+                this.renderer.addClass(this.checkEl.nativeElement, 'show');
             } else {
                 this.renderer.addClass(this.voiceTextEl.nativeElement, 'font-italic');
+                this.renderer.removeClass(this.checkEl.nativeElement, 'show');
+                this.renderer.addClass(this.checkEl.nativeElement, 'hide');
             }
             this.voiceTextEl.nativeElement.innerText = recognized;
         });

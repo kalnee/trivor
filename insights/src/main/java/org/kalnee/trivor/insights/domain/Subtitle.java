@@ -16,7 +16,7 @@ import java.util.Map;
 public class Subtitle {
 
     @Id
-    private BigInteger id;
+    private String id;
 
     private String imdbId;
 
@@ -40,7 +40,7 @@ public class Subtitle {
 
     private Map<SentimentEnum, BigDecimal> sentiment;
 
-    public Subtitle(BigInteger id, String imdbId, String name, Integer season, Integer episode,
+    public Subtitle(String id, String imdbId, String name, Integer season, Integer episode,
                     Integer year, Integer duration, List<Sentence> sentences) {
         this.id = id;
         this.imdbId = imdbId;
@@ -80,11 +80,11 @@ public class Subtitle {
     public Subtitle() {
     }
 
-    public BigInteger getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(String id) {
         this.id = id;
     }
 

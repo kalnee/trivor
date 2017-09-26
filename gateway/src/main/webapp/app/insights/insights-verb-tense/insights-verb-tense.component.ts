@@ -10,6 +10,7 @@ import {InsightsService} from '../insights.service';
 export class InsightsVerbTenseComponent implements OnInit {
 
     sentences: string[];
+    title: string;
 
     constructor(private insightsService: InsightsService,
                 private route: ActivatedRoute) {
@@ -18,6 +19,7 @@ export class InsightsVerbTenseComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
             const imdbId = this.route.parent.snapshot.params['imdbId'];
+            this.title = params['code'];
             const code = `${params['code']}`;
             this.insightsService.findVerbTensesByInsightAndImdb(code, imdbId).subscribe((insight: any) => {
                 this.sentences = insight;

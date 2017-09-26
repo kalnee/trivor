@@ -34,7 +34,7 @@ public class InsightsResource {
     @GetMapping("/summary")
     @Timed
     public ResponseEntity<Map<String, Object>> getInsightsSummary(@RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.getInsightsSummaryCached(imdbId));
+        return ResponseEntity.ok().body(insightService.getInsightsSummary(imdbId));
     }
 
     @GetMapping("/frequency/{insight}")
@@ -46,8 +46,12 @@ public class InsightsResource {
     @GetMapping("/sentences/{insight}")
     public ResponseEntity<Map<String, List<String>>> findSentencesByInsightAndImdb(
         @PathVariable("insight") String insight,
-        @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findSentencesByInsightAndImdb(insight, imdbId));
+        @RequestParam("imdbId") String imdbId,
+        @RequestParam(value = "season", required = false) Integer season,
+        @RequestParam(value = "episode", required = false) Integer episode) {
+        return ResponseEntity.ok().body(
+            insightService.findSentencesByInsightAndImdbAndSeasonAndEpisode(insight, imdbId, season, episode)
+        );
     }
 
     @GetMapping("/verb-tenses/{insight}")

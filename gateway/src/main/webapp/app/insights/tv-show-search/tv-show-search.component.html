@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-2">
+        <select name="seasons" id="seasons" class="form-control" [(ngModel)]="season">
+            <option value="1">Season 01</option>
+            <option value="2">Season 02</option>
+            <option value="3">Season 03</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="episodes" id="episodes" class="form-control" [(ngModel)]="episode">
+            <option value="1">Episode 01</option>
+            <option value="2">Episode 02</option>
+            <option value="3">Episode 03</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" title="Search" type="button" (click)="search()">
+            <span class="fa fa-search"></span>
+        </button>
+    </div>
+</div>

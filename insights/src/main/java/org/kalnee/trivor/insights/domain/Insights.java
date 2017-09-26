@@ -14,11 +14,11 @@ public class Insights {
 
 	private String imdbId;
 
-	private BigInteger subtitleId;
+	private String subtitleId;
 
 	private Map<String, Object> insights;
 
-	public Insights(String imdbId, BigInteger subtitleId, Map<String, Object> insights) {
+	public Insights(String imdbId, String subtitleId, Map<String, Object> insights) {
 		this.imdbId = imdbId;
 		this.subtitleId = subtitleId;
 		this.insights = insights;
@@ -43,11 +43,11 @@ public class Insights {
 		this.imdbId = imdbId;
 	}
 
-	public BigInteger getSubtitleId() {
+	public String getSubtitleId() {
 		return subtitleId;
 	}
 
-	public void setSubtitleId(BigInteger subtitleId) {
+	public void setSubtitleId(String subtitleId) {
 		this.subtitleId = subtitleId;
 	}
 

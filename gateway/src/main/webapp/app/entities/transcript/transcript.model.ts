@@ -1,9 +1,9 @@
 import { BaseEntity } from './../../shared';
 
-const enum TranscriptTypeEnum {
-    'TRANSCRIPT',
-    'MOVIE',
-    'TV_SHOW'
+export const enum TranscriptTypeEnum {
+    'TRANSCRIPT' = 'TRANSCRIPT',
+    'MOVIE' = 'MOVIE',
+    'TV_SHOW' = 'TV_SHOW'
 }
 
 export class Transcript implements BaseEntity {

@@ -58,7 +58,7 @@ public class SubtitleService {
                     subtitleDTO.getImdbId(), subtitleDTO.getSeason(), subtitleDTO.getEpisode()
             );
             subtitles.forEach(s -> insightsRepository.delete(
-                    insightsRepository.findByImdbIdAndSubtitleId(s.getImdbId(), s.getId())
+                    insightsRepository.findAllByImdbIdAndSubtitleId(s.getImdbId(), s.getId())
             ));
             subtitleRepository.delete(subtitles);
         } else {
