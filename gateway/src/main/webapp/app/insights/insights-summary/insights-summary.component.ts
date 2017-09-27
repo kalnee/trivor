@@ -20,6 +20,7 @@ export class InsightsSummaryComponent implements OnInit {
     viewTenses: any[] = [900, 500];
 
     summary: any;
+    error: any;
 
     constructor(private insightsService: InsightsService,
                 private route: ActivatedRoute,
@@ -37,6 +38,9 @@ export class InsightsSummaryComponent implements OnInit {
                 this.rateOfSpeech = summary['rate-of-speech'];
                 this.pushFrequencyInsights(summary);
                 this.pushTenseInsights(summary);
+            }, (error: any) => {
+                console.error(`Error trying to get summary for ${params['imdbId']}: ${error}`);
+                this.error = error;
             });
         });
     }

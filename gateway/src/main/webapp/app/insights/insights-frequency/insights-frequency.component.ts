@@ -19,8 +19,10 @@ export class InsightsFrequencyComponent implements OnInit {
     words: string[];
     insight: any;
     title: string;
+
     season = 1;
     episode = 1;
+
     imdbId: string;
     code: string;
     transcript: Transcript;

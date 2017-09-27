@@ -1,5 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TvShowSearch} from './tv-show-search.model';
+import {TvShow} from '../../subtitles/tv-show.model';
+import {SubtitlesService} from '../../subtitles/subtitles.service';
+import {Transcript} from '../../entities/transcript/transcript.model';
 
 @Component({
     selector: 'jhi-tv-show-search',
@@ -8,21 +11,42 @@ import {TvShowSearch} from './tv-show-search.model';
 })
 export class TvShowSearchComponent implements OnInit {
 
+    episodes = [];
+    seasons = [];
+
     season = 1;
     episode = 1;
+
+    tvShow: any;
+
+    @Input()
+    transcript: Transcript;
 
     @Output()
     public onSearch = new EventEmitter<TvShowSearch>();
 
-    constructor() {
+    constructor(private subtitlesService: SubtitlesService) {
     }
 
     ngOnInit() {
+        this.findTvShowByImdbId();
     }
 
     search() {
-        console.log(this.season + ' ' + this.episode);
         this.onSearch.emit(new TvShowSearch(this.season, this.episode));
+    }
+
+    private findTvShowByImdbId() {
+        this.subtitlesService.findTvShowByImdbId(this.transcript.imdbId).subscribe((tvShow: TvShow) => {
+            this.tvShow = tvShow;
+            this.seasons = [...Object.keys(tvShow.seasons)];
+            this.episodes = tvShow.seasons[1];
+        });
+    }
+
+    onChangeSeason() {
+        this.episodes = this.tvShow.seasons[this.season];
+        this.episode = 1;
     }
 
 }

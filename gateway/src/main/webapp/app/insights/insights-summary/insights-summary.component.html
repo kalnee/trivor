@@ -1,4 +1,4 @@
-<div *ngIf="summary; else loadingSummary">
+<div *ngIf="summary; else loading">
     <div class="row margin-top-l">
         <div class="col-md-4">
             <div class="card jhi-card">
@@ -77,8 +77,9 @@
         </div>
     </div>
 </div>
-<ng-template #loadingSummary>
-    <p class="margin-top-l alert alert-warning">
+<ng-template #loading>
+    <div class="loading" *ngIf="!error"></div>
+    <p class="margin-top-l alert alert-warning" *ngIf="error">
         Insights summary is not available at the moment, please try again later.
     </p>
     <p>

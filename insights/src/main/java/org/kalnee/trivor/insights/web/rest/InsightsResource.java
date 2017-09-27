@@ -3,7 +3,6 @@ package org.kalnee.trivor.insights.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.service.InsightService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ public class InsightsResource {
 
     private final InsightService insightService;
 
-    @Autowired
     public InsightsResource(InsightService insightService) {
         this.insightService = insightService;
     }
@@ -34,16 +32,18 @@ public class InsightsResource {
     @GetMapping("/summary")
     @Timed
     public ResponseEntity<Map<String, Object>> getInsightsSummary(@RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.getInsightsSummary(imdbId));
+        return ResponseEntity.ok().body(insightService.getInsightsSummaryCached(imdbId));
     }
 
     @GetMapping("/frequency/{insight}")
+    @Timed
     public ResponseEntity<Map<String, Integer>> findFrequencyByInsightAndImdb(@PathVariable("insight") String insight,
                                                                               @RequestParam("imdbId") String imdbId) {
         return ResponseEntity.ok().body(insightService.findFrequencyByInsightAndImdb(insight, imdbId));
     }
 
     @GetMapping("/sentences/{insight}")
+    @Timed
     public ResponseEntity<Map<String, List<String>>> findSentencesByInsightAndImdb(
         @PathVariable("insight") String insight,
         @RequestParam("imdbId") String imdbId,

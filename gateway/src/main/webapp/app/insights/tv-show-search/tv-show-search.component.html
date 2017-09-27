@@ -1,16 +1,12 @@
-<div class="row">
+<div class="row" *ngIf="seasons.length > 0; else loading">
     <div class="col-md-2">
-        <select name="seasons" id="seasons" class="form-control" [(ngModel)]="season">
-            <option value="1">Season 01</option>
-            <option value="2">Season 02</option>
-            <option value="3">Season 03</option>
+        <select name="seasons" id="seasons" class="form-control" [(ngModel)]="season" (change)="onChangeSeason()">
+            <option *ngFor="let season of seasons" [value]="season">Season {{season}}</option>
         </select>
     </div>
     <div class="col-md-2">
         <select name="episodes" id="episodes" class="form-control" [(ngModel)]="episode">
-            <option value="1">Episode 01</option>
-            <option value="2">Episode 02</option>
-            <option value="3">Episode 03</option>
+            <option *ngFor="let episode of episodes" [value]="episode">Episode {{episode}}</option>
         </select>
     </div>
     <div class="col-md-2">
@@ -19,3 +15,6 @@
         </button>
     </div>
 </div>
+<ng-template #loading>
+    <div class="loading"></div>
+</ng-template>

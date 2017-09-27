@@ -3,14 +3,10 @@ package org.kalnee.trivor.insights.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import io.swagger.models.auth.In;
 import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.domain.Subtitle;
 import org.kalnee.trivor.insights.repository.InsightsRepository;
 import org.kalnee.trivor.insights.repository.SubtitleRepository;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.InsightsEnum;
-import org.kalnee.trivor.nlp.nlp.models.RateOfSpeechEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.RATE_OF_SPEECH;
 
 @Service

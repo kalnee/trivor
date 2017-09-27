@@ -25,6 +25,7 @@ import {
 import {GatewayInsightsModule} from './insights/insights.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
+import {GatewaySubtitlesModule} from './subtitles/subtitles.module';
 
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
@@ -40,7 +41,8 @@ import {ToastrModule} from 'ngx-toastr';
         GatewayAdminModule,
         GatewayAccountModule,
         GatewayEntityModule,
-        GatewayInsightsModule
+        GatewayInsightsModule,
+        GatewaySubtitlesModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
