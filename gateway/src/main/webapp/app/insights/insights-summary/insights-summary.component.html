@@ -1,7 +1,7 @@
 <div *ngIf="summary; else loading">
     <div class="row margin-top-l">
         <div class="col-md-4">
-            <div class="card jhi-card">
+            <div class="card jhi-card" style="height: 100%">
                 <div class="card-header">
                     Summary
                 </div>
@@ -12,7 +12,7 @@
                             <div class="text-muted small">Sentences</div>
                         </div>
                         <div class="col-md-6">
-                            <div style="height: 35px;" >
+                            <div style="height: 35px;">
                                 <span class="badge" [ngClass]="getROSClass()">{{rateOfSpeech}}</span>
                             </div>
                             <div class="text-muted small">Rate of Speech</div>
@@ -56,6 +56,73 @@
     </div>
 
     <div class="row margin-top-l">
+        <div class="col-md-3">
+            <div class="card jhi-card frequency-card" *ngIf="frequentNouns">
+                <div class="card-header">
+                    Most Frequent - Nouns
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let noun of frequentNouns | keys; let i of index">
+                            <span class="badge badge-primary">{{noun.value}}</span>
+                            {{noun.key}}
+                            <jhi-voice-button [message]="noun.key"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card jhi-card frequency-card" *ngIf="leastFrequentNouns">
+                <div class="card-header">
+                    Least Frequent - Nouns
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let noun of leastFrequentNouns | keys">
+                            <span class="badge badge-primary">{{noun.value}}</span>
+                            {{noun.key}}
+                            <jhi-voice-button [message]="noun.key"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card jhi-card frequency-card" *ngIf="frequentVerbs">
+                <div class="card-header">
+                    Most Frequent - Verbs
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let verb of frequentVerbs | keys">
+                            <span class="badge badge-primary">{{verb.value}}</span>
+                            {{verb.key}}
+                            <jhi-voice-button [message]="verb.key"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card jhi-card frequency-card" *ngIf="leastFrequentVerbs">
+                <div class="card-header">
+                    Least Frequent - Verbs
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let verb of leastFrequentVerbs | keys">
+                            <span class="badge badge-primary">{{verb.value}}</span>
+                            {{verb.key}}
+                            <jhi-voice-button [message]="verb.key"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row margin-top-l">
         <div class="col-md-12">
             <div class="card jhi-card overflow">
                 <div class="card-header">
@@ -78,7 +145,7 @@
     </div>
 </div>
 <ng-template #loading>
-    <div class="loading" *ngIf="!error"></div>
+    <div class="loading margin-top-l" *ngIf="!error"></div>
     <p class="margin-top-l alert alert-warning" *ngIf="error">
         Insights summary is not available at the moment, please try again later.
     </p>

@@ -41,4 +41,11 @@ export class InsightsService {
                 return response.json();
             });
     }
+
+    findTopFrequencyByImdbId(insight: string, imdbId: string, limit: number): Observable<any> {
+        return this.http.get(`insights/api/insights/frequency/${insight}/top/${limit}`, {params: {'imdbId': imdbId}})
+            .map((response: Response) => {
+                return response.json();
+            });
+    }
 }

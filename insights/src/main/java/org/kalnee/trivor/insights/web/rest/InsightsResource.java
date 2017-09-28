@@ -37,9 +37,17 @@ public class InsightsResource {
 
     @GetMapping("/frequency/{insight}")
     @Timed
-    public ResponseEntity<Map<String, Integer>> findFrequencyByInsightAndImdb(@PathVariable("insight") String insight,
-                                                                              @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findFrequencyByInsightAndImdb(insight, imdbId));
+    public ResponseEntity<Map<String, Integer>> findFrequencyByInsightAndImdbId(@PathVariable("insight") String insight,
+                                                                                @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findFrequencyByInsightAndImdbId(insight, imdbId));
+    }
+
+    @GetMapping("/frequency/{insight}/top/{limit}")
+    @Timed
+    public ResponseEntity<Map<String, Integer>> findTopFrequencyByImdbId(@PathVariable("insight") String insight,
+                                                                         @PathVariable("limit") Integer limit,
+                                                                         @RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findTopFrequencyByInsightAndImdbId(insight, imdbId, limit));
     }
 
     @GetMapping("/sentences/{insight}")
@@ -55,6 +63,7 @@ public class InsightsResource {
     }
 
     @GetMapping("/verb-tenses/{insight}")
+    @Timed
     public ResponseEntity<Set<String>> findVerbTensesByInsightAndImdb(
         @PathVariable("insight") String insight,
         @RequestParam("imdbId") String imdbId) {
@@ -62,12 +71,14 @@ public class InsightsResource {
     }
 
     @GetMapping("/{insight}/genres/{genre}")
+    @Timed
     public ResponseEntity<List<Object>> findInsightsByGenre(@PathVariable("insight") String insight,
                                                             @PathVariable("genre") String genre) {
         return ResponseEntity.ok().body(insightService.findInsightsByInsightAndGenre(insight, genre));
     }
 
     @GetMapping("/{insight}/keywords/{keyword}")
+    @Timed
     public ResponseEntity<List<Object>> findInsightsByKeyword(@PathVariable("insight") String insight,
                                                               @PathVariable("keyword") String keyword) {
         return ResponseEntity.ok().body(insightService.findInsightsByInsightAndKeyword(insight, keyword));

@@ -5,7 +5,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 @Component({
     selector: 'jhi-insights-summary',
     templateUrl: './insights-summary.component.html',
-    styles: []
+    styles: ['.frequency-card {max-height: 286px;}']
 })
 export class InsightsSummaryComponent implements OnInit {
 
@@ -21,6 +21,11 @@ export class InsightsSummaryComponent implements OnInit {
 
     summary: any;
     error: any;
+
+    frequentNouns: any;
+    leastFrequentNouns: any;
+    frequentVerbs: any;
+    leastFrequentVerbs: any;
 
     constructor(private insightsService: InsightsService,
                 private route: ActivatedRoute,
@@ -42,6 +47,27 @@ export class InsightsSummaryComponent implements OnInit {
                 console.error(`Error trying to get summary for ${params['imdbId']}: ${error}`);
                 this.error = error;
             });
+
+            this.insightsService.findTopFrequencyByImdbId('nouns-frequency', params['imdbId'], 10)
+                .subscribe((nouns: any) => {
+                console.log(nouns);
+                    this.frequentNouns = nouns;
+                });
+
+            this.insightsService.findTopFrequencyByImdbId('nouns-frequency', params['imdbId'], -10)
+                .subscribe((nouns: any) => {
+                    this.leastFrequentNouns = nouns;
+                });
+
+            this.insightsService.findTopFrequencyByImdbId('verbs-frequency', params['imdbId'], 10)
+                .subscribe((verbs: any) => {
+                    this.frequentVerbs = verbs;
+                });
+
+            this.insightsService.findTopFrequencyByImdbId('verbs-frequency', params['imdbId'], -10)
+                .subscribe((verbs: any) => {
+                    this.leastFrequentVerbs = verbs;
+                });
         });
     }
 
