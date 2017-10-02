@@ -15,9 +15,11 @@ export class InsightsSummaryComponent implements OnInit {
 
     frequency = [];
     tenses = [];
+    frequencyRate = [];
 
-    viewFrequency: any[] = [710, 250];
+    viewFrequency: any[] = [630, 210];
     viewTenses: any[] = [900, 500];
+    viewFrequencyRate: any[] = [500, 200];
 
     summary: any;
     error: any;
@@ -41,8 +43,10 @@ export class InsightsSummaryComponent implements OnInit {
                 this.summary = summary;
                 this.numOfSentences = summary['number-of-sentences'];
                 this.rateOfSpeech = summary['rate-of-speech'];
+                this.sentimentAnalysis = summary['sentiment-analysis'];
                 this.pushFrequencyInsights(summary);
                 this.pushTenseInsights(summary);
+                this.pushFrequencyRateInsight(summary);
             }, (error: any) => {
                 console.error(`Error trying to get summary for ${params['imdbId']}: ${error}`);
                 this.error = error;
@@ -50,7 +54,6 @@ export class InsightsSummaryComponent implements OnInit {
 
             this.insightsService.findTopFrequencyByImdbId('nouns-frequency', params['imdbId'], 10)
                 .subscribe((nouns: any) => {
-                console.log(nouns);
                     this.frequentNouns = nouns;
                 });
 
@@ -110,6 +113,14 @@ export class InsightsSummaryComponent implements OnInit {
         ]);
     }
 
+    private pushFrequencyRateInsight(summary: any) {
+        this.frequencyRate.push(...[
+            {'name': 'High', 'value': summary['frequency-rate']['HIGH']},
+            {'name': 'Middle', 'value': summary['frequency-rate']['MIDDLE']},
+            {'name': 'Low', 'value': summary['frequency-rate']['LOW']},
+        ]);
+    }
+
     getROSClass(): string {
         switch (this.rateOfSpeech) {
             case 'SLOW':
@@ -123,5 +134,18 @@ export class InsightsSummaryComponent implements OnInit {
             default:
                 return 'badge-info';
         }
+    }
+
+    getSentimentClass(): string {
+        return parseFloat(this.sentimentAnalysis['POSITIVE']) > parseFloat(this.sentimentAnalysis['NEGATIVE'])
+            ? 'fa-thumbs-up text-success' : 'fa-thumbs-down text-warning';
+    }
+
+    getSentimentTitle(): string {
+        const positive = parseFloat(this.sentimentAnalysis['POSITIVE']);
+        const negative = parseFloat(this.sentimentAnalysis['NEGATIVE']);
+        return positive > negative
+            ? `Positive (${(100 * positive).toFixed(2)}%)`
+            : `Negative (${(100 * negative).toFixed(2)}%)`;
     }
 }
