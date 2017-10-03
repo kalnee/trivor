@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {InsightsService} from '../insights.service';
 import {ActivatedRoute, Params} from '@angular/router';
+import {TranscriptService} from '../../entities/transcript/transcript.service';
+import {Observable} from 'rxjs/Observable';
+import {Transcript, TranscriptTypeEnum} from '../../entities/transcript/transcript.model';
+import {TvShowSearch} from '../tv-show-search/tv-show-search.model';
 
 @Component({
     selector: 'jhi-insights-frequency',
@@ -14,22 +18,54 @@ export class InsightsFrequencyComponent implements OnInit {
 
     words: string[];
     insight: any;
+    title: string;
+
+    season = 1;
+    episode = 1;
+
+    imdbId: string;
+    code: string;
+    transcript: Transcript;
 
     constructor(private insightsService: InsightsService,
+                private transcriptService: TranscriptService,
                 private route: ActivatedRoute) {
     }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            const imdbId = this.route.parent.snapshot.params['imdbId'];
-            const code = `${params['code']}-sentences`;
-            this.insightsService.findSentencesByInsightAndImdb(code, imdbId).subscribe((insight: any) => {
-                this.words = Object.keys(insight);
-                if (this.words.length === 0) {
-                    return;
-                }
-                this.insight = insight;
+            this.imdbId = this.route.parent.snapshot.params['imdbId'];
+            this.title = params['code'];
+            this.code = `${params['code']}-sentences`;
+
+            this.transcriptService.findByImdbId(this.imdbId).subscribe((transcript) => {
+                this.transcript = transcript;
+                this.findSentencesByInsightAndImdb();
             });
         });
+    }
+
+    private findSentencesByInsightAndImdb() {
+        const endpoint: Observable<any> = this.isTvShow()
+            ? this.insightsService.findSentencesByInsightAndImdb(this.code, this.imdbId, this.season, this.episode)
+            : this.insightsService.findSentencesByInsightAndImdb(this.code, this.imdbId);
+
+        endpoint.subscribe((insight: any) => {
+            this.words = Object.keys(insight);
+            if (this.words.length === 0) {
+                return;
+            }
+            this.insight = insight;
+        });
+    }
+
+    search(data: TvShowSearch) {
+        this.season = data.season;
+        this.episode = data.episode;
+        this.findSentencesByInsightAndImdb();
+    }
+
+    isTvShow(): boolean {
+        return this.transcript.type === TranscriptTypeEnum.TV_SHOW;
     }
 }

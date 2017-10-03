@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 public interface SubtitleRepository extends MongoRepository<Subtitle, BigInteger> {
 
@@ -15,6 +16,9 @@ public interface SubtitleRepository extends MongoRepository<Subtitle, BigInteger
 
   List<Subtitle> findByImdbIdAndSeasonAndEpisode(@Param("imdbId") String imdbId, @Param("season") Integer season,
                                                  @Param("episode") Integer episode);
+
+  Optional<Subtitle> findOneByImdbIdAndSeasonAndEpisode(@Param("imdbId") String imdbId, @Param("season") Integer season,
+                                                        @Param("episode") Integer episode);
 
   List<Subtitle> findByGenres(@Param("genre") String genre);
 

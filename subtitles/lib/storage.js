@@ -43,10 +43,11 @@ class Storage {
 
 		s3.headObject(params, function(err, data) {
 			if (err)  {
-				callback();
+				callback(false);
 			} else {
-				console.log(`Object found on S3: ${this.fileName}`);
-			}
+				logger.info(`Object found on S3: ${params.Key}`);
+        callback(true);
+      }
 		});
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 public interface InsightsRepository extends PagingAndSortingRepository<Insights, BigInteger> {
 
@@ -15,9 +16,11 @@ public interface InsightsRepository extends PagingAndSortingRepository<Insights,
 
   List<Insights> findAllByImdbId(@Param("imdbId") String imdbId);
 
-  List<Insights> findByImdbIdAndSubtitleId(@Param("imdbId") String imdbId, @Param("subtitleId") BigInteger subtitleId);
+  Insights findOneByImdbId(@Param("imdbId") String imdbId);
 
-  List<Insights> findBySubtitleId(@Param("subtitleId") String subtitleId);
+  List<Insights> findAllByImdbIdAndSubtitleId(@Param("imdbId") String imdbId, @Param("subtitleId") String subtitleId);
+
+  Insights findOneByImdbIdAndSubtitleId(@Param("imdbId") String imdbId, @Param("subtitleId") String subtitleId);
 
   List<Insights> findByImdbIdIn(List<String> imdbIdList);
 }

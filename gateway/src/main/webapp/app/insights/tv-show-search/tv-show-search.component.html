@@ -1,0 +1,20 @@
+<div class="row" *ngIf="seasons.length > 0; else loading">
+    <div class="col-md-2">
+        <select name="seasons" id="seasons" class="form-control" [(ngModel)]="season" (change)="onChangeSeason()">
+            <option *ngFor="let season of seasons" [value]="season">Season {{season}}</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="episodes" id="episodes" class="form-control" [(ngModel)]="episode">
+            <option *ngFor="let episode of episodes" [value]="episode">Episode {{episode}}</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" title="Search" type="button" (click)="search()">
+            <span class="fa fa-search"></span>
+        </button>
+    </div>
+</div>
+<ng-template #loading>
+    <div class="loading"></div>
+</ng-template>
