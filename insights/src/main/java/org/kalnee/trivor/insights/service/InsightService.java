@@ -19,7 +19,8 @@ import java.util.concurrent.ExecutionException;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.*;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.RATE_OF_SPEECH;
+import static org.kalnee.trivor.nlp.nlp.models.FrequencyEnum.*;
+import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.*;
 
 @Service
 public class InsightService {
@@ -44,7 +45,7 @@ public class InsightService {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, Integer> findFrequencyByInsightAndImdb(String insight, String imdbId) {
+    public Map<String, Integer> findFrequencyByInsightAndImdbId(String insight, String imdbId) {
         final Map<String, Integer> allInsights = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream()
@@ -57,6 +58,24 @@ public class InsightService {
                 .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
                     throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
                 }, LinkedHashMap::new));
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Integer> findTopFrequencyByInsightAndImdbId(String insight, String imdbId, Integer limit) {
+        final Map<String, Integer> allInsights = new HashMap<>();
+
+        insightsRepository.findAllByImdbId(imdbId).stream()
+            .flatMap(i -> i.getInsights().entrySet().stream())
+            .filter(i -> i.getKey().equals(insight))
+            .flatMap(i -> ((LinkedHashMap<String, Integer>) i.getValue()).entrySet().stream())
+            .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0)));
+
+        final Comparator<Map.Entry<String, Integer>> comparator = limit < 0
+            ? Map.Entry.<String, Integer>comparingByValue()
+            : Map.Entry.<String, Integer>comparingByValue().reversed();
+        return allInsights.entrySet().stream().sorted(comparator)
+            .limit(Math.abs(limit))
+            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
     }
 
     @SuppressWarnings("unchecked")
@@ -116,11 +135,15 @@ public class InsightService {
         final Map<String, Object> summary = new HashMap<>();
         final Map<String, Set<String>> keys = new HashMap<>();
         final Map<String, Integer> rateOfSpeech = new HashMap<>();
+        final Map<String, Integer> frequencyRate = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream()
             .flatMap(i -> i.getInsights().entrySet().stream())
+            .filter(i -> !i.getKey().endsWith("-sentences")
+                || i.getKey().equals(NON_SENTENCES.getCode())
+                || i.getKey().equals(NUM_SENTENCES.getCode()))
             .forEach(entry -> {
-                if (entry.getValue() instanceof Map) {
+                if (entry.getKey().endsWith("-frequency")) {
                     final Set<String> words = new HashSet<>(keys.getOrDefault(entry.getKey(), Collections.emptySet()));
                     final Set<String> current = ((Map<String, Integer>) entry.getValue()).entrySet()
                         .stream().map(Map.Entry::getKey)
@@ -132,16 +155,27 @@ public class InsightService {
 
                     keys.put(entry.getKey(), newSet);
                     summary.put(entry.getKey(), keys.get(entry.getKey()).size());
-                } else if (entry.getValue() instanceof Collection) {
-                    int currentSize = ((Collection) entry.getValue()).size();
-                    summary.put(entry.getKey(), currentSize + ((Integer)summary.getOrDefault(entry.getKey(), 0)));
-                } else if (entry.getValue() instanceof Integer) {
+                } else if (entry.getKey().equals(NUM_SENTENCES.getCode())) {
                     int currentValue = (Integer) entry.getValue();
                     summary.put(entry.getKey(), currentValue + ((Integer)summary.getOrDefault(entry.getKey(), 0)));
                 } else if (entry.getKey().equals(RATE_OF_SPEECH.getCode())) {
                     rateOfSpeech.put(
                         entry.getValue().toString(), rateOfSpeech.getOrDefault(entry.getValue().toString(), 0) + 1
                     );
+                } else if (entry.getKey().equals(FREQUENCY_RATE.getCode())) {
+                    final Map<String, Integer> frequencyMap = ((Map<String, Integer>)entry.getValue());
+                    frequencyRate.put(
+                        HIGH.name(), frequencyRate.getOrDefault(HIGH.name(), 0) + frequencyMap.get(HIGH.name())
+                    );
+                    frequencyRate.put(
+                        MIDDLE.name(), frequencyRate.getOrDefault(MIDDLE.name(), 0) + frequencyMap.get(MIDDLE.name())
+                    );
+                    frequencyRate.put(
+                        LOW.name(), frequencyRate.getOrDefault(LOW.name(), 0) + frequencyMap.get(LOW.name())
+                    );
+                } else if (entry.getValue() instanceof Collection) {
+                    int currentSize = ((Collection) entry.getValue()).size();
+                    summary.put(entry.getKey(), currentSize + ((Integer)summary.getOrDefault(entry.getKey(), 0)));
                 } else {
                     summary.put(entry.getKey(), entry.getValue());
                 }
@@ -152,6 +186,7 @@ public class InsightService {
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .map(Map.Entry::getKey).findFirst().get()
         );
+        summary.put(FREQUENCY_RATE.getCode(), frequencyRate);
 
         return summary;
     }
