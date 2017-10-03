@@ -58,7 +58,8 @@ public class InsightsGenerators {
             new PastPerfectGenerator(),
             new FuturePerfectGenerator(),
             new NonSentencesGenerator(),
-            new SentimentGenerator()
+            new SentimentGenerator(),
+            new FrequencyRateGenerator()
     );
 
     public static final List<PostInsightGenerator> DEFAULT_POST_GENERATORS = Arrays.asList(

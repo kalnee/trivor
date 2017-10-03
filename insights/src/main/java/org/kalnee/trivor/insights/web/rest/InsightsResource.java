@@ -32,7 +32,7 @@ public class InsightsResource {
     @GetMapping("/summary")
     @Timed
     public ResponseEntity<Map<String, Object>> getInsightsSummary(@RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.getInsightsSummaryCached(imdbId));
+        return ResponseEntity.ok().body(insightService.getInsightsSummary(imdbId));
     }
 
     @GetMapping("/frequency/{insight}")
