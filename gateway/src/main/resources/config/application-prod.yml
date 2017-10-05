@@ -18,7 +18,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+            defaultZone: http://admin:${jhipster.registry.password}@registry-prod.us-east-1.elasticbeanstalk.com/eureka/
 
 spring:
     devtools:
@@ -28,9 +28,10 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/trivor-gateway?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: root
-        password:
+        url: jdbc:mysql://aammw0tj2nv83g.cwhlxgsvzwlc.us-east-1.rds.amazonaws.com/ebdb
+        username: ${MYSQL_GATEWAY_USER}
+        password: ${MYSQL_GATEWAY_PASSWORD}
+        name: ebdb
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -66,6 +67,11 @@ spring:
 
 liquibase:
     contexts: prod
+
+cloud:
+    aws:
+        stack:
+            auto: false
 
 # ===================================================================
 # To enable SSL, generate a certificate using:

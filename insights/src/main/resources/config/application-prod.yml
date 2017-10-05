@@ -18,7 +18,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+            defaultZone: http://admin:${jhipster.registry.password}@registry-prod.us-east-1.elasticbeanstalk.com/eureka/
 
 spring:
     devtools:
@@ -28,7 +28,8 @@ spring:
             enabled: false
     data:
         mongodb:
-            uri: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@ds161713.mlab.com:61713/trivor-prod
+            uri: mongodb://${MONGO_INSIGHTS_USER}:${MONGO_INSIGHTS_PASSWORD}@trivor-cluster-shard-00-00-57kwg.mongodb.net:27017,trivor-cluster-shard-00-01-57kwg.mongodb.net:27017,trivor-cluster-shard-00-02-57kwg.mongodb.net:27017/insights?ssl=true&replicaSet=trivor-cluster-shard-0&authSource=admin
+            database: insights
     mail:
         host: localhost
         port: 25
@@ -45,6 +46,8 @@ spring:
 
 cloud:
     aws:
+        stack:
+            auto: false
         queues:
             trivorInsights: trivor-insights-prod
         buckets:
@@ -71,7 +74,7 @@ cloud:
 #        keyAlias: insights
 # ===================================================================
 server:
-    port: 8081
+    port: 8080
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
