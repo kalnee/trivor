@@ -18,7 +18,7 @@ eureka:
         prefer-ip-address: true
     client:
         service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@registry-env.dxu5tc3mgp.us-east-1.elasticbeanstalk.com/eureka/
+            defaultZone: http://admin:${jhipster.registry.password}@registry-prod.us-east-1.elasticbeanstalk.com/eureka/
 
 spring:
     devtools:
@@ -74,7 +74,7 @@ cloud:
 #        keyAlias: insights
 # ===================================================================
 server:
-    port: 8081
+    port: 8080
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
