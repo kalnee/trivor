@@ -20,54 +20,52 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.sentences;
+package org.kalnee.trivor.nlp.insights.generators.words;
 
+import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.InsightsEnum;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.TagsEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.ADVERBS_SENTENCES;
-import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.RB;
 
 /**
- * Sentence generator for adverbs.
+ * Sentence generator for prepositions.
  *
- * @see SentencesExampleGenerator
+ * @see WordUsageGenerator
  * @see InsightGenerator
  *
  * @since 0.0.1
  */
-public class AdverbsSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
+public class PrepositionGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdverbsSentencesGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PrepositionGenerator.class);
 
-    @Override
-    List<String> getTags() {
-        return Collections.singletonList(RB.name());
-    }
+	@Override
+	List<String> getTags() {
+		return Collections.singletonList(TagsEnum.IN.name());
+	}
 
-    @Override
-    public String getDescription() {
-        return ADVERBS_SENTENCES.getDescription();
-    }
+	@Override
+	public String getDescription() {
+		return InsightsEnum.PREPOSITIONS_USAGE.getDescription();
+	}
 
-    @Override
-    public String getCode() {
-        return ADVERBS_SENTENCES.getCode();
-    }
+	@Override
+	public String getCode() {
+		return InsightsEnum.PREPOSITIONS_USAGE.getCode();
+	}
 
-    @Override
-    public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
-        final Map<String, Set<String>> sentences = getSentences(subtitle);
-        LOGGER.info("{} - {}", getCode(), getExamples(sentences));
+	@Override
+	public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+		final List<WordUsage> words = getSentences(subtitle);
+		LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-        return new Insight<>(getCode(), sentences);
-    }
+    	return new Insight<>(getCode(), words);
+	}
 }

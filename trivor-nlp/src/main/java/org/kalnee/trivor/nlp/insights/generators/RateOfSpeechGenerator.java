@@ -22,14 +22,15 @@
 
 package org.kalnee.trivor.nlp.insights.generators;
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.RateOfSpeechEnum;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.RateOfSpeech;
+import org.kalnee.trivor.nlp.domain.RateOfSpeechEnum;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.RATE_OF_SPEECH;
-import static org.kalnee.trivor.nlp.nlp.models.RateOfSpeechEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.RATE_OF_SPEECH;
+import static org.kalnee.trivor.nlp.domain.RateOfSpeechEnum.*;
 
 /**
  * Values based on clearly-speaking.com study found on clearly-speaking.com/what-is-the-ideal-rate-of-speech/.
@@ -42,7 +43,7 @@ import static org.kalnee.trivor.nlp.nlp.models.RateOfSpeechEnum.*;
  * 200wpm - 160 = 40 SUPER_FAST
  *
  */
-public class RateOfSpeechGenerator implements InsightGenerator<String> {
+public class RateOfSpeechGenerator implements InsightGenerator<RateOfSpeech> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateOfSpeechGenerator.class);
 
@@ -62,11 +63,11 @@ public class RateOfSpeechGenerator implements InsightGenerator<String> {
     }
 
     @Override
-    public Insight<String> getInsight(Subtitle subtitle) {
+    public Insight<RateOfSpeech> getInsight(Subtitle subtitle) {
         RateOfSpeechEnum rateOfSpeech = NONE;
 
         if (subtitle.getDuration() == null || subtitle.getDuration() == 0) {
-            return new Insight<>(getCode(), rateOfSpeech.toString());
+            return new Insight<>(getCode(), new RateOfSpeech(rateOfSpeech));
         }
 
         final Long words = subtitle.getSentences().parallelStream()
@@ -86,7 +87,6 @@ public class RateOfSpeechGenerator implements InsightGenerator<String> {
         }
 
         LOGGER.info("{}: {}w / {}m = {}wpm ({})", getCode(), words, subtitle.getDuration(), wpm, rateOfSpeech);
-
-        return new Insight<>(getCode(), rateOfSpeech.toString());
+        return new Insight<>(getCode(), new RateOfSpeech(rateOfSpeech, wpm));
     }
 }

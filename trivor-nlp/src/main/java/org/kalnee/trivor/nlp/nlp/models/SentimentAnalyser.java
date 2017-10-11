@@ -24,6 +24,7 @@ package org.kalnee.trivor.nlp.nlp.models;
 
 import opennlp.tools.doccat.DoccatModel;
 import opennlp.tools.doccat.DocumentCategorizerME;
+import org.kalnee.trivor.nlp.domain.SentimentEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,16 +38,16 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
-public class SentimentAnalysis {
+public class SentimentAnalyser {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SentimentAnalysis.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SentimentAnalyser.class);
     private static final String MODEL = "/nlp/models/en-sentiment.bin";
     private static final String NOT_IMPORTANT = ",|\\.{1,3}";
 
     private DocumentCategorizerME categorizer;
 
-    public SentimentAnalysis() {
-        try (InputStream modelStream = SentimentAnalysis.class.getResourceAsStream(MODEL)) {
+    public SentimentAnalyser() {
+        try (InputStream modelStream = SentimentAnalyser.class.getResourceAsStream(MODEL)) {
             DoccatModel tokenizerModel = new DoccatModel(modelStream);
             categorizer = new DocumentCategorizerME(tokenizerModel);
         } catch (IOException e) {

@@ -20,55 +20,52 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.sentences;
+package org.kalnee.trivor.nlp.insights.generators.words;
 
+import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.SUPERLATIVES_SENTENCES;
-import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.JJS;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_USAGE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.JJ;
 import static org.kalnee.trivor.nlp.utils.LanguageUtils.NOT_ADJECTIVES;
 
 /**
- * Sentence generator for superlatives.
+ * Sentence generator for adjectives.
  *
- * @see SentencesExampleGenerator
+ * @see WordUsageGenerator
  * @see InsightGenerator
  *
  * @since 0.0.1
  */
-public class SuperlativesSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
+public class AdjectivesGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SuperlativesSentencesGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AdjectivesGenerator.class);
 
 	@Override
 	List<String> getTags() {
-		return Collections.singletonList(JJS.name());
+		return Collections.singletonList(JJ.name());
 	}
 
 	@Override
 	public String getDescription() {
-		return SUPERLATIVES_SENTENCES.getDescription();
+		return ADJECTIVES_USAGE.getDescription();
 	}
 
 	@Override
 	public String getCode() {
-		return SUPERLATIVES_SENTENCES.getCode();
+		return ADJECTIVES_USAGE.getCode();
 	}
 
 	@Override
-	public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
-		final Map<String, Set<String>> sentences = getSentences(
-				subtitle, t -> t.getToken().toLowerCase(), w -> !NOT_ADJECTIVES.contains(w)
-		);
+	public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+		final List<WordUsage> sentences = getSentences(subtitle, w -> !NOT_ADJECTIVES.contains(w));
 		LOGGER.info("{} - {}", getCode(), getExamples(sentences));
 
     	return new Insight<>(getCode(), sentences);

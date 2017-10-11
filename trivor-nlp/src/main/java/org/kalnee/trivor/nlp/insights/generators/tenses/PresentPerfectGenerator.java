@@ -22,8 +22,8 @@
 
 package org.kalnee.trivor.nlp.insights.generators.tenses;
 
+import org.kalnee.trivor.nlp.domain.*;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.*;
 import org.kalnee.trivor.nlp.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

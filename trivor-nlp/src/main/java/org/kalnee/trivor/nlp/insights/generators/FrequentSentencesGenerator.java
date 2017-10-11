@@ -23,16 +23,16 @@
 package org.kalnee.trivor.nlp.insights.generators;
 
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.FREQUENT_SENTENCES;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.FREQUENT_SENTENCES;
 
 public class FrequentSentencesGenerator implements InsightGenerator<Map<String, Long>> {
 

@@ -23,16 +23,16 @@
 package org.kalnee.trivor.nlp.insights.generators;
 
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.SentimentEnum;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.SentimentEnum;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.SENTIMENT_ANALYSIS;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.SENTIMENT_ANALYSIS;
 
 public class SentimentGenerator implements InsightGenerator<Map<SentimentEnum, BigDecimal>> {
 

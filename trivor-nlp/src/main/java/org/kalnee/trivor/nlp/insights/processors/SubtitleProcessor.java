@@ -22,6 +22,7 @@
 
 package org.kalnee.trivor.nlp.insights.processors;
 
+import org.kalnee.trivor.nlp.domain.*;
 import org.kalnee.trivor.nlp.handlers.SubtitleHandler;
 import org.kalnee.trivor.nlp.handlers.SubtitleHandlerFactory;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
@@ -70,11 +71,11 @@ public class SubtitleProcessor {
     private final POSTagger tagger;
     private final Lemmatizer lemmatizer;
     private final Chunker chunker;
-    private final SentimentAnalysis sentimentAnalysis;
+    private final SentimentAnalyser sentimentAnalyser;
     private final InsightsProcessor insightsProcessor;
     private String content;
     private Subtitle subtitle;
-    private Map<String, Object> insights;
+    private List<Insight> insights;
     private Integer duration;
     private List<InsightGenerator> customInsights;
     private List<PostInsightGenerator> customPostInsights;
@@ -95,7 +96,7 @@ public class SubtitleProcessor {
         this.tagger = new POSTagger();
         this.lemmatizer = new Lemmatizer();
         this.chunker = new Chunker();
-        this.sentimentAnalysis = new SentimentAnalysis();
+        this.sentimentAnalyser = new SentimentAnalyser();
         this.insightsProcessor = new InsightsProcessor();
         this.skipInsights = skipInsights;
         this.skipPostInsights = skipPostInsights;
@@ -148,7 +149,7 @@ public class SubtitleProcessor {
 
             return new Sentence(s, tokens, chunks);
         }).collect(toList());
-        final Map<SentimentEnum, BigDecimal> sentiment = sentimentAnalysis.categorize(
+        final Map<SentimentEnum, BigDecimal> sentiment = sentimentAnalyser.categorize(
                 sentences.stream().map(Sentence::getSentence).collect(toList())
         );
         subtitle = new Subtitle(duration, sentences, sentiment);
@@ -164,7 +165,7 @@ public class SubtitleProcessor {
         return subtitle;
     }
 
-    public Map<String, Object> getInsights() {
+    public List<Insight> getInsights() {
         return insights;
     }
 

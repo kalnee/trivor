@@ -20,7 +20,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.nlp.models;
+package org.kalnee.trivor.nlp.domain;
 
 /**
  * Alphabetical list of part-of-speech tags used in the Penn Treebank Project.

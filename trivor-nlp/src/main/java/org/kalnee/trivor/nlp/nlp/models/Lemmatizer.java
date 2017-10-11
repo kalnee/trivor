@@ -46,6 +46,7 @@ public class Lemmatizer {
         CONTRACTIONS.put("ca", "can");
         CONTRACTIONS.put("wo", "will");
         CONTRACTIONS.put("wouldn", "will");
+        CONTRACTIONS.put("y", "you");
     }
 
     public Lemmatizer() {

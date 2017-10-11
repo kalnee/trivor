@@ -19,8 +19,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.kalnee.trivor.nlp.nlp.models;
 
-public enum FrequencyEnum {
-    HIGH, MIDDLE, LOW;
+package org.kalnee.trivor.nlp.domain;
+
+public enum SentimentEnum {
+    POSITIVE, NEGATIVE, NEUTRAL;
 }

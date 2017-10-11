@@ -20,51 +20,55 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.post.frequency;
+package org.kalnee.trivor.nlp.insights.generators.words;
 
-import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.WH_FREQUENCY;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.WH_SENTENCES;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.WH_USAGE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
 
 /**
- * Frequency generator for wh words.
+ * Sentence generator for wh words.
  *
- * @see FrequencyGenerator
- * @see PostInsightGenerator
+ * @see WordUsageGenerator
+ * @see InsightGenerator
  *
  * @since 0.0.1
  */
-public class WhWordsFrequencyGenerator extends FrequencyGenerator implements PostInsightGenerator<Map<String, Integer>> {
+public class WhWordsGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WhWordsFrequencyGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WhWordsGenerator.class);
+
+    @Override
+    List<String> getTags() {
+        return Arrays.asList(
+                WDT.name(), WP.name(), WP$.name(), WRB.name()
+        );
+    }
 
     @Override
     public String getDescription() {
-        return WH_FREQUENCY.getDescription();
+        return WH_USAGE.getDescription();
     }
 
     @Override
     public String getCode() {
-        return WH_FREQUENCY.getCode();
+        return WH_USAGE.getCode();
     }
 
     @Override
-    String getInsightCode() {
-        return WH_SENTENCES.getCode();
-    }
+    public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+        final List<WordUsage> words = getSentences(subtitle);
+        LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-    @Override
-    public Insight<Map<String, Integer>> getInsight(Subtitle subtitle, Map<String, Object> insights) {
-        final Map<String, Integer> frequency = getFrequency(insights);
-        LOGGER.info("{} - {}", getCode(), getExamples(frequency));
-
-        return new Insight<>(getCode(), frequency);
+        return new Insight<>(getCode(), words);
     }
 }

@@ -7,6 +7,7 @@ import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.domain.Subtitle;
 import org.kalnee.trivor.insights.repository.InsightsRepository;
 import org.kalnee.trivor.insights.repository.SubtitleRepository;
+import org.kalnee.trivor.nlp.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static java.lang.String.format;
+import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.*;
-import static org.kalnee.trivor.nlp.nlp.models.FrequencyEnum.*;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
 
 @Service
 public class InsightService {
@@ -49,37 +49,28 @@ public class InsightService {
         final Map<String, Integer> allInsights = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream()
-                .flatMap(i -> i.getInsights().entrySet().stream())
-                .filter(i -> i.getKey().equals(insight))
-                .flatMap(i -> ((LinkedHashMap<String, Integer>) i.getValue()).entrySet().stream())
-                .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0)));
+                .flatMap(i -> i.getInsights().stream())
+                .filter(i -> i.getCode().equals(insight))
+                .flatMap(i -> ((List<WordUsage>) i.getValue()).stream())
+                .forEach(i -> allInsights.put(i.getWord(), i.getSentences().size() + allInsights.getOrDefault(i.getWord(), 0)));
 
         return allInsights.entrySet().stream().sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> {
-                    throw new RuntimeException(format("Duplicate key for values %s and %s", v1, v2));
-                }, LinkedHashMap::new));
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
     }
 
     @SuppressWarnings("unchecked")
     public Map<String, Integer> findTopFrequencyByInsightAndImdbId(String insight, String imdbId, Integer limit) {
-        final Map<String, Integer> allInsights = new HashMap<>();
-
-        insightsRepository.findAllByImdbId(imdbId).stream()
-            .flatMap(i -> i.getInsights().entrySet().stream())
-            .filter(i -> i.getKey().equals(insight))
-            .flatMap(i -> ((LinkedHashMap<String, Integer>) i.getValue()).entrySet().stream())
-            .forEach(i -> allInsights.put(i.getKey(), i.getValue() + allInsights.getOrDefault(i.getKey(), 0)));
-
         final Comparator<Map.Entry<String, Integer>> comparator = limit < 0
             ? Map.Entry.<String, Integer>comparingByValue()
             : Map.Entry.<String, Integer>comparingByValue().reversed();
-        return allInsights.entrySet().stream().sorted(comparator)
+
+        return findFrequencyByInsightAndImdbId(insight, imdbId).entrySet().stream().sorted(comparator)
             .limit(Math.abs(limit))
             .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, List<String>> findSentencesByInsightAndImdbAndSeasonAndEpisode(String insight, String imdbId,
+    public List<WordUsage> findSentencesByInsightAndImdbAndSeasonAndEpisode(String insight, String imdbId,
                                                                                       Integer season, Integer episode) {
         Insights insights;
 
@@ -91,19 +82,18 @@ public class InsightService {
             insights = insightsRepository.findOneByImdbId(imdbId);
         }
 
-        return insights.getInsights()
-            .entrySet().stream()
-            .filter(i -> i.getKey().equals(insight))
-            .flatMap(i -> ((LinkedHashMap<String, List<String>>) i.getValue()).entrySet().stream())
-            .sorted(Comparator.<Map.Entry<String, List<String>>>comparingInt(o -> o.getValue().size()).reversed())
-            .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
+        return insights.getInsights().stream()
+            .filter(i -> i.getCode().equals(insight))
+            .flatMap(i -> ((List<WordUsage>) i.getValue()).stream())
+            .sorted(Comparator.<WordUsage>comparingInt(o -> o.getSentences().size()).reversed())
+            .collect(toList());
     }
 
     @SuppressWarnings("unchecked")
     public Set<String> findVerbTensesByInsightAndImdb(String insight, String imdbId) {
         return insightsRepository.findAllByImdbId(imdbId).stream()
-            .flatMap(i -> i.getInsights().entrySet().stream())
-            .filter(i -> i.getKey().equals(insight))
+            .flatMap(i -> i.getInsights().stream())
+            .filter(i -> i.getCode().equals(insight))
             .flatMap(i -> ((List<String>) i.getValue()).stream())
             .collect(toSet());
     }
@@ -113,7 +103,9 @@ public class InsightService {
                 .map(Subtitle::getImdbId)
                 .collect(toList());
         return insightsRepository.findByImdbIdIn(imdbIds).stream()
-                .map(i -> i.getInsights().get(insight))
+                .flatMap(i -> i.getInsights().stream())
+                .filter(i -> i.getCode().equals(insight))
+                .map(Insight::getValue)
                 .collect(toList());
     }
 
@@ -122,7 +114,9 @@ public class InsightService {
                 .map(Subtitle::getImdbId)
                 .collect(toList());
         return insightsRepository.findByImdbIdIn(imdbIds).stream()
-                .map(i -> i.getInsights().get(insight))
+                .flatMap(i -> i.getInsights().stream())
+                .filter(i -> i.getCode().equals(insight))
+                .map(Insight::getValue)
                 .collect(toList());
     }
 
@@ -135,49 +129,37 @@ public class InsightService {
         final Map<String, Object> summary = new HashMap<>();
         final Map<String, Set<String>> keys = new HashMap<>();
         final Map<String, Integer> rateOfSpeech = new HashMap<>();
-        final Map<String, Integer> frequencyRate = new HashMap<>();
+        final Map<FrequencyEnum, Integer> frequencyRate = new HashMap<>();
 
         insightsRepository.findAllByImdbId(imdbId).stream()
-            .flatMap(i -> i.getInsights().entrySet().stream())
-            .filter(i -> !i.getKey().endsWith("-sentences")
-                || i.getKey().equals(NON_SENTENCES.getCode())
-                || i.getKey().equals(NUM_SENTENCES.getCode()))
-            .forEach(entry -> {
-                if (entry.getKey().endsWith("-frequency")) {
-                    final Set<String> words = new HashSet<>(keys.getOrDefault(entry.getKey(), Collections.emptySet()));
-                    final Set<String> current = ((Map<String, Integer>) entry.getValue()).entrySet()
-                        .stream().map(Map.Entry::getKey)
+            .flatMap(i -> i.getInsights().stream())
+            .forEach(i -> {
+                if (i.getCode().endsWith("-usage")) {
+                    final Set<String> words = new HashSet<>(keys.getOrDefault(i.getCode(), emptySet()));
+                    final Set<String> current = ((List<WordUsage>) i.getValue()).stream()
+                        .map(WordUsage::getWord)
                         .collect(toSet());
-                    final Set<String> newSet = new HashSet<>();
-
-                    newSet.addAll(words);
-                    newSet.addAll(current);
-
-                    keys.put(entry.getKey(), newSet);
-                    summary.put(entry.getKey(), keys.get(entry.getKey()).size());
-                } else if (entry.getKey().equals(NUM_SENTENCES.getCode())) {
-                    int currentValue = (Integer) entry.getValue();
-                    summary.put(entry.getKey(), currentValue + ((Integer)summary.getOrDefault(entry.getKey(), 0)));
-                } else if (entry.getKey().equals(RATE_OF_SPEECH.getCode())) {
-                    rateOfSpeech.put(
-                        entry.getValue().toString(), rateOfSpeech.getOrDefault(entry.getValue().toString(), 0) + 1
-                    );
-                } else if (entry.getKey().equals(FREQUENCY_RATE.getCode())) {
-                    final Map<String, Integer> frequencyMap = ((Map<String, Integer>)entry.getValue());
-                    frequencyRate.put(
-                        HIGH.name(), frequencyRate.getOrDefault(HIGH.name(), 0) + frequencyMap.get(HIGH.name())
-                    );
-                    frequencyRate.put(
-                        MIDDLE.name(), frequencyRate.getOrDefault(MIDDLE.name(), 0) + frequencyMap.get(MIDDLE.name())
-                    );
-                    frequencyRate.put(
-                        LOW.name(), frequencyRate.getOrDefault(LOW.name(), 0) + frequencyMap.get(LOW.name())
-                    );
-                } else if (entry.getValue() instanceof Collection) {
-                    int currentSize = ((Collection) entry.getValue()).size();
-                    summary.put(entry.getKey(), currentSize + ((Integer)summary.getOrDefault(entry.getKey(), 0)));
+                    words.addAll(current);
+                    keys.put(i.getCode(), words);
+                    summary.put(i.getCode(), keys.get(i.getCode()).size());
+                } else if (i.getCode().equals(NUMBER_SENTENCES.getCode())) {
+                    int currentValue = (Integer) i.getValue();
+                    summary.put(i.getCode(), currentValue + ((Integer)summary.getOrDefault(i.getCode(), 0)));
+                } else if (i.getCode().equals(RATE_OF_SPEECH.getCode())) {
+                    String rate = ((RateOfSpeech)i.getValue()).getRate().name();
+                    rateOfSpeech.put(rate, rateOfSpeech.getOrDefault(rate, 0) + 1);
+                } else if (i.getCode().equals(FREQUENCY_RATE.getCode())) {
+                    final List<FrequencyRate> frequency = ((List<FrequencyRate>)i.getValue());
+                    frequency.forEach(f -> {
+                        frequencyRate.put(
+                            f.getFrequency(), frequencyRate.getOrDefault(f.getFrequency(), 0) + f.getWords().size()
+                        );
+                    });
+                } else if (i.getValue() instanceof Collection) {
+                    int currentSize = ((Collection) i.getValue()).size();
+                    summary.put(i.getCode(), currentSize + ((Integer)summary.getOrDefault(i.getCode(), 0)));
                 } else {
-                    summary.put(entry.getKey(), entry.getValue());
+                    summary.put(i.getCode(), i.getValue());
                 }
             });
 

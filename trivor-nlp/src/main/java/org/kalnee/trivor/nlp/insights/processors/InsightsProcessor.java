@@ -23,20 +23,19 @@
 package org.kalnee.trivor.nlp.insights.processors;
 
 import org.apache.commons.lang3.time.StopWatch;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
 import org.kalnee.trivor.nlp.insights.generators.InsightsGenerators;
 import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toList;
 
 class InsightsProcessor {
 
@@ -45,11 +44,11 @@ class InsightsProcessor {
     InsightsProcessor() {
     }
 
-    Map<String, Object> process(Subtitle subtitle) {
+    List<Insight> process(Subtitle subtitle) {
         return process(subtitle, emptyList(), emptyList(), emptyList(), emptyList());
     }
 
-    Map<String, Object> process(Subtitle subtitle,
+    List<Insight> process(Subtitle subtitle,
                                 List<InsightGenerator> insightGenerators,
                                 List<PostInsightGenerator> postInsightGenerators,
                                 List<String> skipInsights,
@@ -60,24 +59,24 @@ class InsightsProcessor {
         LOGGER.info("Running Insight Generators");
         final List<InsightGenerator> generators = new ArrayList<>(InsightsGenerators.DEFAULT_GENERATORS);
         generators.addAll(insightGenerators);
-        final Map<String, Object> insights = generators
+        final List<Insight> insights = generators
                 .parallelStream()
                 .filter(i -> !skipInsights.contains(i.getCode()))
                 .filter(i -> i.shouldRun(subtitle))
                 .map(i -> i.getInsight(subtitle))
-                .collect(toMap(Insight::getCode, Insight::getValue));
+                .collect(toList());
 
         LOGGER.info("Running Post Insight Generators");
         final List<PostInsightGenerator> postGenerators = new ArrayList<>(InsightsGenerators.DEFAULT_POST_GENERATORS);
         postGenerators.addAll(postInsightGenerators);
-        final Map<String, Object> postInsights = postGenerators
+        final List<Insight> postInsights = postGenerators
                 .parallelStream()
                 .filter(i -> !skipPostInsights.contains(i.getCode()))
                 .filter(i -> i.shouldRun(subtitle, insights))
                 .map(i -> i.getInsight(subtitle, insights))
-                .collect(toMap(Insight::getCode, Insight::getValue));
+                .collect(toList());
 
-        insights.putAll(postInsights);
+        insights.addAll(postInsights);
 
         sw.stop();
         LOGGER.info(

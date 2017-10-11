@@ -20,8 +20,48 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.nlp.models;
+package org.kalnee.trivor.nlp.domain;
 
-public enum RateOfSpeechEnum {
-    SLOW, MODERATE, FAST, SUPER_FAST, NONE
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
+public class Subtitle {
+
+    private Integer duration;
+    private List<Sentence> sentences;
+    private Map<SentimentEnum, BigDecimal> sentiment;
+
+    public Subtitle() {
+    }
+
+    public Subtitle(List<Sentence> sentences) {
+        this.sentences = sentences;
+    }
+
+    public Subtitle(Integer duration, List<Sentence> sentences) {
+        this(sentences);
+        this.duration = duration;
+    }
+
+    public Subtitle(Integer duration, List<Sentence> sentences, Map<SentimentEnum, BigDecimal> sentiment) {
+        this(duration, sentences);
+        this.sentiment = sentiment;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public List<Sentence> getSentences() {
+        return sentences;
+    }
+
+    public void setSentences(List<Sentence> sentences) {
+        this.sentences = sentences;
+    }
+
+    public Map<SentimentEnum, BigDecimal> getSentiment() {
+        return sentiment;
+    }
 }

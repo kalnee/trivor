@@ -20,49 +20,64 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.nlp.models;
+package org.kalnee.trivor.nlp.domain;
 
-import java.util.List;
+public class Token {
 
-import static java.util.stream.Collectors.joining;
-import static org.apache.commons.lang3.StringUtils.SPACE;
+    private String token;
+    private String tag;
+    private String lemma;
+    private Double prob;
 
-public class Sentence {
-
-    private String sentence;
-    private List<Token> tokens;
-    private List<Chunk> chunks;
-
-    public Sentence() {
+    public Token() {
     }
 
-    public Sentence(String sentence, List<Token> tokens) {
-        this.sentence = sentence;
-        this.tokens = tokens;
+    public Token(String token, String tag, String lemma, Double prob) {
+        this.token = token;
+        this.tag = tag;
+        this.lemma = lemma;
+        this.prob = prob;
     }
 
-    public Sentence(String sentence, List<Token> tokens, List<Chunk> chunks) {
-        this(sentence, tokens);
-        this.chunks = chunks;
+    public String getToken() {
+        return token;
     }
 
-    public String getSentence() {
-        return sentence;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
+    public String getTag() {
+        return tag;
     }
 
-    public List<Token> getTokens() {
-        return tokens;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
-    public String getSentenceTags() {
-        return tokens.stream().map(Token::getTag).collect(joining(SPACE));
+    public String getLemma() {
+        return lemma;
     }
 
-    public List<Chunk> getChunks() {
-        return chunks;
+    public void setLemma(String lemma) {
+        this.lemma = lemma;
+    }
+
+    public Double getProb() {
+        return prob;
+    }
+
+    public void setProb(Double prob) {
+        this.prob = prob;
+    }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "token='" + token + '\'' +
+                ", tag='" + tag + '\'' +
+                ", lemma='" + lemma + '\'' +
+                ", prob=" + prob +
+                '}';
     }
 }

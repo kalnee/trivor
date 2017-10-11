@@ -20,37 +20,38 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.sentences;
+package org.kalnee.trivor.nlp.insights.generators.words;
 
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
-import org.kalnee.trivor.nlp.nlp.models.Token;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.Token;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.Character.isUpperCase;
+import static java.util.stream.Collectors.toList;
 
-abstract class SentencesExampleGenerator {
+abstract class WordUsageGenerator {
 
     private static final String WORD_REGEX = "([a-zA-Z]{2,})";
     private static final double ACCEPTED_PROB = 0.90;
 
     abstract List<String> getTags();
 
-    Map<String, Set<String>> getSentences(Subtitle subtitle) {
+    List<WordUsage> getSentences(Subtitle subtitle) {
         return getSentences(subtitle, Token::getLemma, null);
     }
 
-    Map<String, Set<String>> getSentences(Subtitle subtitle, Predicate<String> customFilter) {
+    List<WordUsage> getSentences(Subtitle subtitle, Predicate<String> customFilter) {
         return getSentences(subtitle, Token::getLemma, customFilter);
     }
 
-    Map<String, Set<String>> getSentences(Subtitle subtitle, Function<Token, String> customMapper,
-                                          Predicate<String> customFilter) {
+    List<WordUsage> getSentences(Subtitle subtitle, Function<Token, String> customMapper,
+                                 Predicate<String> customFilter) {
         final Map<String, Set<String>> words = new HashMap<>();
         for (Sentence sentence: subtitle.getSentences()) {
             Stream<String> wordsStream = sentence.getTokens().stream()
@@ -71,11 +72,10 @@ abstract class SentencesExampleGenerator {
             });
         }
 
-        return words;
+        return words.entrySet().stream().map(e -> new WordUsage(e.getKey(), e.getValue())).collect(toList());
     }
 
-    Map<String, Set<String>> getExamples(Map<String, Set<String>> sentences) {
-        return sentences.entrySet().stream().limit(2)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    List<WordUsage> getExamples(List<WordUsage> sentences) {
+        return sentences.stream().limit(2).collect(toList());
     }
 }

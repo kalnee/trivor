@@ -24,9 +24,9 @@ package org.kalnee.trivor.nlp.insights.generators;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.kalnee.trivor.nlp.insights.generators.tenses.SimpleFutureGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.utils.TestUtils;
 import org.junit.Test;
 

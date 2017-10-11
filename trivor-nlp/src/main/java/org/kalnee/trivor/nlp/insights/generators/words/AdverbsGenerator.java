@@ -20,53 +20,53 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.sentences;
+package org.kalnee.trivor.nlp.insights.generators.words;
 
+import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.InsightsEnum;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
-import org.kalnee.trivor.nlp.nlp.models.TagsEnum;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADVERBS_USAGE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.RB;
 
 /**
- * Sentence generator for modals.
+ * Sentence generator for adverbs.
  *
- * @see SentencesExampleGenerator
+ * @see WordUsageGenerator
  * @see InsightGenerator
  *
  * @since 0.0.1
  */
-public class ModalsSentencesGenerator extends SentencesExampleGenerator implements InsightGenerator<Map<String, Set<String>>> {
+public class AdverbsGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModalsSentencesGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdverbsGenerator.class);
 
     @Override
     List<String> getTags() {
-        return Collections.singletonList(TagsEnum.MD.name());
+        return Collections.singletonList(RB.name());
     }
 
     @Override
     public String getDescription() {
-        return InsightsEnum.MODALS_SENTENCES.getDescription();
+        return ADVERBS_USAGE.getDescription();
     }
 
     @Override
     public String getCode() {
-        return InsightsEnum.MODALS_SENTENCES.getCode();
+        return ADVERBS_USAGE.getCode();
     }
 
     @Override
-    public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
-        final Map<String, Set<String>> sentences = getSentences(subtitle);
-        LOGGER.info("{} - {}", getCode(), getExamples(sentences));
+    public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+        final List<WordUsage> words = getSentences(subtitle);
+        LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-        return new Insight<>(getCode(), sentences);
+        return new Insight<>(getCode(), words);
     }
 }

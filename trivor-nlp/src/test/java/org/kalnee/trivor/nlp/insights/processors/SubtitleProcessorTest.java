@@ -24,8 +24,8 @@ package org.kalnee.trivor.nlp.insights.processors;
 
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
 import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
 
@@ -33,8 +33,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.ADJECTIVES_FREQUENCY;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.ADJECTIVES_SENTENCES;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_FREQUENCY;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_USAGE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -100,11 +100,11 @@ public class SubtitleProcessorTest {
     public void testInsightsAndPostInsightsToSKip() throws URISyntaxException {
         SubtitleProcessor subtitleProcessor = new SubtitleProcessor
                 .Builder(getSubtitleURI("language/tt0238784-S01E01.srt"))
-                .skipInsights(ADJECTIVES_SENTENCES.getCode())
+                .skipInsights(ADJECTIVES_USAGE.getCode())
                 .skipPostInsights(ADJECTIVES_FREQUENCY.getCode())
                 .build();
 
-        assertEquals(null, subtitleProcessor.getInsights().get(ADJECTIVES_SENTENCES.getCode()));
+        assertEquals(null, subtitleProcessor.getInsights().get(ADJECTIVES_USAGE.getCode()));
         assertEquals(null, subtitleProcessor.getInsights().get(ADJECTIVES_FREQUENCY.getCode()));
     }
 

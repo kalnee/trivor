@@ -24,8 +24,8 @@ package org.kalnee.trivor.nlp.insights.generators;
 
 import org.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 import org.junit.Test;
-import org.kalnee.trivor.nlp.nlp.models.InsightsEnum;
-import org.kalnee.trivor.nlp.nlp.models.RateOfSpeechEnum;
+import org.kalnee.trivor.nlp.domain.InsightsEnum;
+import org.kalnee.trivor.nlp.domain.RateOfSpeechEnum;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

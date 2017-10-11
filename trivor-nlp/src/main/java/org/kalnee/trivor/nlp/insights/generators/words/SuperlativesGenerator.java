@@ -20,58 +20,56 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.sentences;
+package org.kalnee.trivor.nlp.insights.generators.words;
 
+import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.COMPARATIVES_SENTENCES;
-import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.JJR;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.SUPERLATIVES_USAGE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.JJS;
 import static org.kalnee.trivor.nlp.utils.LanguageUtils.NOT_ADJECTIVES;
 
 /**
- * Sentence generator for comparatives.
+ * Sentence generator for superlatives.
  *
- * @see SentencesExampleGenerator
+ * @see WordUsageGenerator
  * @see InsightGenerator
  *
  * @since 0.0.1
  */
-public class ComparativesSentencesGenerator extends SentencesExampleGenerator
-		implements InsightGenerator<Map<String, Set<String>>> {
+public class SuperlativesGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ComparativesSentencesGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SuperlativesGenerator.class);
 
 	@Override
 	List<String> getTags() {
-		return Collections.singletonList(JJR.name());
+		return Collections.singletonList(JJS.name());
 	}
 
 	@Override
 	public String getDescription() {
-		return COMPARATIVES_SENTENCES.getDescription();
+		return SUPERLATIVES_USAGE.getDescription();
 	}
 
 	@Override
 	public String getCode() {
-		return COMPARATIVES_SENTENCES.getCode();
+		return SUPERLATIVES_USAGE.getCode();
 	}
 
 	@Override
-	public Insight<Map<String, Set<String>>> getInsight(Subtitle subtitle) {
-		final Map<String, Set<String>> sentences = getSentences(
+	public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+		final List<WordUsage> words = getSentences(
 				subtitle, t -> t.getToken().toLowerCase(), w -> !NOT_ADJECTIVES.contains(w)
 		);
-		LOGGER.info("{} - {}", getCode(), getExamples(sentences));
+		LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-    	return new Insight<>(getCode(), sentences);
+    	return new Insight<>(getCode(), words);
 	}
 }

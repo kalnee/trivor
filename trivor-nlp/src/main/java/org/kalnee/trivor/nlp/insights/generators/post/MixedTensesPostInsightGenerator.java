@@ -22,9 +22,9 @@
 
 package org.kalnee.trivor.nlp.insights.generators.post;
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
 
 /**
  * Generator for sentences that have more than one verb tense.
@@ -55,19 +55,24 @@ public class MixedTensesPostInsightGenerator implements PostInsightGenerator<Lis
 
 	@Override
 	public String getDescription() {
-		return "Mixed Tenses";
+		return MIXED_TENSE.getDescription();
 	}
 
 	@Override
 	public String getCode() {
-		return "mixed-tenses";
+		return MIXED_TENSE.getCode();
+	}
+
+	@Override
+	public Insight<List<String>> getInsight(Subtitle subtitle) {
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Insight<List<String>> getInsight(Subtitle subtitle, Map<String, Object> insights) {
+	public Insight<List<String>> getInsight(Subtitle subtitle, List<Insight> insights) {
 
-		final List<String> all = insights.entrySet().stream()
-			.filter(i -> INSIGHTS.contains(i.getKey()))
+		final List<String> all = insights.stream()
+			.filter(i -> INSIGHTS.contains(i.getCode()))
 			.flatMap(i -> ((List<String>) i.getValue()).stream())
 			.collect(toList());
 

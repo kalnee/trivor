@@ -22,9 +22,9 @@
 
 package org.kalnee.trivor.nlp.insights.processors;
 
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
-import org.kalnee.trivor.nlp.nlp.models.Token;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.Token;
 import org.junit.Assert;
 import org.junit.Test;
 

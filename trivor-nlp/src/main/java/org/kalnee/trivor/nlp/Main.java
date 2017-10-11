@@ -32,7 +32,6 @@ public class Main {
                 .Builder(Main.class.getResource("/language/s1e1.srt").toURI())
                 .withDuration(43)
                 .build();
-        System.out.println("Rate of Speech: " + sp.getInsights().get("rate-of-speech"));
     }
 
 }

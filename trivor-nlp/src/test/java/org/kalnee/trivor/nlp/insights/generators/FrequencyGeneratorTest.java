@@ -29,7 +29,7 @@ import org.junit.Test;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
 import static org.junit.Assert.assertTrue;
 
 public class FrequencyGeneratorTest {

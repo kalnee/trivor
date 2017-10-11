@@ -23,9 +23,11 @@
 package org.kalnee.trivor.nlp.insights.generators.post;
 
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ import java.util.Map;
  * @since 0.0.1
  */
 
-public interface PostInsightGenerator<T> {
+public interface PostInsightGenerator<T> extends InsightGenerator<T> {
 
     /**
      * Retuns a description for the insight
@@ -60,7 +62,7 @@ public interface PostInsightGenerator<T> {
      * @param insights the insights already generated for a subtitle
      * @return an insight
      */
-    Insight<T> getInsight(Subtitle subtitle, Map<String, Object> insights);
+    Insight<T> getInsight(Subtitle subtitle, List<Insight> insights);
 
     /**
      * Returns if this insight should run or not
@@ -69,7 +71,7 @@ public interface PostInsightGenerator<T> {
      * @param insights the insights already generated for a subtitle
      * @return true if the insight should run, false otherwise
      */
-    default boolean shouldRun(Subtitle subtitle, Map<String, Object> insights) {
+    default boolean shouldRun(Subtitle subtitle, List<Insight> insights) {
         return true;
     }
 }
