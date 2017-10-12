@@ -22,17 +22,17 @@
 
 package org.kalnee.trivor.nlp.insights.processors;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.domain.Token;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class InsightsProcessorTest {
 
@@ -49,7 +49,7 @@ public class InsightsProcessorTest {
 		
 		final Subtitle subtitle = new Subtitle(sentences);
 
-		final Map<String, Object> insights = insightsProcessor.process(subtitle);
+		final List<Insight> insights = insightsProcessor.process(subtitle);
 
 		Assert.assertTrue(!insights.isEmpty());
 	}

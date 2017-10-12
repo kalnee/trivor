@@ -22,21 +22,21 @@
 
 package org.kalnee.trivor.nlp.insights.processors;
 
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
+import org.junit.Test;
 import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Subtitle;
-import org.junit.Test;
+import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
+import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
 import org.mockito.internal.util.reflection.Whitebox;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
+import java.util.List;
 
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_FREQUENCY;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_USAGE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_USAGE;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.MIXED_TENSE;
 
 public class SubtitleProcessorTest {
 
@@ -66,8 +66,8 @@ public class SubtitleProcessorTest {
                 .addCustomPostInsights(new CustomPostInsight())
                 .build();
 
-        assertEquals("custom", subtitleProcessor.getInsights().get("custom-insight"));
-        assertEquals("custom post", subtitleProcessor.getInsights().get("custom-post-insight"));
+        assertEquals("custom", subtitleProcessor.getInsightsMap().get("custom-insight"));
+        assertEquals("custom post", subtitleProcessor.getInsightsMap().get("custom-post-insight"));
     }
 
     class CustomInsight implements InsightGenerator<String> {
@@ -91,7 +91,12 @@ public class SubtitleProcessorTest {
         }
 
         @Override
-        public Insight<String> getInsight(Subtitle subtitle, Map<String, Object> insights) {
+        public Insight<String> getInsight(Subtitle subtitle) {
+            return null;
+        }
+
+        @Override
+        public Insight<String> getInsight(Subtitle subtitle, List<Insight> insights) {
             return new Insight<>(getCode(), "custom post");
         }
     }
@@ -101,11 +106,11 @@ public class SubtitleProcessorTest {
         SubtitleProcessor subtitleProcessor = new SubtitleProcessor
                 .Builder(getSubtitleURI("language/tt0238784-S01E01.srt"))
                 .skipInsights(ADJECTIVES_USAGE.getCode())
-                .skipPostInsights(ADJECTIVES_FREQUENCY.getCode())
+                .skipPostInsights(MIXED_TENSE.getCode())
                 .build();
 
-        assertEquals(null, subtitleProcessor.getInsights().get(ADJECTIVES_USAGE.getCode()));
-        assertEquals(null, subtitleProcessor.getInsights().get(ADJECTIVES_FREQUENCY.getCode()));
+        assertEquals(null, subtitleProcessor.getInsightsMap().get(ADJECTIVES_USAGE.getCode()));
+        assertEquals(null, subtitleProcessor.getInsightsMap().get(MIXED_TENSE.getCode()));
     }
 
 }

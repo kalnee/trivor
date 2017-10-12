@@ -33,15 +33,13 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
@@ -76,6 +74,7 @@ public class SubtitleProcessor {
     private String content;
     private Subtitle subtitle;
     private List<Insight> insights;
+    private Map<String, Object> insightsMap;
     private Integer duration;
     private List<InsightGenerator> customInsights;
     private List<PostInsightGenerator> customPostInsights;
@@ -159,6 +158,7 @@ public class SubtitleProcessor {
         insights = insightsProcessor.process(
                 subtitle, customInsights, customPostInsights, skipInsights, skipPostInsights
         );
+        insightsMap = insights.stream().collect(toMap(Insight::getCode, Insight::getValue));
     }
 
     public Subtitle getSubtitle() {
@@ -167,6 +167,16 @@ public class SubtitleProcessor {
 
     public List<Insight> getInsights() {
         return insights;
+    }
+
+    public Map<String, Object> getInsightsMap() {
+        return insightsMap;
+    }
+
+    public Optional<Insight> getInsight(String code) {
+        return insights.stream()
+                .filter(i -> i.getCode().equals(code))
+                .findFirst();
     }
 
     public static class Builder {
