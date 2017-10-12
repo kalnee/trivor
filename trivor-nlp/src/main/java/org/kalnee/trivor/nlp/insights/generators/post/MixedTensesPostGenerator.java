@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
@@ -43,9 +42,9 @@ import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
  *
  * @since 0.0.1
  */
-public class MixedTensesPostInsightGenerator implements PostInsightGenerator<List<String>> {
+public class MixedTensesPostGenerator implements PostInsightGenerator<List<String>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MixedTensesPostInsightGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MixedTensesPostGenerator.class);
 
 	private static final List<String> INSIGHTS = Arrays.asList(
 		SIMPLE_PRESENT.getCode(), SIMPLE_PAST.getCode(), SIMPLE_FUTURE.getCode(), PRESENT_PROGRESSIVE.getCode(),

@@ -23,7 +23,8 @@
 package org.kalnee.trivor.nlp.insights.generators;
 
 
-import org.kalnee.trivor.nlp.insights.generators.post.MixedTensesPostInsightGenerator;
+import org.kalnee.trivor.nlp.insights.generators.post.MixedTensesPostGenerator;
+import org.kalnee.trivor.nlp.insights.generators.post.PhrasalVerbPostGenerator;
 import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
 import org.kalnee.trivor.nlp.insights.generators.tenses.*;
 import org.kalnee.trivor.nlp.insights.generators.words.*;
@@ -62,6 +63,7 @@ public class InsightsGenerators {
     );
 
     public static final List<PostInsightGenerator> DEFAULT_POST_GENERATORS = Arrays.asList(
-            new MixedTensesPostInsightGenerator()
+            new MixedTensesPostGenerator(),
+            new PhrasalVerbPostGenerator()
     );
 }
