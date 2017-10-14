@@ -24,7 +24,7 @@ package org.kalnee.trivor.nlp.insights.processors;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kalnee.trivor.nlp.domain.Insight;
+import org.kalnee.trivor.nlp.domain.Result;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.domain.Token;
@@ -36,21 +36,21 @@ import java.util.List;
 
 public class InsightsProcessorTest {
 
-	private InsightsProcessor insightsProcessor = new InsightsProcessor();
-	
-	@Test
-	public void testInsertion() throws URISyntaxException {
-		final List<Sentence> sentences = Collections.singletonList(new Sentence(
-				"I want to kill you.",
-				Arrays.asList(new Token("I", "PRP", "i", 0.99), new Token("want", "VB", "want", 0.99),
-						new Token("to", "TO", "to", 0.99), new Token("kill", "VB", "kill", 0.99),
-						new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)))
-		);
-		
-		final Subtitle subtitle = new Subtitle(sentences);
+    private InsightsProcessor insightsProcessor = new InsightsProcessor();
 
-		final List<Insight> insights = insightsProcessor.process(subtitle);
+    @Test
+    public void testInsertion() throws URISyntaxException {
+        final List<Sentence> sentences = Collections.singletonList(new Sentence(
+                "I want to kill you.",
+                Arrays.asList(new Token("I", "PRP", "i", 0.99), new Token("want", "VB", "want", 0.99),
+                        new Token("to", "TO", "to", 0.99), new Token("kill", "VB", "kill", 0.99),
+                        new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)))
+        );
 
-		Assert.assertTrue(!insights.isEmpty());
-	}
+        final Subtitle subtitle = new Subtitle(sentences);
+
+        final Result result = insightsProcessor.process(subtitle);
+
+        Assert.assertTrue(result.getNumberOfSentences() == 1);
+    }
 }

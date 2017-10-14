@@ -20,52 +20,50 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.words;
+package org.kalnee.trivor.nlp.insights.generators.vocabulary;
 
-import org.kalnee.trivor.nlp.domain.WordUsage;
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
-import org.kalnee.trivor.nlp.domain.InsightsEnum;
+
 import org.kalnee.trivor.nlp.domain.Subtitle;
-import org.kalnee.trivor.nlp.domain.TagsEnum;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.NOUNS_USAGE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.NN;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.NNS;
+import static org.kalnee.trivor.nlp.utils.LanguageUtils.MOST_COMMON_WORDS;
+
 /**
- * Sentence generator for prepositions.
+ * Sentence generator for nouns.
  *
  * @see WordUsageGenerator
- * @see InsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class PrepositionGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
+public class NounsGenerator extends WordUsageGenerator implements Generator<List<WordUsage>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PrepositionGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NounsGenerator.class);
 
 	@Override
 	List<String> getTags() {
-		return Collections.singletonList(TagsEnum.IN.name());
-	}
-
-	@Override
-	public String getDescription() {
-		return InsightsEnum.PREPOSITIONS_USAGE.getDescription();
+		return Arrays.asList(NN.name(), NNS.name());
 	}
 
 	@Override
 	public String getCode() {
-		return InsightsEnum.PREPOSITIONS_USAGE.getCode();
+		return NOUNS_USAGE.getCode();
 	}
 
 	@Override
-	public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
-		final List<WordUsage> words = getSentences(subtitle);
+	public List<WordUsage> generate(Subtitle subtitle) {
+		final List<WordUsage> words = getSentences(subtitle, w -> !MOST_COMMON_WORDS.contains(w));
 		LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-    	return new Insight<>(getCode(), words);
+    	return words;
 	}
 }

@@ -20,37 +20,36 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.insights.generators.tenses;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.kalnee.trivor.nlp.insights.generators.tenses.FuturePerfectGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
+import org.junit.Test;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.utils.TestUtils;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class FuturePerfectGeneratorTest {
-    private Subtitle getSubtitle() throws IOException {
-        final List<Sentence> sentences = TestUtils.readSentences(
-                "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
-        );
-        final Subtitle subtitle = new Subtitle();
-        subtitle.setSentences(sentences);
+public class SimplePresentGeneratorTest {
 
-        return subtitle;
-    }
+  private Subtitle getSubtitle() throws IOException {
+    final List<Sentence> sentences = TestUtils.readSentences(
+        "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
+    );
+    final Subtitle subtitle = new Subtitle();
+    subtitle.setSentences(sentences);
 
-    @Test
-    public void testFindFuturePerfect() throws IOException {
-        final FuturePerfectGenerator fpg = new FuturePerfectGenerator();
-        final Insight<List<String>> insight = fpg.getInsight(getSubtitle());
+    return subtitle;
+  }
 
-        assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
-    }
+  @Test
+  public void testFindSimplePresent() throws IOException {
+    final SimplePresentGenerator spg = new SimplePresentGenerator();
+    final List<String> insight = spg.generate(getSubtitle());
+
+    assertTrue("should've have identified 3 sentences", 3 == insight.size());
+  }
 }

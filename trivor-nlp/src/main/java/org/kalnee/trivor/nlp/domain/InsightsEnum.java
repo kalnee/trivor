@@ -24,49 +24,43 @@ package org.kalnee.trivor.nlp.domain;
 
 public enum InsightsEnum {
 
-    NUMBER_SENTENCES("number-sentences", "Number of Sentences"),
-    RATE_OF_SPEECH("rate-of-speech", "Rate of Speech"),
-    FREQUENCY_RATE("frequency-rate", "Frequency Rate"),
+    NUMBER_SENTENCES("number-sentences"),
+    RATE_OF_SPEECH("rate-of-speech"),
+    FREQUENCY_RATE("frequency-rate"),
 
-    ADJECTIVES_USAGE("adjectives-usage", "Adjectives Usage"),
-    COMPARATIVES_USAGE("comparatives-usage", "Comparatives Usage"),
-    NOUNS_USAGE("nouns-usage", "Nouns Usage"),
-    SUPERLATIVES_USAGE("superlatives-usage", "Superlatives Usage"),
-    VERBS_USAGE("verbs-usage", "Verbs Usage"),
-    MODALS_USAGE("modals-usage", "Modals Usage"),
-    ADVERBS_USAGE("adverbs-usage", "Adverbs Usage"),
-    WH_USAGE("wh-usage", "Wh-words Usage"),
-    PREPOSITIONS_USAGE("prepositions-usage", "Prepositions Usage"),
+    ADJECTIVES_USAGE("adjectives-usage"),
+    COMPARATIVES_USAGE("comparatives-usage"),
+    NOUNS_USAGE("nouns-usage"),
+    SUPERLATIVES_USAGE("superlatives-usage"),
+    VERBS_USAGE("verbs-usage"),
+    MODALS_USAGE("modals-usage"),
+    ADVERBS_USAGE("adverbs-usage"),
+    WH_USAGE("wh-usage"),
+    PREPOSITIONS_USAGE("prepositions-usage"),
 
-    FREQUENT_SENTENCES("frequent-sentences", "Most Frequently Used Sentences"),
+    FREQUENT_SENTENCES("frequent-sentences"),
 
-    FUTURE_PERFECT("future-perfect-tense", "Future Perfect"),
-    FUTURE_PROGRESSIVE("future-progressive-tense", "Future Progressive"),
-    PAST_PERFECT("past-perfect-tense", "Past Perfect"),
-    PAST_PROGRESSIVE("past-progressive-tense", "Past Progressive"),
-    PRESENT_PERFECT("present-perfect-tense", "Present Perfect"),
-    PRESENT_PROGRESSIVE("present-progressive-tense", "Present Progressive"),
-    SIMPLE_FUTURE("simple-future-tense", "Simple Future"),
-    SIMPLE_PAST("simple-past-tense", "Simple Past"),
-    SIMPLE_PRESENT("simple-present-tense", "Simple Present"),
-    MIXED_TENSE("mixed-tense", "Mixed Tense"),
-    NON_SENTENCES("non-sentences", "Non Sentences"),
+    FUTURE_PERFECT("future-perfect-tense"),
+    FUTURE_PROGRESSIVE("future-progressive-tense"),
+    PAST_PERFECT("past-perfect-tense"),
+    PAST_PROGRESSIVE("past-progressive-tense"),
+    PRESENT_PERFECT("present-perfect-tense"),
+    PRESENT_PROGRESSIVE("present-progressive-tense"),
+    SIMPLE_FUTURE("simple-future-tense"),
+    SIMPLE_PAST("simple-past-tense"),
+    SIMPLE_PRESENT("simple-present-tense"),
+    MIXED_TENSE("mixed-tense"),
+    NON_SENTENCES("non-sentences"),
 
-    SENTIMENT_ANALYSIS("sentiment-analysis", "Sentiment Analysis");
+    SENTIMENT_ANALYSIS("sentiment-analysis");
 
     private String code;
-    private String description;
 
-    InsightsEnum(String code, String description) {
+    InsightsEnum(String code) {
         this.code = code;
-        this.description = description;
     }
 
     public String getCode() {
         return code;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

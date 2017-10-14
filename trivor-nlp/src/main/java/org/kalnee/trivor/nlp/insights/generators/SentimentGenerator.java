@@ -23,7 +23,6 @@
 package org.kalnee.trivor.nlp.insights.generators;
 
 
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.SentimentEnum;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
@@ -34,14 +33,9 @@ import java.util.Map;
 
 import static org.kalnee.trivor.nlp.domain.InsightsEnum.SENTIMENT_ANALYSIS;
 
-public class SentimentGenerator implements InsightGenerator<Map<SentimentEnum, BigDecimal>> {
+public class SentimentGenerator implements Generator<Map<SentimentEnum, BigDecimal>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SentimentGenerator.class);
-
-	@Override
-	public String getDescription() {
-		return SENTIMENT_ANALYSIS.getDescription();
-	}
 
 	@Override
 	public String getCode() {
@@ -53,8 +47,8 @@ public class SentimentGenerator implements InsightGenerator<Map<SentimentEnum, B
 		return subtitle.getSentiment() != null;
 	}
 
-	public Insight<Map<SentimentEnum, BigDecimal>> getInsight(Subtitle subtitle) {
+	public Map<SentimentEnum, BigDecimal> generate(Subtitle subtitle) {
 		LOGGER.info("{}: {}", getCode(), subtitle.getSentiment());
-		return new Insight<>(getCode(), subtitle.getSentiment());
+		return subtitle.getSentiment();
 	}
 }

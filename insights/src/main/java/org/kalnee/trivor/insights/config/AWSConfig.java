@@ -42,10 +42,8 @@ public class AWSConfig {
   public BeanFactory beanFactory;
 
   @Bean
-  public AmazonSQSAsync sqsAsyncClient(RegionProvider regionProvider) {
-    AmazonSQSAsync client = new AmazonSQSAsyncClient();
-    client.setRegion(regionProvider.getRegion());
-    return client;
+  public AmazonSQSAsync sqsAsyncClient() {
+    return AmazonSQSAsyncClient.asyncBuilder().build();
   }
 
   @Bean

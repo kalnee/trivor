@@ -25,21 +25,20 @@ package org.kalnee.trivor.nlp.insights.processors;
 import org.kalnee.trivor.nlp.domain.*;
 import org.kalnee.trivor.nlp.handlers.SubtitleHandler;
 import org.kalnee.trivor.nlp.handlers.SubtitleHandlerFactory;
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
 import org.kalnee.trivor.nlp.nlp.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 
@@ -58,10 +57,11 @@ public class SubtitleProcessor {
     private static final String SUBTITLE_CHARACTER_REGEX = "^[a-zA-Z]+:\\s*";
     private static final String SUBTITLE_URL_REGEX = ".*www\\.[a-zA-Z]+.*";
     private static final String SUBTITLE_PREVIOUS_REGEX = "^Previously on.*$";
-    private static final String SUBTITLE_ADS_REGEX = ".*(Subtitle|subtitle|sync by|Sync by|Downloaded|VIP|Synchronized by).*";
     private static final String SUBTITLE_SONG_REGEX = ".*♪.*";
     private static final String SUBTITLE_INITIAL_QUOTE_REGEX = "^'|\\s'";
     private static final String SUBTITLE_FINAL_QUOTE_REGEX = "'\\s";
+    private static final String SUBTITLE_ADS_REGEX =
+            ".*(Subtitle|subtitle|sync by|Sync by|Downloaded|VIP|Synchronized by|Created by).*";
 
     private final URI uri;
     private final SentenceDetector sentenceDetector;
@@ -73,23 +73,12 @@ public class SubtitleProcessor {
     private final InsightsProcessor insightsProcessor;
     private String content;
     private Subtitle subtitle;
-    private List<Insight> insights;
-    private Map<String, Object> insightsMap;
+    private Result result;
     private Integer duration;
-    private List<InsightGenerator> customInsights;
-    private List<PostInsightGenerator> customPostInsights;
-    private List<String> skipInsights;
-    private List<String> skipPostInsights;
 
-    private SubtitleProcessor(URI uri, Integer duration,
-                              List<InsightGenerator> customInsights,
-                              List<PostInsightGenerator> customPostInsights,
-                              List<String> skipInsights,
-                              List<String> skipPostInsights) {
+    private SubtitleProcessor(URI uri, Integer duration) {
         this.uri = uri;
         this.duration = duration;
-        this.customInsights = customInsights;
-        this.customPostInsights = customPostInsights;
         this.sentenceDetector = new SentenceDetector();
         this.tokenizer = new SimpleTokenizer();
         this.tagger = new POSTagger();
@@ -97,8 +86,6 @@ public class SubtitleProcessor {
         this.chunker = new Chunker();
         this.sentimentAnalyser = new SentimentAnalyser();
         this.insightsProcessor = new InsightsProcessor();
-        this.skipInsights = skipInsights;
-        this.skipPostInsights = skipPostInsights;
     }
 
     private void preProcess(URI uri) {
@@ -155,37 +142,20 @@ public class SubtitleProcessor {
 
         LOGGER.info("Subtitle generated successfully");
 
-        insights = insightsProcessor.process(
-                subtitle, customInsights, customPostInsights, skipInsights, skipPostInsights
-        );
-        insightsMap = insights.stream().collect(toMap(Insight::getCode, Insight::getValue));
+        result = insightsProcessor.process(subtitle);
     }
 
     public Subtitle getSubtitle() {
         return subtitle;
     }
 
-    public List<Insight> getInsights() {
-        return insights;
-    }
-
-    public Map<String, Object> getInsightsMap() {
-        return insightsMap;
-    }
-
-    public Optional<Insight> getInsight(String code) {
-        return insights.stream()
-                .filter(i -> i.getCode().equals(code))
-                .findFirst();
+    public Result getResult() {
+        return result;
     }
 
     public static class Builder {
         private final URI uri;
         private Integer duration;
-        private List<InsightGenerator> customInsights = new ArrayList<>();
-        private List<String> skipInsights = new ArrayList<>();
-        private List<PostInsightGenerator> customPostInsights = new ArrayList<>();
-        private List<String> skipPostInsights = new ArrayList<>();
 
         public Builder(URI uri) {
             this.uri = uri;
@@ -196,32 +166,9 @@ public class SubtitleProcessor {
             return this;
         }
 
-        public Builder addCustomInsights(InsightGenerator... insightGenerators) {
-            this.customInsights.addAll(Arrays.asList(insightGenerators));
-            return this;
-        }
-
-        public Builder addCustomPostInsights(PostInsightGenerator... postInsightGenerators) {
-            this.customPostInsights.addAll(Arrays.asList(postInsightGenerators));
-            return this;
-        }
-
-        public Builder skipInsights(String... insights) {
-            this.skipInsights.addAll(Arrays.asList(insights));
-            return this;
-        }
-
-        public Builder skipPostInsights(String... postInsights) {
-            this.skipPostInsights.addAll(Arrays.asList(postInsights));
-            return this;
-        }
-
         public SubtitleProcessor build() {
-            final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(
-                    uri, duration, customInsights, customPostInsights, skipInsights, skipPostInsights
-            );
+            final SubtitleProcessor subtitleProcessor = new SubtitleProcessor(uri, duration);
             subtitleProcessor.process();
-
             return subtitleProcessor;
         }
     }

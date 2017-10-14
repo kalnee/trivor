@@ -53,6 +53,8 @@ spring:
 
 cloud:
     aws:
+        stack:
+            auto: false
         queues:
             trivorInsights: trivor-insights-dev
         buckets:

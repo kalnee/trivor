@@ -22,7 +22,6 @@
 
 package org.kalnee.trivor.nlp.insights.generators;
 
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.RateOfSpeech;
 import org.kalnee.trivor.nlp.domain.RateOfSpeechEnum;
 import org.kalnee.trivor.nlp.domain.Subtitle;
@@ -43,14 +42,9 @@ import static org.kalnee.trivor.nlp.domain.RateOfSpeechEnum.*;
  * 200wpm - 160 = 40 SUPER_FAST
  *
  */
-public class RateOfSpeechGenerator implements InsightGenerator<RateOfSpeech> {
+public class RateOfSpeechGenerator implements Generator<RateOfSpeech> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RateOfSpeechGenerator.class);
-
-    @Override
-    public String getDescription() {
-        return RATE_OF_SPEECH.getDescription();
-    }
 
     @Override
     public String getCode() {
@@ -59,15 +53,15 @@ public class RateOfSpeechGenerator implements InsightGenerator<RateOfSpeech> {
 
     @Override
     public boolean shouldRun(Subtitle subtitle) {
-        return subtitle.getDuration() != null;
+        return subtitle.getDuration() != null && subtitle.getDuration() > 0;
     }
 
     @Override
-    public Insight<RateOfSpeech> getInsight(Subtitle subtitle) {
+    public RateOfSpeech generate(Subtitle subtitle) {
         RateOfSpeechEnum rateOfSpeech = NONE;
 
-        if (subtitle.getDuration() == null || subtitle.getDuration() == 0) {
-            return new Insight<>(getCode(), new RateOfSpeech(rateOfSpeech));
+        if (!shouldRun(subtitle)) {
+            return new RateOfSpeech(rateOfSpeech);
         }
 
         final Long words = subtitle.getSentences().parallelStream()
@@ -87,6 +81,6 @@ public class RateOfSpeechGenerator implements InsightGenerator<RateOfSpeech> {
         }
 
         LOGGER.info("{}: {}w / {}m = {}wpm ({})", getCode(), words, subtitle.getDuration(), wpm, rateOfSpeech);
-        return new Insight<>(getCode(), new RateOfSpeech(rateOfSpeech, wpm));
+        return new RateOfSpeech(rateOfSpeech, wpm);
     }
 }

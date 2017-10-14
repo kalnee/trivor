@@ -25,7 +25,6 @@ package org.kalnee.trivor.nlp.insights.generators;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.kalnee.trivor.nlp.domain.FrequencyRate;
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,14 +45,9 @@ import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
  * http://www.talkenglish.com/vocabulary/top-2000-vocabulary.aspx
  *
  */
-public class FrequencyRateGenerator implements InsightGenerator<List<FrequencyRate>> {
+public class FrequencyRateGenerator implements Generator<List<FrequencyRate>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FrequencyRateGenerator.class);
-
-    @Override
-    public String getDescription() {
-        return FREQUENCY_RATE.getDescription();
-    }
 
     @Override
     public String getCode() {
@@ -66,7 +60,7 @@ public class FrequencyRateGenerator implements InsightGenerator<List<FrequencyRa
     }
 
     @Override
-    public Insight<List<FrequencyRate>> getInsight(Subtitle subtitle) {
+    public List<FrequencyRate> generate(Subtitle subtitle) {
         try {
             final InputStream highFrequencyWordsStream = getClass().getClassLoader()
                     .getResourceAsStream("language/en-high-frequency.json");
@@ -96,10 +90,10 @@ public class FrequencyRateGenerator implements InsightGenerator<List<FrequencyRa
             final List<FrequencyRate> rates = Arrays.asList(low, middle, high);
 
             LOGGER.info("{}: {}", getCode(), rates);
-            return new Insight<>(getCode(), rates);
+            return rates;
         } catch (IOException e) {
            LOGGER.error("an error occurred while reading the high frequency json file", e);
-           return new Insight<>(getCode(), emptyList());
+           return emptyList();
         }
     }
 }
