@@ -22,10 +22,9 @@
 
 package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.kalnee.trivor.nlp.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,17 +35,17 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.FUTURE_PROGRESSIVE;
-import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.FUTURE_PROGRESSIVE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
 
 /**
  * Future progressive verb tense insight generator.
  *
- * @see InsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class FutureProgressiveGenerator implements InsightGenerator<List<String>> {
+public class FutureProgressiveGenerator implements Generator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FutureProgressiveGenerator.class);
 
@@ -59,16 +58,11 @@ public class FutureProgressiveGenerator implements InsightGenerator<List<String>
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(VBN.name(), VBD.name());
 
 	@Override
-	public String getDescription() {
-		return FUTURE_PROGRESSIVE.getDescription();
-	}
-
-	@Override
 	public String getCode() {
 		return FUTURE_PROGRESSIVE.getCode();
 	}
 
-	public Insight<List<String>> getInsight(Subtitle subtitle) {
+	public List<String> generate(Subtitle subtitle) {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
 			.filter(s -> CollectionUtils.allMatch(s.getSentence(), MUST_CONTAIN_BE)
@@ -85,6 +79,6 @@ public class FutureProgressiveGenerator implements InsightGenerator<List<String>
 			(sentences.size() * 100d / subtitle.getSentences().size()))
 		);
 
-		return new Insight<>(getCode(), sentences);
+		return sentences;
 	}
 }

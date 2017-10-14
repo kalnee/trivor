@@ -22,10 +22,9 @@
 
 package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.kalnee.trivor.nlp.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,17 +34,17 @@ import java.util.List;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.SIMPLE_FUTURE;
-import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.SIMPLE_FUTURE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
 
 /**
  * Simple future verb tense insight generator.
  *
- * @see InsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
+public class SimpleFutureGenerator implements Generator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleFutureGenerator.class);
 
@@ -56,16 +55,11 @@ public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
 	private static final List<String> MUST_NOT_CONTAIN = Arrays.asList(VBN.name(), VBD.name(), VBG.name());
 
 	@Override
-	public String getDescription() {
-		return SIMPLE_FUTURE.getDescription();
-	}
-
-	@Override
 	public String getCode() {
 		return SIMPLE_FUTURE.getCode();
 	}
 
-	public Insight<List<String>> getInsight(Subtitle subtitle) {
+	public List<String> generate(Subtitle subtitle) {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
 			.filter(s -> CollectionUtils.anyMatch(s.getSentenceTags(), MUST_CONTAIN)
@@ -80,6 +74,6 @@ public class SimpleFutureGenerator implements InsightGenerator<List<String>> {
 			(sentences.size() * 100d / subtitle.getSentences().size()))
 		);
 
-		return new Insight<>(getCode(), sentences);
+		return sentences;
 	}
 }

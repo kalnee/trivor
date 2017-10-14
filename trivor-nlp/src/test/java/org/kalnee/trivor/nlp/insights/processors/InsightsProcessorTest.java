@@ -22,35 +22,35 @@
 
 package org.kalnee.trivor.nlp.insights.processors;
 
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
-import org.kalnee.trivor.nlp.nlp.models.Token;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.Result;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.Token;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class InsightsProcessorTest {
 
-	private InsightsProcessor insightsProcessor = new InsightsProcessor();
-	
-	@Test
-	public void testInsertion() throws URISyntaxException {
-		final List<Sentence> sentences = Collections.singletonList(new Sentence(
-				"I want to kill you.",
-				Arrays.asList(new Token("I", "PRP", "i", 0.99), new Token("want", "VB", "want", 0.99),
-						new Token("to", "TO", "to", 0.99), new Token("kill", "VB", "kill", 0.99),
-						new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)))
-		);
-		
-		final Subtitle subtitle = new Subtitle(sentences);
+    private InsightsProcessor insightsProcessor = new InsightsProcessor();
 
-		final Map<String, Object> insights = insightsProcessor.process(subtitle);
+    @Test
+    public void testInsertion() throws URISyntaxException {
+        final List<Sentence> sentences = Collections.singletonList(new Sentence(
+                "I want to kill you.",
+                Arrays.asList(new Token("I", "PRP", "i", 0.99), new Token("want", "VB", "want", 0.99),
+                        new Token("to", "TO", "to", 0.99), new Token("kill", "VB", "kill", 0.99),
+                        new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)))
+        );
 
-		Assert.assertTrue(!insights.isEmpty());
-	}
+        final Subtitle subtitle = new Subtitle(sentences);
+
+        final Result result = insightsProcessor.process(subtitle);
+
+        Assert.assertTrue(result.getNumberOfSentences() == 1);
+    }
 }

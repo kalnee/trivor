@@ -24,36 +24,30 @@ package org.kalnee.trivor.nlp.insights.generators;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.FrequencyRate;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyMap;
-import static org.kalnee.trivor.nlp.nlp.models.FrequencyEnum.*;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.FREQUENCY_RATE;
-import static org.kalnee.trivor.nlp.nlp.models.TagsEnum.*;
+import static java.util.Collections.emptyList;
+import static org.kalnee.trivor.nlp.domain.FrequencyEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.FREQUENCY_RATE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
 
 /**
  * Checks if a token/lemma is present the most frequently used words found in
  * http://www.talkenglish.com/vocabulary/top-2000-vocabulary.aspx
  *
  */
-public class FrequencyRateGenerator implements InsightGenerator<Map<String, Integer>> {
+public class FrequencyRateGenerator implements Generator<List<FrequencyRate>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FrequencyRateGenerator.class);
-
-    @Override
-    public String getDescription() {
-        return FREQUENCY_RATE.getDescription();
-    }
 
     @Override
     public String getCode() {
@@ -66,36 +60,40 @@ public class FrequencyRateGenerator implements InsightGenerator<Map<String, Inte
     }
 
     @Override
-    public Insight<Map<String, Integer>> getInsight(Subtitle subtitle) {
+    public List<FrequencyRate> generate(Subtitle subtitle) {
         try {
             final InputStream highFrequencyWordsStream = getClass().getClassLoader()
                     .getResourceAsStream("language/en-high-frequency.json");
             final List<String> words = new ObjectMapper().readValue(
                     highFrequencyWordsStream, new TypeReference<List<String>>(){}
             );
-            final Map<String, Integer> frequency = new HashMap<>();
+
+            final FrequencyRate low = new FrequencyRate(LOW);
+            final FrequencyRate middle = new FrequencyRate(MIDDLE);
+            final FrequencyRate high = new FrequencyRate(HIGH);
 
             subtitle.getSentences().stream().flatMap(s -> s.getTokens().stream())
                     .filter(t -> !asList(NNP.name(), NNPS.name(), CD.name(), SYM.name()).contains(t.getTag()))
+                    .filter(t -> t.getProb() > 0.6)
                     .map(t -> t.getLemma().toLowerCase())
-                    .filter(l -> l.matches("\\w+"))
-                    .forEach(l -> {
-                        final int index = words.indexOf(l);
-                        if (index == -1) {
-                            frequency.put(LOW.name(), frequency.getOrDefault(LOW.name(), 0) + 1);
+                    .filter(l -> l.matches("[^\\d\\W]+"))
+                    .forEach(lemma -> {
+                        final int index = words.indexOf(lemma);
+                        if (index == -1 && lemma.length() > 1) {
+                            low.getWords().add(lemma);
                         } else if (index < 1001) {
-                            frequency.put(HIGH.name(), frequency.getOrDefault(HIGH.name(), 0) + 1);
+                            high.getWords().add(lemma);
                         } else {
-                            frequency.put(MIDDLE.name(), frequency.getOrDefault(MIDDLE.name(), 0) + 1);
+                           middle.getWords().add(lemma);
                         }
                     });
+            final List<FrequencyRate> rates = Arrays.asList(low, middle, high);
 
-            LOGGER.info("{}: {}", getCode(), frequency);
-
-            return new Insight<>(getCode(), frequency);
+            LOGGER.info("{}: {}", getCode(), rates);
+            return rates;
         } catch (IOException e) {
            LOGGER.error("an error occurred while reading the high frequency json file", e);
-           return new Insight<>(getCode(), emptyMap());
+           return emptyList();
         }
     }
 }

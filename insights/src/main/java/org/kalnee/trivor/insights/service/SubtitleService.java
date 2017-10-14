@@ -64,9 +64,7 @@ public class SubtitleService {
 
         LOGGER.info("Subtitle created successfully.");
 
-        insightsRepository.save(
-                new Insights(subtitle.getImdbId(), subtitle.getId(), subtitleProcessor.getInsights())
-        );
+        insightsRepository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), subtitleProcessor.getResult()));
 
         LOGGER.info("Insights created successfully.");
     }

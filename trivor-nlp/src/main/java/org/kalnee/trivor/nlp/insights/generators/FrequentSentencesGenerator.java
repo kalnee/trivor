@@ -22,43 +22,36 @@
 
 package org.kalnee.trivor.nlp.insights.generators;
 
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.SentenceFrequency;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
-
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.FREQUENT_SENTENCES;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.FREQUENT_SENTENCES;
 
-public class FrequentSentencesGenerator implements InsightGenerator<Map<String, Long>> {
+public class FrequentSentencesGenerator implements Generator<List<SentenceFrequency>> {
 
-	@Override
-	public String getDescription() {
-		return FREQUENT_SENTENCES.getDescription();
-	}
+    @Override
+    public String getCode() {
+        return FREQUENT_SENTENCES.getCode();
+    }
 
-	@Override
-	public String getCode() {
-		return FREQUENT_SENTENCES.getCode();
-	}
+    @Override
+    public List<SentenceFrequency> generate(Subtitle subtitle) {
+        final Map<String, Long> words = subtitle.getSentences().parallelStream()
+                .filter(s -> s.getTokens().size() > 3)
+                .map(Sentence::getSentence)
+                .map(s -> s.replaceAll("\\.", ""))
+                .collect(groupingBy(Function.identity(), counting()));
 
-	@Override
-	public Insight<Map<String, Long>> getInsight(Subtitle subtitle) {
-		final Map<String, Long> words = subtitle.getSentences().parallelStream()
-			.filter(s -> s.getTokens().size() > 3)
-			.map(Sentence::getSentence)
-			.map(s -> s.replaceAll("\\.", ""))
-			.collect(groupingBy(Function.identity(), counting()));
-
-		final Map<String, Long> commonSentences = words.entrySet().parallelStream()
-			.sorted(Map.Entry.<String, Long> comparingByValue().reversed())
-			.filter(e -> e.getValue() > 1)
-			.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2, LinkedHashMap::new));
-
-    	return new Insight<>(getCode(), commonSentences);
-	}
+        return words.entrySet().parallelStream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .filter(e -> e.getValue() > 1)
+                .map(e -> new SentenceFrequency(e.getKey(), e.getValue()))
+                .collect(toList());
+    }
 }

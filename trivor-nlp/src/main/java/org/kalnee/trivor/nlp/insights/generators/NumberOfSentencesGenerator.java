@@ -23,29 +23,23 @@
 package org.kalnee.trivor.nlp.insights.generators;
 
 
-import org.kalnee.trivor.nlp.nlp.models.Insight;
-import org.kalnee.trivor.nlp.nlp.models.Subtitle;
+import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.kalnee.trivor.nlp.nlp.models.InsightsEnum.NUM_SENTENCES;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.NUMBER_SENTENCES;
 
-public class NumberOfSentencesGenerator implements InsightGenerator<Integer> {
+public class NumberOfSentencesGenerator implements Generator<Integer> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NumberOfSentencesGenerator.class);
 
 	@Override
-	public String getDescription() {
-		return NUM_SENTENCES.getDescription();
-	}
-
-	@Override
 	public String getCode() {
-		return NUM_SENTENCES.getCode();
+		return NUMBER_SENTENCES.getCode();
 	}
 
-	public Insight<Integer> getInsight(Subtitle subtitle) {
+	public Integer generate(Subtitle subtitle) {
 		LOGGER.info("{}: {}", getCode(), subtitle.getSentences().size());
-		return new Insight<>(getCode(), subtitle.getSentences().size());
+		return subtitle.getSentences().size();
 	}
 }

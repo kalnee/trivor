@@ -2,13 +2,13 @@ package org.kalnee.trivor.insights.domain;
 
 import org.kalnee.trivor.insights.domain.dto.SubtitleDTO;
 import org.kalnee.trivor.insights.domain.dto.TypeEnum;
-import org.kalnee.trivor.nlp.nlp.models.Sentence;
-import org.kalnee.trivor.nlp.nlp.models.SentimentEnum;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.SentimentEnum;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +18,7 @@ public class Subtitle {
     @Id
     private String id;
 
+    @Indexed
     private String imdbId;
 
     private String name;

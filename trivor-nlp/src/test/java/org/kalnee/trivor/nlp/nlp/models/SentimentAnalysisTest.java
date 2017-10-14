@@ -24,27 +24,28 @@ package org.kalnee.trivor.nlp.nlp.models;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.SentimentEnum;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
-import static org.kalnee.trivor.nlp.nlp.models.SentimentEnum.NEGATIVE;
-import static org.kalnee.trivor.nlp.nlp.models.SentimentEnum.POSITIVE;
+import static org.kalnee.trivor.nlp.domain.SentimentEnum.NEGATIVE;
+import static org.kalnee.trivor.nlp.domain.SentimentEnum.POSITIVE;
 import static org.junit.Assert.assertTrue;
 
 public class SentimentAnalysisTest {
 
-    private SentimentAnalysis sentimentAnalysis;
+    private SentimentAnalyser sentimentAnalyser;
 
     @Before
     public void setUp() {
-        sentimentAnalysis = new SentimentAnalysis();
+        sentimentAnalyser = new SentimentAnalyser();
     }
 
     @Test
     public void testPositiveSentences() {
-        final Map<SentimentEnum, BigDecimal> simpleResult = sentimentAnalysis.categorize(
+        final Map<SentimentEnum, BigDecimal> simpleResult = sentimentAnalyser.categorize(
                 Arrays.asList("When I stepped into the theater, I thought this was going to be a great movie. " +
                         "And I was not disappointed one bit. WOW! This movie is brilliant! The emotions felt through " +
                         "out the whole movie are extraordinary! Great acting by Madhavan and Simran. Beautiful music " +
@@ -63,7 +64,7 @@ public class SentimentAnalysisTest {
 
     @Test
     public void testNegativeSentences() {
-        final Map<SentimentEnum, BigDecimal> simpleResult = sentimentAnalysis.categorize(
+        final Map<SentimentEnum, BigDecimal> simpleResult = sentimentAnalyser.categorize(
                 Arrays.asList("I just finished watching this movie and am disappointed to say that I didn't enjoy it a bit. " +
                         "It is so slow Slow and uninteresting. This kid from Harry Potter plays a shy teenager " +
                         "with an rude mother, and then one day the rude mother tells the kid to find a " +

@@ -3,6 +3,7 @@ package org.kalnee.trivor.insights.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.kalnee.trivor.insights.domain.Insights;
 import org.kalnee.trivor.insights.service.InsightService;
+import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -35,52 +36,43 @@ public class InsightsResource {
         return ResponseEntity.ok().body(insightService.getInsightsSummary(imdbId));
     }
 
-    @GetMapping("/frequency/{insight}")
+    @GetMapping("/verbs/frequency")
     @Timed
-    public ResponseEntity<Map<String, Integer>> findFrequencyByInsightAndImdbId(@PathVariable("insight") String insight,
-                                                                                @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findFrequencyByInsightAndImdbId(insight, imdbId));
+    public ResponseEntity<Map<String, Integer>> findVerbFrequencyByImdbId(
+        @RequestParam("imdbId") String imdbId,
+        @RequestParam(value = "limit", required = false) Integer limit) {
+        return ResponseEntity.ok().body(insightService.findVerbFrequencyByImdbId(imdbId, limit));
     }
 
-    @GetMapping("/frequency/{insight}/top/{limit}")
+    @GetMapping("/verbs/usage")
     @Timed
-    public ResponseEntity<Map<String, Integer>> findTopFrequencyByImdbId(@PathVariable("insight") String insight,
-                                                                         @PathVariable("limit") Integer limit,
-                                                                         @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findTopFrequencyByInsightAndImdbId(insight, imdbId, limit));
-    }
-
-    @GetMapping("/sentences/{insight}")
-    @Timed
-    public ResponseEntity<Map<String, List<String>>> findSentencesByInsightAndImdb(
-        @PathVariable("insight") String insight,
+    public ResponseEntity<List<WordUsage>> findVerbUsageByImdbAndSeasonAndEpisode(
         @RequestParam("imdbId") String imdbId,
         @RequestParam(value = "season", required = false) Integer season,
         @RequestParam(value = "episode", required = false) Integer episode) {
         return ResponseEntity.ok().body(
-            insightService.findSentencesByInsightAndImdbAndSeasonAndEpisode(insight, imdbId, season, episode)
+            insightService.findVerbUsageByImdbAndSeasonAndEpisode(imdbId, season, episode)
         );
     }
 
-    @GetMapping("/verb-tenses/{insight}")
+    @GetMapping("/verb-tenses/usage")
     @Timed
     public ResponseEntity<Set<String>> findVerbTensesByInsightAndImdb(
-        @PathVariable("insight") String insight,
         @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findVerbTensesByInsightAndImdb(insight, imdbId));
+        return ResponseEntity.ok().body(insightService.findVerbTensesByInsightAndImdb(imdbId));
     }
 
     @GetMapping("/{insight}/genres/{genre}")
     @Timed
-    public ResponseEntity<List<Object>> findInsightsByGenre(@PathVariable("insight") String insight,
-                                                            @PathVariable("genre") String genre) {
-        return ResponseEntity.ok().body(insightService.findInsightsByInsightAndGenre(insight, genre));
+    public ResponseEntity<List<Insights>> findInsightsByGenre(
+        @PathVariable("genre") String genre) {
+        return ResponseEntity.ok().body(insightService.findInsightsByInsightAndGenre(genre));
     }
 
     @GetMapping("/{insight}/keywords/{keyword}")
     @Timed
-    public ResponseEntity<List<Object>> findInsightsByKeyword(@PathVariable("insight") String insight,
-                                                              @PathVariable("keyword") String keyword) {
-        return ResponseEntity.ok().body(insightService.findInsightsByInsightAndKeyword(insight, keyword));
+    public ResponseEntity<List<Insights>> findInsightsByKeyword(
+        @PathVariable("keyword") String keyword) {
+        return ResponseEntity.ok().body(insightService.findInsightsByInsightAndKeyword(keyword));
     }
 }
