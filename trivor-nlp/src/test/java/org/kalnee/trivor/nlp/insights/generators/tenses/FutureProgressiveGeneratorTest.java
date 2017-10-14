@@ -20,34 +20,36 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.domain;
+package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-public class Insight<T> {
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.utils.TestUtils;
 
-    private String code;
-    private T value;
+import java.io.IOException;
+import java.util.List;
 
-    public Insight() {
-    }
+import static org.junit.Assert.assertTrue;
 
-    public Insight(String code, T value) {
-        this.code = code;
-        this.value = value;
-    }
+public class FutureProgressiveGeneratorTest {
 
-    public String getCode() {
-        return code;
-    }
+  private Subtitle getSubtitle() throws IOException {
+    final List<Sentence> sentences = TestUtils.readSentences(
+        "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
+    );
+    final Subtitle subtitle = new Subtitle();
+    subtitle.setSentences(sentences);
 
-    public T getValue() {
-        return value;
-    }
+    return subtitle;
+  }
 
-    @Override
-    public String toString() {
-        return "Insight{" +
-                "code='" + code + '\'' +
-                ", value=" + value +
-                '}';
-    }
+  @Test
+  public void testFindFutureProgressive() throws IOException {
+    final FutureProgressiveGenerator spg = new FutureProgressiveGenerator();
+    final List<String> insight = spg.generate(getSubtitle());
+
+    assertTrue("should've have identified 3 sentences", 3 == insight.size());
+  }
 }

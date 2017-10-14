@@ -20,22 +20,20 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.insights.generators.tenses;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.kalnee.trivor.nlp.insights.generators.tenses.PresentPerfectGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
+import org.junit.Test;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.utils.TestUtils;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class PresentPerfectGeneratorTest {
+public class SimpleFutureGeneratorTest {
 
   private Subtitle getSubtitle() throws IOException {
     final List<Sentence> sentences = TestUtils.readSentences(
@@ -48,10 +46,10 @@ public class PresentPerfectGeneratorTest {
   }
 
   @Test
-  public void testFindPresentPerfect() throws IOException {
-    final PresentPerfectGenerator spg = new PresentPerfectGenerator();
-    final Insight<List<String>> insight = spg.getInsight(getSubtitle());
+  public void testFindSimpleFuture() throws IOException {
+    final SimpleFutureGenerator spg = new SimpleFutureGenerator();
+    final List<String> insight = spg.generate(getSubtitle());
 
-    assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
+    assertTrue("should've have identified 3 sentences", 3 == insight.size());
   }
 }

@@ -20,41 +20,38 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.post;
+package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.VerbTenses;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.MIXED_TENSE;
 
 /**
  * Generator for sentences that have more than one verb tense.
  *
- * @see PostInsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class MixedTensesPostGenerator implements PostInsightGenerator<List<String>> {
+public class MixedTensesGenerator implements Generator<List<String>> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MixedTensesPostGenerator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MixedTensesGenerator.class);
 
-	private static final List<String> INSIGHTS = Arrays.asList(
-		SIMPLE_PRESENT.getCode(), SIMPLE_PAST.getCode(), SIMPLE_FUTURE.getCode(), PRESENT_PROGRESSIVE.getCode(),
-		PAST_PROGRESSIVE.getCode(), FUTURE_PROGRESSIVE.getCode(), PRESENT_PERFECT.getCode(), PAST_PERFECT.getCode(),
-		NON_SENTENCES.getCode()
-	);
+	private final VerbTenses verbTenses;
 
-	@Override
-	public String getDescription() {
-		return MIXED_TENSE.getDescription();
+	public MixedTensesGenerator(VerbTenses verbTenses) {
+		this.verbTenses = verbTenses;
 	}
 
 	@Override
@@ -62,18 +59,21 @@ public class MixedTensesPostGenerator implements PostInsightGenerator<List<Strin
 		return MIXED_TENSE.getCode();
 	}
 
-	@Override
-	public Insight<List<String>> getInsight(Subtitle subtitle) {
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
-	public Insight<List<String>> getInsight(Subtitle subtitle, List<Insight> insights) {
+	public List<String> generate(Subtitle subtitle) {
 
-		final List<String> all = insights.stream()
-			.filter(i -> INSIGHTS.contains(i.getCode()))
-			.flatMap(i -> ((List<String>) i.getValue()).stream())
-			.collect(toList());
+		final List<String> all = Stream.of(
+				verbTenses.getSimplePresent(),
+				verbTenses.getSimplePast(),
+				verbTenses.getSimpleFuture(),
+				verbTenses.getPresentProgressive(),
+				verbTenses.getPastProgressive(),
+				verbTenses.getFutureProgressive(),
+				verbTenses.getPresentPerfect(),
+				verbTenses.getPastPerfect(),
+				verbTenses.getFuturePerfect(),
+				verbTenses.getNonSentences()
+		).flatMap(Collection::stream).collect(toList());
 
 		final List<String> mixed = subtitle.getSentences().stream()
 			.filter(s -> !all.contains(s.getSentence()))
@@ -86,7 +86,6 @@ public class MixedTensesPostGenerator implements PostInsightGenerator<List<Strin
 		);
 
 		LOGGER.info("total: {}/{}", all.size() + mixed.size(), subtitle.getSentences().size());
-
-		return new Insight<>(getCode(), mixed);
+		return mixed;
 	}
 }

@@ -20,11 +20,14 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.post;
+package org.kalnee.trivor.nlp.insights.generators;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.kalnee.trivor.nlp.domain.*;
+import org.kalnee.trivor.nlp.domain.PhrasalVerbUsage;
+import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.Token;
+import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,17 +37,18 @@ import java.util.*;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.reverseOrder;
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.FREQUENCY_RATE;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.VERBS_USAGE;
 
-public class PhrasalVerbPostGenerator implements PostInsightGenerator<List<PhrasalVerbUsage>> {
+public class PhrasalVerbsGenerator implements Generator<List<PhrasalVerbUsage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PhrasalVerbPostGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhrasalVerbsGenerator.class);
 
-    @Override
-    public String getDescription() {
-        return FREQUENCY_RATE.getDescription();
+    private final List<WordUsage> verbs;
+
+    public PhrasalVerbsGenerator(List<WordUsage> verbs) {
+        this.verbs = verbs;
     }
 
     @Override
@@ -53,13 +57,8 @@ public class PhrasalVerbPostGenerator implements PostInsightGenerator<List<Phras
     }
 
     @Override
-    public Insight<List<PhrasalVerbUsage>> getInsight(Subtitle subtitle) {
-        return null;
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public Insight<List<PhrasalVerbUsage>> getInsight(Subtitle subtitle, List<Insight> insights) {
+    public List<PhrasalVerbUsage> generate(Subtitle subtitle) {
         try {
             final InputStream phrasalVerbsStream = getClass().getClassLoader()
                     .getResourceAsStream("language/en-phrasal-verbs.json");
@@ -69,9 +68,7 @@ public class PhrasalVerbPostGenerator implements PostInsightGenerator<List<Phras
 
             final Map<String, Set<String>> map = new HashMap<>();
 
-            insights.stream().filter(i -> i.getCode().equals(VERBS_USAGE.getCode()))
-                    .flatMap(i -> ((List<WordUsage>) i.getValue()).stream())
-                    .forEach(verb -> {
+            verbs.forEach(verb -> {
                         final List<String> possiblePhrasalVerbs = phrasalVerbs.stream()
                                 .filter(w -> w.startsWith(verb.getWord() + " "))
                                 .map(w -> w.substring(w.indexOf(" ") + 1))
@@ -98,17 +95,14 @@ public class PhrasalVerbPostGenerator implements PostInsightGenerator<List<Phras
                     });
 
             final List<PhrasalVerbUsage> usage = map.entrySet().stream()
+                    .sorted(reverseOrder(comparingInt(e -> e.getValue().size())))
                     .map(e -> new PhrasalVerbUsage(e.getKey(), e.getValue()))
                     .collect(toList());
-            LOGGER.info("{}: {}", getCode(), usage);
-            return new Insight<>(getCode(), usage);
+            LOGGER.info("{}: {}", getCode(), usage.stream().limit(2).collect(toList()));
+            return usage;
         } catch (IOException e) {
            LOGGER.error("an error occurred while reading the high frequency json file", e);
-           return new Insight<>(getCode(), emptyList());
+           return emptyList();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println("be out to".substring("be out to".indexOf(" ") + 1));
     }
 }

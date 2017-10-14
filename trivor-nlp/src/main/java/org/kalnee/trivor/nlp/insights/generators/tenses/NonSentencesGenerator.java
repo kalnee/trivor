@@ -20,11 +20,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.kalnee.trivor.nlp.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ import static java.util.stream.Collectors.toList;
 import static org.kalnee.trivor.nlp.domain.InsightsEnum.NON_SENTENCES;
 import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
 
-public class NonSentencesGenerator implements InsightGenerator<List<String>> {
+public class NonSentencesGenerator implements Generator<List<String>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NonSentencesGenerator.class);
 
@@ -49,22 +49,18 @@ public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 	);
 
 	@Override
-	public String getDescription() {
-		return NON_SENTENCES.getDescription();
-	}
-
-	@Override
 	public String getCode() {
 		return NON_SENTENCES.getCode();
 	}
 
-	public Insight<List<String>> getInsight(Subtitle subtitle) {
+	public List<String> generate(Subtitle subtitle) {
 		final List<String> sentences = subtitle.getSentences()
 			.stream()
 			.filter(s -> (CollectionUtils.noneMatch(s.getSentenceTags(), MUST_NOT_CONTAIN)
 				|| CollectionUtils.singleMatch(s.getSentenceTags(), MUST_NOT_CONTAIN))
 			 	&& CollectionUtils.noneMatch(s.getSentence(), MUST_NOT_CONTAIN_WORDS))
 			.map(Sentence::getSentence)
+			.distinct()
 			.collect(toList());
 
 		LOGGER.info(
@@ -72,6 +68,6 @@ public class NonSentencesGenerator implements InsightGenerator<List<String>> {
 			(sentences.size() * 100d / subtitle.getSentences().size()))
 		);
 
-		return new Insight<>(getCode(), sentences);
+		return sentences;
 	}
 }

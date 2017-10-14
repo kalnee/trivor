@@ -20,55 +20,47 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.words;
+package org.kalnee.trivor.nlp.insights.generators.vocabulary;
 
-import org.kalnee.trivor.nlp.domain.WordUsage;
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.VERBS_USAGE;
-import static org.kalnee.trivor.nlp.domain.TagsEnum.*;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADVERBS_USAGE;
+import static org.kalnee.trivor.nlp.domain.TagsEnum.RB;
 
 /**
- * Sentence generator for verbs.
+ * Sentence generator for adverbs.
  *
  * @see WordUsageGenerator
- * @see InsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class VerbsGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
+public class AdverbsGenerator extends WordUsageGenerator implements Generator<List<WordUsage>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerbsGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdverbsGenerator.class);
 
     @Override
     List<String> getTags() {
-        return Arrays.asList(
-                VB.name(), VBD.name(), VBG.name(), VBN.name(), VBP.name(), VBZ.name()
-        );
-    }
-
-    @Override
-    public String getDescription() {
-        return VERBS_USAGE.getDescription();
+        return Collections.singletonList(RB.name());
     }
 
     @Override
     public String getCode() {
-        return VERBS_USAGE.getCode();
+        return ADVERBS_USAGE.getCode();
     }
 
     @Override
-    public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+    public List<WordUsage> generate(Subtitle subtitle) {
         final List<WordUsage> words = getSentences(subtitle);
         LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-        return new Insight<>(getCode(), words);
+        return words;
     }
 }

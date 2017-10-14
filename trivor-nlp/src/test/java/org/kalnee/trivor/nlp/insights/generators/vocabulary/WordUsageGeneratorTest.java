@@ -20,26 +20,25 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.insights.generators.vocabulary;
 
-import org.kalnee.trivor.nlp.domain.WordUsage;
-import org.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
 import static org.junit.Assert.assertTrue;
 
 public class WordUsageGeneratorTest {
 
-    private static SubtitleProcessor subtitleProcessor;
+    private static SubtitleProcessor sp;
 
     @BeforeClass
     public static void setUp() throws URISyntaxException {
-        subtitleProcessor = new SubtitleProcessor
+        sp = new SubtitleProcessor
                 .Builder(WordUsageGeneratorTest.class.getResource("/language/tt0238784-S01E01.srt").toURI())
                 .withDuration(42)
                 .build();
@@ -47,52 +46,52 @@ public class WordUsageGeneratorTest {
 
     @Test
     public void testAdverbsFrequency() {
-        assertTrue(getFrequency(ADVERBS_USAGE.getCode(), "here") == 16);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getAdverbs(), "here") == 16);
     }
 
     @Test
     public void testAdjectivesFrequency() {
-        assertTrue(getFrequency(ADJECTIVES_USAGE.getCode(), "good") == 12);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getAdjectives(), "good") == 12);
     }
 
     @Test
     public void testVerbsFrequency() {
-        assertTrue(getFrequency(VERBS_USAGE.getCode(), "be") == 173);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getVerbs(), "be") == 173);
     }
 
     @Test
     public void testModalsFrequency() {
-        assertTrue(getFrequency(MODALS_USAGE.getCode(), "can") == 32);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getModals(), "can") == 32);
     }
 
     @Test
     public void testNounsFrequency() {
-        assertTrue(getFrequency(NOUNS_USAGE.getCode(), "school") == 32);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getNouns(), "school") == 32);
     }
 
     @Test
     public void testComparativesFrequency() {
-        assertTrue(getFrequency(COMPARATIVES_USAGE.getCode(), "smaller") == 1);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getComparatives(), "smaller") == 1);
     }
 
     @Test
     public void testSuperlativesFrequency() {
-        assertTrue(getFrequency(SUPERLATIVES_USAGE.getCode(), "least") == 2);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getSuperlatives(), "least") == 2);
     }
 
     @Test
     public void testWhWordsFrequency() {
-        assertTrue(getFrequency(WH_USAGE.getCode(), "what") == 21);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getWhWords(), "what") == 21);
     }
 
     @Test
     public void testPrepositionsFrequency() {
-        assertTrue(getFrequency(PREPOSITIONS_USAGE.getCode(), "at") == 22);
+        assertTrue(getFrequency(sp.getResult().getVocabulary().getPrepositions(), "at") == 22);
     }
 
     @SuppressWarnings("unchecked")
-    private Integer getFrequency(String code, String word) {
-        return ((List<WordUsage>)subtitleProcessor.getInsightsMap().get(code)).stream()
+    private Integer getFrequency(List<WordUsage> words, String word) {
+        return words.stream()
                 .filter(w -> w.getWord().equals(word))
                 .mapToInt(w -> w.getSentences().size())
                 .findFirst().getAsInt();

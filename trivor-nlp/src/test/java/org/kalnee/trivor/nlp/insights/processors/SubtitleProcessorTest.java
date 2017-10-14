@@ -23,20 +23,12 @@
 package org.kalnee.trivor.nlp.insights.processors;
 
 import org.junit.Test;
-import org.kalnee.trivor.nlp.domain.Insight;
-import org.kalnee.trivor.nlp.domain.Subtitle;
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.insights.generators.post.PostInsightGenerator;
 import org.mockito.internal.util.reflection.Whitebox;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.ADJECTIVES_USAGE;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.MIXED_TENSE;
 
 public class SubtitleProcessorTest {
 
@@ -57,60 +49,4 @@ public class SubtitleProcessorTest {
         assertTrue("should've replaced simple quotes", content.contains("or even Hey, you depending on"));
         assertTrue(content.endsWith("Al's food does not stink, Al stinks."));
     }
-
-    @Test
-    public void testCustomInsightAndPostInsights() throws URISyntaxException {
-        SubtitleProcessor subtitleProcessor = new SubtitleProcessor
-                .Builder(getSubtitleURI("language/tt0238784-S01E01.srt"))
-                .addCustomInsights(new CustomInsight())
-                .addCustomPostInsights(new CustomPostInsight())
-                .build();
-
-        assertEquals("custom", subtitleProcessor.getInsightsMap().get("custom-insight"));
-        assertEquals("custom post", subtitleProcessor.getInsightsMap().get("custom-post-insight"));
-    }
-
-    class CustomInsight implements InsightGenerator<String> {
-
-        @Override
-        public String getCode() {
-            return "custom-insight";
-        }
-
-        @Override
-        public Insight<String> getInsight(Subtitle subtitle) {
-            return new Insight<>(getCode(), "custom");
-        }
-    }
-
-    class CustomPostInsight implements PostInsightGenerator<String> {
-
-        @Override
-        public String getCode() {
-            return "custom-post-insight";
-        }
-
-        @Override
-        public Insight<String> getInsight(Subtitle subtitle) {
-            return null;
-        }
-
-        @Override
-        public Insight<String> getInsight(Subtitle subtitle, List<Insight> insights) {
-            return new Insight<>(getCode(), "custom post");
-        }
-    }
-
-    @Test
-    public void testInsightsAndPostInsightsToSKip() throws URISyntaxException {
-        SubtitleProcessor subtitleProcessor = new SubtitleProcessor
-                .Builder(getSubtitleURI("language/tt0238784-S01E01.srt"))
-                .skipInsights(ADJECTIVES_USAGE.getCode())
-                .skipPostInsights(MIXED_TENSE.getCode())
-                .build();
-
-        assertEquals(null, subtitleProcessor.getInsightsMap().get(ADJECTIVES_USAGE.getCode()));
-        assertEquals(null, subtitleProcessor.getInsightsMap().get(MIXED_TENSE.getCode()));
-    }
-
 }

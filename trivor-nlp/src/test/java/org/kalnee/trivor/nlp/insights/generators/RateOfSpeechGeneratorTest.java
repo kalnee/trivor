@@ -22,17 +22,14 @@
 
 package org.kalnee.trivor.nlp.insights.generators;
 
-import org.kalnee.trivor.nlp.domain.RateOfSpeech;
-import org.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 import org.junit.Test;
-import org.kalnee.trivor.nlp.domain.InsightsEnum;
 import org.kalnee.trivor.nlp.domain.RateOfSpeechEnum;
+import org.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertTrue;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.RATE_OF_SPEECH;
 
 public class RateOfSpeechGeneratorTest {
 
@@ -42,8 +39,6 @@ public class RateOfSpeechGeneratorTest {
                 .Builder(RateOfSpeechGeneratorTest.class.getResource("/language/tt0238784-S01E01.srt").toURI())
                 .withDuration(42)
                 .build();
-
-        RateOfSpeech rateOfSpeech = ((RateOfSpeech) sp.getInsight(RATE_OF_SPEECH.getCode()).get().getValue());
-        assertTrue(RateOfSpeechEnum.FAST.name().equals(rateOfSpeech.getRate().name()));
+        assertTrue(RateOfSpeechEnum.FAST.name().equals(sp.getResult().getRateOfSpeech().getRate().name()));
     }
 }

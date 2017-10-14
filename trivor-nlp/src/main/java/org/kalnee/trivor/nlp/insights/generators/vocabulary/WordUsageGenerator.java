@@ -20,12 +20,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.words;
+package org.kalnee.trivor.nlp.insights.generators.vocabulary;
 
-import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.domain.Token;
+import org.kalnee.trivor.nlp.domain.WordUsage;
 
 import java.util.*;
 import java.util.function.Function;
@@ -33,6 +33,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.lang.Character.isUpperCase;
+import static java.util.Collections.reverseOrder;
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
 
 abstract class WordUsageGenerator {
@@ -72,7 +74,9 @@ abstract class WordUsageGenerator {
             });
         }
 
-        return words.entrySet().stream().map(e -> new WordUsage(e.getKey(), e.getValue())).collect(toList());
+        return words.entrySet().stream()
+                .sorted(reverseOrder(comparingInt(e -> e.getValue().size())))
+                .map(e -> new WordUsage(e.getKey(), e.getValue())).collect(toList());
     }
 
     List<WordUsage> getExamples(List<WordUsage> sentences) {
