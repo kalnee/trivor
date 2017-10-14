@@ -5,6 +5,7 @@ import org.kalnee.trivor.insights.domain.dto.TypeEnum;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.SentimentEnum;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class Subtitle {
     @Id
     private String id;
 
+    @Indexed
     private String imdbId;
 
     private String name;

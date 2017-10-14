@@ -1,5 +1,5 @@
 /* Copyright (c) 2016 Kalnee
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -20,37 +20,44 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.domain;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.kalnee.trivor.nlp.domain.Insight;
-import org.kalnee.trivor.nlp.domain.Sentence;
-import org.kalnee.trivor.nlp.domain.Subtitle;
-import org.kalnee.trivor.nlp.utils.TestUtils;
-import org.junit.Test;
+public class SentenceFrequency {
 
-import java.io.IOException;
-import java.util.List;
+    private String sentence;
 
-import static org.junit.Assert.assertTrue;
+    private Long frequency;
 
-public class NonSentencesGeneratorTest {
+    public SentenceFrequency() {
+    }
 
-  private Subtitle getSubtitle() throws IOException {
-    final List<Sentence> sentences = TestUtils.readSentences(
-        "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
-    );
-    final Subtitle subtitle = new Subtitle();
-    subtitle.setSentences(sentences);
+    public SentenceFrequency(String sentence, Long frequency) {
+        this.sentence = sentence;
+        this.frequency = frequency;
+    }
 
-    return subtitle;
-  }
+    public String getSentence() {
+        return sentence;
+    }
 
-  @Test
-  public void testFindNonSentences() throws IOException {
-    final NonSentencesGenerator spg = new NonSentencesGenerator();
-    final Insight<List<String>> insight = spg.getInsight(getSubtitle());
+    public void setSentence(String sentence) {
+        this.sentence = sentence;
+    }
 
-    assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
-  }
+    public Long getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Long frequency) {
+        this.frequency = frequency;
+    }
+
+    @Override
+    public String toString() {
+        return "FrequentSentences{" +
+                "sentence='" + sentence + '\'' +
+                ", frequency=" + frequency +
+                '}';
+    }
 }
+

@@ -20,22 +20,36 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-import org.kalnee.trivor.nlp.domain.Insight;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.utils.TestUtils;
 
-public interface InsightGenerator<T> {
+import java.io.IOException;
+import java.util.List;
 
-    default String getDescription() {
-        return getCode();
-    }
+import static org.junit.Assert.assertTrue;
 
-    String getCode();
+public class FutureProgressiveGeneratorTest {
 
-    Insight<T> getInsight(Subtitle subtitle);
+  private Subtitle getSubtitle() throws IOException {
+    final List<Sentence> sentences = TestUtils.readSentences(
+        "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
+    );
+    final Subtitle subtitle = new Subtitle();
+    subtitle.setSentences(sentences);
 
-    default boolean shouldRun(Subtitle subtitle) {
-        return true;
-    }
+    return subtitle;
+  }
+
+  @Test
+  public void testFindFutureProgressive() throws IOException {
+    final FutureProgressiveGenerator spg = new FutureProgressiveGenerator();
+    final List<String> insight = spg.generate(getSubtitle());
+
+    assertTrue("should've have identified 3 sentences", 3 == insight.size());
+  }
 }

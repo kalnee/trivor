@@ -1,5 +1,5 @@
 /* Copyright (c) 2016 Kalnee
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -22,32 +22,47 @@
 
 package org.kalnee.trivor.nlp.domain;
 
-public class Insight<T> {
+import java.util.HashSet;
+import java.util.Set;
 
-    private String code;
-    private T value;
+import static java.util.stream.Collectors.toSet;
 
-    public Insight() {
+public class PhrasalVerbUsage {
+
+    private String phrasalVerb;
+
+    private Set<String> sentences = new HashSet<>();
+
+    public PhrasalVerbUsage() {
     }
 
-    public Insight(String code, T value) {
-        this.code = code;
-        this.value = value;
+    public PhrasalVerbUsage(String phrasalVerb, Set<String> sentences) {
+        this.phrasalVerb = phrasalVerb;
+        this.sentences = sentences;
     }
 
-    public String getCode() {
-        return code;
+    public String getPhrasalVerb() {
+        return phrasalVerb;
     }
 
-    public T getValue() {
-        return value;
+    public void setPhrasalVerb(String phrasalVerb) {
+        this.phrasalVerb = phrasalVerb;
+    }
+
+    public Set<String> getSentences() {
+        return sentences;
+    }
+
+    public void setSentences(Set<String> sentences) {
+        this.sentences = sentences;
     }
 
     @Override
     public String toString() {
-        return "Insight{" +
-                "code='" + code + '\'' +
-                ", value=" + value +
+        return "PhrasalVerbUsage{" +
+                "phrasalVerb='" + phrasalVerb + '\'' +
+                ", sentences=" + sentences.stream().limit(2).collect(toSet()) +
                 '}';
     }
 }
+

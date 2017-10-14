@@ -22,36 +22,15 @@
 
 package org.kalnee.trivor.nlp.insights.generators;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.kalnee.trivor.nlp.insights.generators.tenses.SimplePresentGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
-import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
-import org.kalnee.trivor.nlp.utils.TestUtils;
-import org.junit.Test;
 
-import java.io.IOException;
-import java.util.List;
+public interface Generator<T> {
 
-import static org.junit.Assert.assertTrue;
+    String getCode();
 
-public class SimplePresentGeneratorTest {
+    T generate(Subtitle subtitle);
 
-  private Subtitle getSubtitle() throws IOException {
-    final List<Sentence> sentences = TestUtils.readSentences(
-        "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
-    );
-    final Subtitle subtitle = new Subtitle();
-    subtitle.setSentences(sentences);
-
-    return subtitle;
-  }
-
-  @Test
-  public void testFindSimplePresent() throws IOException {
-    final SimplePresentGenerator spg = new SimplePresentGenerator();
-    final Insight<List<String>> insight = spg.getInsight(getSubtitle());
-
-    assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
-  }
+    default boolean shouldRun(Subtitle subtitle) {
+        return true;
+    }
 }

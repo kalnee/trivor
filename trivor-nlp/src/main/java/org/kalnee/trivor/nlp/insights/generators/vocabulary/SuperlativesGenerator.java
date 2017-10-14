@@ -20,12 +20,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators.words;
+package org.kalnee.trivor.nlp.insights.generators.vocabulary;
 
-import org.kalnee.trivor.nlp.domain.WordUsage;
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,11 +39,11 @@ import static org.kalnee.trivor.nlp.utils.LanguageUtils.NOT_ADJECTIVES;
  * Sentence generator for superlatives.
  *
  * @see WordUsageGenerator
- * @see InsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class SuperlativesGenerator extends WordUsageGenerator implements InsightGenerator<List<WordUsage>> {
+public class SuperlativesGenerator extends WordUsageGenerator implements Generator<List<WordUsage>> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SuperlativesGenerator.class);
 
@@ -54,22 +53,17 @@ public class SuperlativesGenerator extends WordUsageGenerator implements Insight
 	}
 
 	@Override
-	public String getDescription() {
-		return SUPERLATIVES_USAGE.getDescription();
-	}
-
-	@Override
 	public String getCode() {
 		return SUPERLATIVES_USAGE.getCode();
 	}
 
 	@Override
-	public Insight<List<WordUsage>> getInsight(Subtitle subtitle) {
+	public List<WordUsage> generate(Subtitle subtitle) {
 		final List<WordUsage> words = getSentences(
 				subtitle, t -> t.getToken().toLowerCase(), w -> !NOT_ADJECTIVES.contains(w)
 		);
 		LOGGER.info("{} - {}", getCode(), getExamples(words));
 
-    	return new Insight<>(getCode(), words);
+    	return words;
 	}
 }

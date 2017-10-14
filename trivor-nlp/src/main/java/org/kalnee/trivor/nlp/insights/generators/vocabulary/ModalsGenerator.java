@@ -20,37 +20,46 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.kalnee.trivor.nlp.insights.generators;
+package org.kalnee.trivor.nlp.insights.generators.vocabulary;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.kalnee.trivor.nlp.insights.generators.tenses.FuturePerfectGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
-import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.InsightsEnum;
 import org.kalnee.trivor.nlp.domain.Subtitle;
-import org.kalnee.trivor.nlp.utils.TestUtils;
-import org.junit.Test;
+import org.kalnee.trivor.nlp.domain.TagsEnum;
+import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+/**
+ * Sentence generator for modals.
+ *
+ * @see WordUsageGenerator
+ * @see Generator
+ *
+ * @since 0.0.1
+ */
+public class ModalsGenerator extends WordUsageGenerator implements Generator<List<WordUsage>> {
 
-public class FuturePerfectGeneratorTest {
-    private Subtitle getSubtitle() throws IOException {
-        final List<Sentence> sentences = TestUtils.readSentences(
-                "fixtures/sentences.json", new TypeReference<List<Sentence>>() {}
-        );
-        final Subtitle subtitle = new Subtitle();
-        subtitle.setSentences(sentences);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModalsGenerator.class);
 
-        return subtitle;
+    @Override
+    List<String> getTags() {
+        return Collections.singletonList(TagsEnum.MD.name());
     }
 
-    @Test
-    public void testFindFuturePerfect() throws IOException {
-        final FuturePerfectGenerator fpg = new FuturePerfectGenerator();
-        final Insight<List<String>> insight = fpg.getInsight(getSubtitle());
+    @Override
+    public String getCode() {
+        return InsightsEnum.MODALS_USAGE.getCode();
+    }
 
-        assertTrue("should've have identified 3 sentences", 3 == insight.getValue().size());
+    @Override
+    public List<WordUsage> generate(Subtitle subtitle) {
+        final List<WordUsage> words = getSentences(subtitle);
+        LOGGER.info("{} - {}", getCode(), getExamples(words));
+
+        return words;
     }
 }

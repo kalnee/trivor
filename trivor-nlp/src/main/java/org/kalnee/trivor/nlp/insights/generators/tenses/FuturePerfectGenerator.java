@@ -22,10 +22,9 @@
 
 package org.kalnee.trivor.nlp.insights.generators.tenses;
 
-import org.kalnee.trivor.nlp.insights.generators.InsightGenerator;
-import org.kalnee.trivor.nlp.domain.Insight;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
+import org.kalnee.trivor.nlp.insights.generators.Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,11 +41,11 @@ import static org.kalnee.trivor.nlp.utils.CollectionUtils.anyMatch;
 /**
  * Future perfect verb tense insight generator.
  *
- * @see InsightGenerator
+ * @see Generator
  *
  * @since 0.0.1
  */
-public class FuturePerfectGenerator implements InsightGenerator<List<String>> {
+public class FuturePerfectGenerator implements Generator<List<String>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FuturePerfectGenerator.class);
 
@@ -58,17 +57,12 @@ public class FuturePerfectGenerator implements InsightGenerator<List<String>> {
     );
 
     @Override
-    public String getDescription() {
-        return FUTURE_PERFECT.getDescription();
-    }
-
-    @Override
     public String getCode() {
         return FUTURE_PERFECT.getCode();
     }
 
     @Override
-    public Insight<List<String>> getInsight(Subtitle subtitle) {
+    public List<String> generate(Subtitle subtitle) {
         final List<String> sentences = subtitle.getSentences().stream()
                 .filter(s -> anyMatch(s.getSentence(), MUST_CONTAIN_HAVE)
                         && anyMatch(s.getSentence(), MUST_CONTAIN_MODAL)
@@ -81,7 +75,7 @@ public class FuturePerfectGenerator implements InsightGenerator<List<String>> {
                 (sentences.size() * 100d / subtitle.getSentences().size()))
         );
 
-        return new Insight<>(getCode(), sentences);
+        return sentences;
     }
 }
 
