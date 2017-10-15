@@ -54,7 +54,7 @@ public class SubtitleProcessor {
     private static final String SUBTITLE_CC2_REGEX = "\\(.*\\)\\s*";
     private static final String SUBTITLE_CC_INITIAL_REGEX = "\\(.*";
     private static final String SUBTITLE_CC_FINAL_REGEX = ".*\\)";
-    private static final String SUBTITLE_CHARACTER_REGEX = "^[a-zA-Z]+:\\s*";
+    private static final String SUBTITLE_CHARACTER_REGEX = "^([A-Za-z]+\\s*[A-Za-z]+):\\s*";
     private static final String SUBTITLE_URL_REGEX = ".*www\\.[a-zA-Z]+.*";
     private static final String SUBTITLE_PREVIOUS_REGEX = "^Previously on.*$";
     private static final String SUBTITLE_SONG_REGEX = ".*♪.*";

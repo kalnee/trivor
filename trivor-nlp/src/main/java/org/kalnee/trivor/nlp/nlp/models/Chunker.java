@@ -37,7 +37,7 @@ public class Chunker {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Chunker.class);
     private static final String MODEL = "/nlp/models/en-chunker.bin";
-    private static final double THRESHOLD = 0.9;
+    private static final double THRESHOLD = 0;
 
     private ChunkerME chunker;
 
