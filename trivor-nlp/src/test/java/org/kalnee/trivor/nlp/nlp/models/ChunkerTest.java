@@ -55,7 +55,7 @@ public class ChunkerTest {
         final List<Chunk> chunks = chunker.chunk(
                 Arrays.asList("beautiful", "car", "."),
                 Arrays.asList("JJ", "NN", "."),
-                Arrays.asList(0.65, 0.97, 0.99)
+                Arrays.asList(-0.5, 0.97, 0.99)
         );
         assertTrue(chunks.isEmpty());
     }
