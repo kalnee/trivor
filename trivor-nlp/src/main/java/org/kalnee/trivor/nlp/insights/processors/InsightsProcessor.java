@@ -51,6 +51,7 @@ class InsightsProcessor {
         result.setSentimentAnalysis(new SentimentGenerator().generate(subtitle));
         result.setRateOfSpeech(new RateOfSpeechGenerator().generate(subtitle));
         result.setFrequentSentences(new FrequentSentencesGenerator().generate(subtitle));
+        result.setFrequentChunks(new FrequentChunksGenerator().generate(subtitle));
         result.setFrequencyRate(new FrequencyRateGenerator().generate(subtitle));
 
         final Vocabulary vocabulary = new Vocabulary();

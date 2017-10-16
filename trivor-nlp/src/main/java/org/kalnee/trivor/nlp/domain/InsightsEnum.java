@@ -39,6 +39,7 @@ public enum InsightsEnum {
     PREPOSITIONS_USAGE("prepositions-usage"),
 
     FREQUENT_SENTENCES("frequent-sentences"),
+    FREQUENT_CHUNKS("frequent-chunks"),
 
     FUTURE_PERFECT("future-perfect-tense"),
     FUTURE_PROGRESSIVE("future-progressive-tense"),

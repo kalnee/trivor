@@ -54,7 +54,7 @@ public class SentenceFrequency {
 
     @Override
     public String toString() {
-        return "FrequentSentences{" +
+        return "SentenceFrequency{" +
                 "sentence='" + sentence + '\'' +
                 ", frequency=" + frequency +
                 '}';
