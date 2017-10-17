@@ -32,6 +32,7 @@ public class Result {
     private Map<SentimentEnum, BigDecimal> sentimentAnalysis;
     private RateOfSpeech rateOfSpeech;
     private List<SentenceFrequency> frequentSentences;
+    private List<ChunkFrequency> frequentChunks;
     private List<FrequencyRate> frequencyRate;
     private List<PhrasalVerbUsage> phrasalVerbs;
 
@@ -68,6 +69,14 @@ public class Result {
 
     public void setFrequentSentences(List<SentenceFrequency> frequentSentences) {
         this.frequentSentences = frequentSentences;
+    }
+
+    public List<ChunkFrequency> getFrequentChunks() {
+        return frequentChunks;
+    }
+
+    public void setFrequentChunks(List<ChunkFrequency> frequentChunks) {
+        this.frequentChunks = frequentChunks;
     }
 
     public List<FrequencyRate> getFrequencyRate() {

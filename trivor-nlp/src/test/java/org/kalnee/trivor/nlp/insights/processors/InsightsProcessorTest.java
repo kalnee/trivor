@@ -28,6 +28,7 @@ import org.kalnee.trivor.nlp.domain.Result;
 import org.kalnee.trivor.nlp.domain.Sentence;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.kalnee.trivor.nlp.domain.Token;
+import org.kalnee.trivor.nlp.nlp.models.Chunk;
 
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -44,7 +45,8 @@ public class InsightsProcessorTest {
                 "I want to kill you.",
                 Arrays.asList(new Token("I", "PRP", "i", 0.99), new Token("want", "VB", "want", 0.99),
                         new Token("to", "TO", "to", 0.99), new Token("kill", "VB", "kill", 0.99),
-                        new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)))
+                        new Token("you", "PR", "you", 0.99), new Token(".", ".", ".", 0.99)),
+                Arrays.asList(new Chunk(Arrays.asList("want", "to"), Arrays.asList("VB", "TO"))))
         );
 
         final Subtitle subtitle = new Subtitle(sentences);

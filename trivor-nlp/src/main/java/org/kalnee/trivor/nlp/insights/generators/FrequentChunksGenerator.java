@@ -22,7 +22,7 @@
 
 package org.kalnee.trivor.nlp.insights.generators;
 
-import org.kalnee.trivor.nlp.domain.Sentence;
+import org.kalnee.trivor.nlp.domain.ChunkFrequency;
 import org.kalnee.trivor.nlp.domain.SentenceFrequency;
 import org.kalnee.trivor.nlp.domain.Subtitle;
 import org.slf4j.Logger;
@@ -33,32 +33,32 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
-import static org.kalnee.trivor.nlp.domain.InsightsEnum.FREQUENT_SENTENCES;
+import static org.kalnee.trivor.nlp.domain.InsightsEnum.FREQUENT_CHUNKS;
 
-public class FrequentSentencesGenerator implements Generator<List<SentenceFrequency>> {
+public class FrequentChunksGenerator implements Generator<List<ChunkFrequency>> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FrequentSentencesGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FrequentChunksGenerator.class);
 
     @Override
     public String getCode() {
-        return FREQUENT_SENTENCES.getCode();
+        return FREQUENT_CHUNKS.getCode();
     }
 
     @Override
-    public List<SentenceFrequency> generate(Subtitle subtitle) {
-        final Map<String, Long> words = subtitle.getSentences().parallelStream()
-                .filter(s -> s.getTokens().size() > 3)
-                .map(Sentence::getSentence)
-                .map(s -> s.replaceAll("\\.", ""))
+    public List<ChunkFrequency> generate(Subtitle subtitle) {
+        final Map<String, Long> chunks = subtitle.getSentences().parallelStream()
+                .flatMap(s -> s.getChunks().stream())
+                .map(chunk -> chunk.getTokens().stream().collect(joining(" ")))
+                .filter(chunk -> !chunk.contains("..."))
                 .collect(groupingBy(Function.identity(), counting()));
 
-        final List<SentenceFrequency> sortedSentences = words.entrySet().parallelStream()
+        final List<ChunkFrequency> sortedChunks = chunks.entrySet().parallelStream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .filter(e -> e.getValue() > 1)
-                .map(e -> new SentenceFrequency(e.getKey(), e.getValue()))
+                .map(e -> new ChunkFrequency(e.getKey(), e.getValue()))
                 .collect(toList());
 
-        LOGGER.info("{} - {}", getCode(), sortedSentences.stream().limit(2).collect(toList()));
-        return sortedSentences;
+        LOGGER.info("{} - {}", getCode(), sortedChunks.stream().limit(2).collect(toList()));
+        return sortedChunks;
     }
 }

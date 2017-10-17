@@ -22,26 +22,26 @@
 
 package org.kalnee.trivor.nlp.domain;
 
-public class SentenceFrequency {
+public class ChunkFrequency {
 
-    private String sentence;
+    private String chunk;
 
     private Long frequency;
 
-    public SentenceFrequency() {
+    public ChunkFrequency() {
     }
 
-    public SentenceFrequency(String sentence, Long frequency) {
-        this.sentence = sentence;
+    public ChunkFrequency(String chunk, Long frequency) {
+        this.chunk = chunk;
         this.frequency = frequency;
     }
 
-    public String getSentence() {
-        return sentence;
+    public String getChunk() {
+        return chunk;
     }
 
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
+    public void setChunk(String chunk) {
+        this.chunk = chunk;
     }
 
     public Long getFrequency() {
@@ -54,8 +54,8 @@ public class SentenceFrequency {
 
     @Override
     public String toString() {
-        return "SentenceFrequency{" +
-                "sentence='" + sentence + '\'' +
+        return "ChunkFrequency{" +
+                "chunk='" + chunk + '\'' +
                 ", frequency=" + frequency +
                 '}';
     }
