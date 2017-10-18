@@ -36,7 +36,7 @@ Microservice Registration and Discovery with JHipster Registry Docker image:
 
 Natural Language Processing lib to parse and generate insights from subtitles:
 
-- [trivor-nlp](https://github.com/kalnee/trivor/blob/master/trivor-nlp)
+- [trivor-nlp](https://github.com/kalnee/trivor-nlp)
 
 ## License
 
