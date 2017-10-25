@@ -3,7 +3,7 @@ package org.kalnee.trivor.insights.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.kalnee.trivor.insights.domain.Insights;
+import org.kalnee.trivor.insights.domain.insights.Insights;
 import org.kalnee.trivor.insights.domain.Subtitle;
 import org.kalnee.trivor.insights.domain.dto.SubtitleDTO;
 import org.kalnee.trivor.insights.domain.dto.TVShowDTO;

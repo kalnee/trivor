@@ -1,28 +1,28 @@
 <div class="container-fluid margin-top-l" *ngIf="insight">
     <div class="row">
         <div class="col-md-12">
-            <h4>{{title}} <span class="small text-muted">{{words.length}} words</span></h4>
+            <h4>{{title}} <span class="small text-muted">{{insight.length}} words</span></h4>
         </div>
     </div>
     <hr>
     <jhi-tv-show-search *ngIf="isTvShow()" [transcript]="transcript" (onSearch)="search($event)"></jhi-tv-show-search>
     <div id="accordion" role="tablist" aria-multiselectable="true" class="margin-top-m">
-        <div class="card" *ngFor="let word of words">
+        <div class="card" *ngFor="let word of insight">
             <div class="card-header" role="tab" id="heading">
                 <h6 class="mb-0">
-                    <span class="badge badge-primary">{{insight[word].length}}</span>
+                    <span class="badge badge-primary">{{word.sentences.length}}</span>
                     &nbsp;
                     <a data-toggle="collapse" data-parent="#accordion" aria-expanded="true"
                        aria-controls="collapse" jhiCollapse>
-                        {{word}}
+                        {{word.word}}
                     </a>
-                    <jhi-voice-button [message]="word"></jhi-voice-button>
+                    <jhi-voice-button [message]="word.word"></jhi-voice-button>
                 </h6>
             </div>
             <div id="collapse" class="collapse" role="tabpanel" aria-labelledby="heading">
                 <div class="card-block">
                     <ul class="list-group">
-                        <li class="list-group-item" *ngFor="let sentence of insight[word]">
+                        <li class="list-group-item" *ngFor="let sentence of word.sentences">
                             {{sentence}}
                             <jhi-voice-button [message]="sentence"></jhi-voice-button>
                         </li>

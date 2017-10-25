@@ -16,7 +16,7 @@ const consumers = {
                 if (!messages) {
                     return;
                 }
-
+                logger.info(`${messages.length} message(s) received.`);
                 messages.forEach((message) => {
                     let subtitle = JSON.parse(message.Body);
                     let storage = new Storage(subtitle);
