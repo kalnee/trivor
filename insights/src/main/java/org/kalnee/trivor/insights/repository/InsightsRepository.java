@@ -1,6 +1,6 @@
 package org.kalnee.trivor.insights.repository;
 
-import org.kalnee.trivor.insights.domain.Insights;
+import org.kalnee.trivor.insights.domain.insights.Insights;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 public interface InsightsRepository extends PagingAndSortingRepository<Insights, BigInteger> {
 

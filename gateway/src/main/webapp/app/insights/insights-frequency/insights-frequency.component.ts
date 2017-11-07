@@ -15,8 +15,6 @@ import {TvShowSearch} from '../tv-show-search/tv-show-search.model';
     ]
 })
 export class InsightsFrequencyComponent implements OnInit {
-
-    words: string[];
     insight: any;
     title: string;
 
@@ -36,23 +34,22 @@ export class InsightsFrequencyComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.imdbId = this.route.parent.snapshot.params['imdbId'];
             this.title = params['code'];
-            this.code = `${params['code']}-sentences`;
+            this.code = `${params['code']}`;
 
             this.transcriptService.findByImdbId(this.imdbId).subscribe((transcript) => {
                 this.transcript = transcript;
-                this.findSentencesByInsightAndImdb();
+                this.findVocabularyUsageByImdbId();
             });
         });
     }
 
-    private findSentencesByInsightAndImdb() {
+    private findVocabularyUsageByImdbId() {
         const endpoint: Observable<any> = this.isTvShow()
-            ? this.insightsService.findSentencesByInsightAndImdb(this.code, this.imdbId, this.season, this.episode)
-            : this.insightsService.findSentencesByInsightAndImdb(this.code, this.imdbId);
+            ? this.insightsService.findVocabularyUsageByImdbId(this.code, this.imdbId, this.season, this.episode)
+            : this.insightsService.findVocabularyUsageByImdbId(this.code, this.imdbId);
 
         endpoint.subscribe((insight: any) => {
-            this.words = Object.keys(insight);
-            if (this.words.length === 0) {
+            if (insight.length === 0) {
                 return;
             }
             this.insight = insight;
@@ -62,7 +59,7 @@ export class InsightsFrequencyComponent implements OnInit {
     search(data: TvShowSearch) {
         this.season = data.season;
         this.episode = data.episode;
-        this.findSentencesByInsightAndImdb();
+        this.findVocabularyUsageByImdbId();
     }
 
     isTvShow(): boolean {

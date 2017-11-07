@@ -1,74 +1,36 @@
-package org.kalnee.trivor.insights.domain;
+package org.kalnee.trivor.insights.domain.insights;
 
 import org.kalnee.trivor.nlp.domain.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-@Document(collection = "insights")
-public class Insights {
+public class AbstractInsights {
 
-    @Id
-    private BigInteger id;
+    private Integer numberOfSentences = 0;
+    private Map<SentimentEnum, BigDecimal> sentimentAnalysis = new HashMap<>();
+    private RateOfSpeech rateOfSpeech = new RateOfSpeech();
+    private Set<SentenceFrequency> frequentSentences = new HashSet<>();
+    private Set<ChunkFrequency> frequentChunks = new HashSet<>();
+    private List<FrequencyRate> frequencyRate = new ArrayList<>();
+    private Set<PhrasalVerbUsage> phrasalVerbs = new HashSet<>();
 
-    @Indexed
-    private String imdbId;
+    private Vocabulary vocabulary = new Vocabulary();
+    private VerbTenses verbTenses = new VerbTenses();
 
-    private String subtitleId;
-
-    private Integer numberOfSentences;
-    private Map<SentimentEnum, BigDecimal> sentimentAnalysis;
-    private RateOfSpeech rateOfSpeech;
-    private List<SentenceFrequency> frequentSentences;
-    private List<FrequencyRate> frequencyRate;
-    private List<PhrasalVerbUsage> phrasalVerbs;
-
-    private Vocabulary vocabulary;
-    private VerbTenses verbTenses;
-
-    public Insights(String imdbId, String subtitleId, Result result) {
-        this.imdbId = imdbId;
-        this.subtitleId = subtitleId;
+    public AbstractInsights(Result result) {
         this.numberOfSentences = result.getNumberOfSentences();
         this.sentimentAnalysis = result.getSentimentAnalysis();
         this.rateOfSpeech = result.getRateOfSpeech();
         this.frequentSentences = result.getFrequentSentences();
+        this.frequentChunks = result.getFrequentChunks();
         this.frequencyRate = result.getFrequencyRate();
         this.phrasalVerbs = result.getPhrasalVerbs();
         this.vocabulary = result.getVocabulary();
         this.verbTenses = result.getVerbTenses();
     }
 
-    Insights() {
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-    public String getImdbId() {
-        return imdbId;
-    }
-
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
-    }
-
-    public String getSubtitleId() {
-        return subtitleId;
-    }
-
-    public void setSubtitleId(String subtitleId) {
-        this.subtitleId = subtitleId;
+    public AbstractInsights() {
     }
 
     public Integer getNumberOfSentences() {
@@ -95,12 +57,20 @@ public class Insights {
         this.rateOfSpeech = rateOfSpeech;
     }
 
-    public List<SentenceFrequency> getFrequentSentences() {
+    public Set<SentenceFrequency> getFrequentSentences() {
         return frequentSentences;
     }
 
-    public void setFrequentSentences(List<SentenceFrequency> frequentSentences) {
+    public void setFrequentSentences(Set<SentenceFrequency> frequentSentences) {
         this.frequentSentences = frequentSentences;
+    }
+
+    public Set<ChunkFrequency> getFrequentChunks() {
+        return frequentChunks;
+    }
+
+    public void setFrequentChunks(Set<ChunkFrequency> frequentChunks) {
+        this.frequentChunks = frequentChunks;
     }
 
     public List<FrequencyRate> getFrequencyRate() {
@@ -111,11 +81,11 @@ public class Insights {
         this.frequencyRate = frequencyRate;
     }
 
-    public List<PhrasalVerbUsage> getPhrasalVerbs() {
+    public Set<PhrasalVerbUsage> getPhrasalVerbs() {
         return phrasalVerbs;
     }
 
-    public void setPhrasalVerbs(List<PhrasalVerbUsage> phrasalVerbs) {
+    public void setPhrasalVerbs(Set<PhrasalVerbUsage> phrasalVerbs) {
         this.phrasalVerbs = phrasalVerbs;
     }
 
@@ -135,12 +105,15 @@ public class Insights {
         this.verbTenses = verbTenses;
     }
 
-    @Override
-    public String toString() {
-        return "Insights{" +
-            "id=" + id +
-            ", imdbId='" + imdbId + '\'' +
-            ", subtitleId='" + subtitleId + '\'' +
-            '}';
+    public void update(AbstractInsights abstractInsights) {
+        this.numberOfSentences = abstractInsights.getNumberOfSentences();
+        this.sentimentAnalysis = abstractInsights.getSentimentAnalysis();
+        this.rateOfSpeech = abstractInsights.getRateOfSpeech();
+        this.frequentSentences = abstractInsights.getFrequentSentences();
+        this.frequentChunks = abstractInsights.getFrequentChunks();
+        this.frequencyRate = abstractInsights.getFrequencyRate();
+        this.phrasalVerbs = abstractInsights.getPhrasalVerbs();
+        this.vocabulary = abstractInsights.getVocabulary();
+        this.verbTenses = abstractInsights.getVerbTenses();
     }
 }

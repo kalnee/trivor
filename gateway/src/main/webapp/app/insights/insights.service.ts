@@ -26,26 +26,27 @@ export class InsightsService {
             });
     }
 
-    findSentencesByInsightAndImdb(insight: string, imdbId: string, season: number = null, episode: number = null): Observable<any> {
+    findVocabularyUsageByImdbId(vocabulary: string, imdbId: string, season: number = null, episode: number = null): Observable<any> {
         const params: Params = (season !== null && episode !== null) ? {'season': season, 'episode': episode} : {};
-        return this.http.get(`insights/api/insights/sentences/${insight}`,
+        return this.http.get(`insights/api/insights/vocabulary/${vocabulary}/usage`,
             {params: {'imdbId': imdbId, ...params}})
             .map((response: Response) => {
                 return response.json();
             });
     }
 
-    findVerbTensesByInsightAndImdb(insight: string, imdbId: string): Observable<any> {
-        return this.http.get(`insights/api/insights/verb-tenses/${insight}`, {params: {'imdbId': imdbId}})
+    findVerbTensesByInsightAndImdb(tense: string, imdbId: string): Observable<any> {
+        return this.http.get(`insights/api/insights/verb-tenses/${tense}/usage`, {params: {'imdbId': imdbId}})
             .map((response: Response) => {
                 return response.json();
             });
     }
 
-    findTopFrequencyByImdbId(insight: string, imdbId: string, limit: number): Observable<any> {
-        return this.http.get(`insights/api/insights/frequency/${insight}/top/${limit}`, {params: {'imdbId': imdbId}})
-            .map((response: Response) => {
-                return response.json();
-            });
+    findVocabularyFrequencyByImdbId(vocabulary: string, imdbId: string, limit: number): Observable<any> {
+        return this.http.get(`insights/api/insights/vocabulary/${vocabulary}/frequency`, {
+            params: {'imdbId': imdbId, 'limit': limit}
+        }).map((response: Response) => {
+            return response.json();
+        });
     }
 }

@@ -41,7 +41,7 @@ export class InsightsSummaryComponent implements OnInit {
                     return;
                 }
                 this.summary = summary;
-                this.numOfSentences = summary['number-of-sentences'];
+                this.numOfSentences = summary['number-sentences'];
                 this.rateOfSpeech = summary['rate-of-speech'];
                 this.sentimentAnalysis = summary['sentiment-analysis'];
                 this.pushFrequencyInsights(summary);
@@ -52,22 +52,22 @@ export class InsightsSummaryComponent implements OnInit {
                 this.error = error;
             });
 
-            this.insightsService.findTopFrequencyByImdbId('nouns-frequency', params['imdbId'], 10)
+            this.insightsService.findVocabularyFrequencyByImdbId('nouns', params['imdbId'], 10)
                 .subscribe((nouns: any) => {
                     this.frequentNouns = nouns;
                 });
 
-            this.insightsService.findTopFrequencyByImdbId('nouns-frequency', params['imdbId'], -10)
+            this.insightsService.findVocabularyFrequencyByImdbId('nouns', params['imdbId'], -10)
                 .subscribe((nouns: any) => {
                     this.leastFrequentNouns = nouns;
                 });
 
-            this.insightsService.findTopFrequencyByImdbId('verbs-frequency', params['imdbId'], 10)
+            this.insightsService.findVocabularyFrequencyByImdbId('verbs', params['imdbId'], 10)
                 .subscribe((verbs: any) => {
                     this.frequentVerbs = verbs;
                 });
 
-            this.insightsService.findTopFrequencyByImdbId('verbs-frequency', params['imdbId'], -10)
+            this.insightsService.findVocabularyFrequencyByImdbId('verbs', params['imdbId'], -10)
                 .subscribe((verbs: any) => {
                     this.leastFrequentVerbs = verbs;
                 });
@@ -86,30 +86,30 @@ export class InsightsSummaryComponent implements OnInit {
 
     private pushFrequencyInsights(summary: any) {
         this.frequency.push(...[
-            {'name': 'Nouns', 'value': summary['nouns-frequency']},
-            {'name': 'Verbs', 'value': summary['verbs-frequency']},
-            {'name': 'Adjectives', 'value': summary['adjectives-frequency']},
-            {'name': 'Adverbs', 'value': summary['adverbs-frequency']},
-            {'name': 'Prepositions', 'value': summary['prepositions-frequency']},
-            {'name': 'Modals', 'value': summary['modals-frequency']},
-            {'name': 'Comparatives', 'value': summary['comparatives-frequency']},
-            {'name': 'Superlatives', 'value': summary['superlatives-frequency']}
+            {'name': 'Nouns', 'value': summary['nouns-usage']},
+            {'name': 'Verbs', 'value': summary['verbs-usage']},
+            {'name': 'Adjectives', 'value': summary['adjectives-usage']},
+            {'name': 'Adverbs', 'value': summary['adverbs-usage']},
+            {'name': 'Prepositions', 'value': summary['prepositions-usage']},
+            {'name': 'Modals', 'value': summary['modals-usage']},
+            {'name': 'Comparatives', 'value': summary['comparatives-usage']},
+            {'name': 'Superlatives', 'value': summary['superlatives-usage']}
         ]);
     }
 
     private pushTenseInsights(summary: any) {
         this.tenses.push(...[
-            {'name': 'Simple Present', 'value': summary['simple-present']},
-            {'name': 'Simple Past', 'value': summary['simple-past']},
-            {'name': 'Simple Future', 'value': summary['simple-future']},
-            {'name': 'Present Progressive', 'value': summary['present-progressive']},
-            {'name': 'Past Progressive', 'value': summary['past-progressive']},
-            {'name': 'Future Progressive', 'value': summary['future-progressive']},
-            {'name': 'Present Perfect', 'value': summary['present-perfect']},
-            {'name': 'Past Perfect', 'value': summary['past-perfect']},
-            {'name': 'Future Perfect', 'value': summary['future-perfect']},
+            {'name': 'Simple Present', 'value': summary['simple-present-tense']},
+            {'name': 'Simple Past', 'value': summary['simple-past-tense']},
+            {'name': 'Simple Future', 'value': summary['simple-future-tense']},
+            {'name': 'Present Progressive', 'value': summary['present-progressive-tense']},
+            {'name': 'Past Progressive', 'value': summary['past-progressive-tense']},
+            {'name': 'Future Progressive', 'value': summary['future-progressive-tense']},
+            {'name': 'Present Perfect', 'value': summary['present-perfect-tense']},
+            {'name': 'Past Perfect', 'value': summary['past-perfect-tense']},
+            {'name': 'Future Perfect', 'value': summary['future-perfect-tense']},
             {'name': 'Non Sentences', 'value': summary['non-sentences']},
-            {'name': 'Mixed Tenses', 'value': summary['mixed-tenses']}
+            {'name': 'Mixed Tenses', 'value': summary['mixed-tense']}
         ]);
     }
 
