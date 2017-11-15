@@ -1,12 +1,17 @@
 package org.kalnee.trivor.insights.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
+import org.kalnee.trivor.insights.domain.dto.SubtitleDTO;
 import org.kalnee.trivor.insights.domain.dto.TVShowDTO;
 import org.kalnee.trivor.insights.service.SubtitleService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+import static org.kalnee.trivor.insights.security.AuthoritiesConstants.ADMIN;
+import static org.springframework.http.HttpStatus.CREATED;
 
 
 @RestController
@@ -17,6 +22,14 @@ public class SubtitlesResource {
 
     public SubtitlesResource(SubtitleService subtitleService) {
         this.subtitleService = subtitleService;
+    }
+
+    @PostMapping
+    @Timed
+    @Secured(ADMIN)
+    public ResponseEntity process(@RequestBody @Valid SubtitleDTO subtitleDTO) {
+        subtitleService.process(subtitleDTO);
+        return ResponseEntity.status(CREATED).build();
     }
 
     @GetMapping("/tv-show/meta")

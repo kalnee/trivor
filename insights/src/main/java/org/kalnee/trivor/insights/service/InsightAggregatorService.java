@@ -59,8 +59,8 @@ public class InsightAggregatorService {
     public void aggregateByImdbIds(Set<String> imdbIds) {
         imdbIds.forEach(imdbId -> {
             final InsightsAggregated aggInsights = new InsightsAggregated(imdbId);
-            final AbstractInsights abstractInsights = getInsights(insightsRepository.findAllByImdbId(imdbId));
-            aggInsights.update(abstractInsights);
+            final GenericInsights genericInsights = getInsights(insightsRepository.findAllByImdbId(imdbId));
+            aggInsights.update(genericInsights);
 
             insightsAggRepository.findOneByImdbId(imdbId).ifPresent(insightsAggRepository::delete);
             insightsAggRepository.save(aggInsights);
@@ -70,8 +70,8 @@ public class InsightAggregatorService {
 
     public void aggregateGlobal() {
         final InsightsGlobal insightsGlobal = new InsightsGlobal();
-        final AbstractInsights abstractInsights = getInsights(insightsAggRepository.findAll());
-        insightsGlobal.update(abstractInsights);
+        final GenericInsights genericInsights = getInsights(insightsAggRepository.findAll());
+        insightsGlobal.update(genericInsights);
 
         insightsGlobalRepository.deleteAll();
         insightsGlobalRepository.save(insightsGlobal);
@@ -84,53 +84,59 @@ public class InsightAggregatorService {
             .collect(toSet());
 
         final InsightsByYear insightsByYear = new InsightsByYear(year);
-        final AbstractInsights abstractInsights = getInsights(insightsAggRepository.findByImdbIdIn(imdbIdsByYear));
-        insightsByYear.update(abstractInsights);
+        final GenericInsights genericInsights = getInsights(insightsAggRepository.findByImdbIdIn(imdbIdsByYear));
+        insightsByYear.update(genericInsights);
 
         insightsByYearRepository.findOneByYear(year).ifPresent(insightsByYearRepository::delete);
         insightsByYearRepository.save(insightsByYear);
         LOGGER.info("Year {} aggregated successfully", year);
     }
 
-    private AbstractInsights getInsights(List<? extends AbstractInsights> insights) {
+    private GenericInsights getInsights(List<? extends GenericInsights> insights) {
         final Map<String, Integer> rateOfSpeech = new HashMap<>();
         final Map<SentimentEnum, BigDecimal> sentiment = new HashMap<>();
-        final AbstractInsights abstractInsights = new AbstractInsights();
+        final GenericInsights genericInsights = new GenericInsights();
 
         LOGGER.info("Executing aggregator for {} items", insights.size());
 
         for (int i = 0; i < insights.size(); ++i) {
-            final AbstractInsights insight = insights.get(i);
-            abstractInsights.setNumberOfSentences(abstractInsights.getNumberOfSentences() + insight.getNumberOfSentences());
-            aggFrequentSentences(abstractInsights.getFrequentSentences(), insight.getFrequentSentences());
-            aggFrequentChunks(abstractInsights.getFrequentChunks(), insight.getFrequentChunks());
-            aggPhrasalVerbs(abstractInsights.getPhrasalVerbs(), insight.getPhrasalVerbs());
-            aggFrequencyRates(abstractInsights.getFrequencyRate(), insight.getFrequencyRate());
+            final GenericInsights insight = insights.get(i);
+            genericInsights.setNumberOfSentences(genericInsights.getNumberOfSentences() + insight.getNumberOfSentences());
+            aggFrequentSentences(genericInsights.getFrequentSentences(), insight.getFrequentSentences());
+            aggFrequentChunks(genericInsights.getFrequentChunks(), insight.getFrequentChunks());
+            aggPhrasalVerbs(genericInsights.getPhrasalVerbs(), insight.getPhrasalVerbs());
+            aggFrequencyRates(genericInsights.getFrequencyRate(), insight.getFrequencyRate());
 
-            aggVocabulary(abstractInsights.getVocabulary(), insight.getVocabulary());
-            aggVerbTenses(abstractInsights.getVerbTenses(), insight.getVerbTenses());
+            aggVocabulary(genericInsights.getVocabulary(), insight.getVocabulary());
 
-            final String rate = insight.getRateOfSpeech().getRate().name();
-            rateOfSpeech.put(rate, rateOfSpeech.getOrDefault(rate, 0) + 1);
+            if (insight.getRateOfSpeech() != null) {
+                final String rate = insight.getRateOfSpeech().getRate().name();
+                rateOfSpeech.put(rate, rateOfSpeech.getOrDefault(rate, 0) + 1);
+            }
 
-            sentiment.put(POSITIVE,
-                sentiment.getOrDefault(POSITIVE, ZERO).add(insight.getSentimentAnalysis().get(POSITIVE)));
-            sentiment.put(NEGATIVE,
-                sentiment.getOrDefault(NEGATIVE, ZERO).add(insight.getSentimentAnalysis().get(NEGATIVE)));
+            if (insight.getSentimentAnalysis() != null && !insight.getSentimentAnalysis().isEmpty()) {
+                sentiment.put(POSITIVE,
+                    sentiment.getOrDefault(POSITIVE, ZERO).add(insight.getSentimentAnalysis().get(POSITIVE)));
+                sentiment.put(NEGATIVE,
+                    sentiment.getOrDefault(NEGATIVE, ZERO).add(insight.getSentimentAnalysis().get(NEGATIVE)));
+            }
 
             if (i == (insights.size() - 1)) {
-                final String finalRateOfSpeech = rateOfSpeech.entrySet().stream()
-                    .sorted(comparingByValue(reverseOrder()))
-                    .map(Map.Entry::getKey).findFirst().get();
-                abstractInsights.setRateOfSpeech(new RateOfSpeech(RateOfSpeechEnum.valueOf(finalRateOfSpeech)));
-
-                sentiment.put(POSITIVE, sentiment.get(POSITIVE).divide(valueOf(insights.size()), ROUND_UP));
-                sentiment.put(NEGATIVE, sentiment.get(NEGATIVE).divide(valueOf(insights.size()), ROUND_UP));
-                abstractInsights.setSentimentAnalysis(sentiment);
+                if (insight.getRateOfSpeech() != null) {
+                    final String finalRateOfSpeech = rateOfSpeech.entrySet().stream()
+                        .sorted(comparingByValue(reverseOrder()))
+                        .map(Map.Entry::getKey).findFirst().get();
+                    genericInsights.setRateOfSpeech(new RateOfSpeech(RateOfSpeechEnum.valueOf(finalRateOfSpeech)));
+                }
+                if (insight.getSentimentAnalysis() != null && !insight.getSentimentAnalysis().isEmpty()) {
+                    sentiment.put(POSITIVE, sentiment.get(POSITIVE).divide(valueOf(insights.size()), ROUND_UP));
+                    sentiment.put(NEGATIVE, sentiment.get(NEGATIVE).divide(valueOf(insights.size()), ROUND_UP));
+                    genericInsights.setSentimentAnalysis(sentiment);
+                }
             }
         }
 
-        return abstractInsights;
+        return genericInsights;
     }
 
     private void aggVocabulary(Vocabulary aggVocabulary, Vocabulary vocabulary) {
@@ -161,23 +167,6 @@ public class InsightAggregatorService {
                 }
             }
         );
-    }
-
-    private void aggVerbTenses(VerbTenses aggVerbTenses, VerbTenses verbTenses) {
-        aggVerbTenses.getSimplePresent().addAll(verbTenses.getSimplePresent());
-        aggVerbTenses.getSimplePast().addAll(verbTenses.getSimplePast());
-        aggVerbTenses.getSimpleFuture().addAll(verbTenses.getSimpleFuture());
-
-        aggVerbTenses.getPresentProgressive().addAll(verbTenses.getPresentProgressive());
-        aggVerbTenses.getPastProgressive().addAll(verbTenses.getPastProgressive());
-        aggVerbTenses.getFutureProgressive().addAll(verbTenses.getFutureProgressive());
-
-        aggVerbTenses.getPresentPerfect().addAll(verbTenses.getPresentPerfect());
-        aggVerbTenses.getPastPerfect().addAll(verbTenses.getPastPerfect());
-        aggVerbTenses.getFuturePerfect().addAll(verbTenses.getFuturePerfect());
-
-        aggVerbTenses.getMixedTenses().addAll(verbTenses.getMixedTenses());
-        aggVerbTenses.getNonSentences().addAll(verbTenses.getNonSentences());
     }
 
     private void aggFrequentSentences(Set<SentenceFrequency> agg, Set<SentenceFrequency> current) {

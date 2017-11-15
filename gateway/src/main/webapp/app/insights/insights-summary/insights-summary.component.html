@@ -72,12 +72,62 @@
         </div>
     </div>
 
+    <div class="row margin-top-l">
+        <div class="col-md-6">
+            <div class="card jhi-card frequency-card" *ngIf="frequentSentences">
+                <div class="card-header">
+                    Frequent Sentences
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let sentenceFrequency of frequentSentences; let i = index">
+                            {{i+1}}. <span class="badge badge-primary">{{sentenceFrequency.frequency}}</span>
+                            {{sentenceFrequency.sentence}}
+                            <jhi-voice-button [message]="sentenceFrequency.sentence"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card jhi-card frequency-card" *ngIf="frequentChunks">
+                <div class="card-header">
+                    Frequent Chunks
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let chunkFrequency of frequentChunks; let i = index">
+                            {{i+1}}. <span class="badge badge-primary">{{chunkFrequency.frequency}}</span>
+                            {{chunkFrequency.chunk}}
+                            <jhi-voice-button [message]="chunkFrequency.chunk"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card jhi-card frequency-card" *ngIf="frequentPhrasalVerbs">
+                <div class="card-header">
+                    Frequent Phrasal Verbs
+                </div>
+                <div class="card-block overflow">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let phrasalVerbSentences of frequentPhrasalVerbs; let i = index">
+                            {{i+1}}. <span class="badge badge-primary">{{phrasalVerbSentences.sentences.length}}</span>
+                            {{phrasalVerbSentences.phrasalVerb}}
+                            <jhi-voice-button [message]="phrasalVerbSentences.phrasalVerb"></jhi-voice-button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row margin-top-l">
         <div class="col-md-3">
             <div class="card jhi-card frequency-card" *ngIf="frequentNouns">
                 <div class="card-header">
-                    Most Frequent - Nouns
+                    Frequent Nouns
                 </div>
                 <div class="card-block overflow">
                     <ul class="list-group">
@@ -93,7 +143,7 @@
         <div class="col-md-3">
             <div class="card jhi-card frequency-card" *ngIf="leastFrequentNouns">
                 <div class="card-header">
-                    Least Frequent - Nouns
+                    Infrequent Nouns
                 </div>
                 <div class="card-block overflow">
                     <ul class="list-group">
@@ -109,7 +159,7 @@
         <div class="col-md-3">
             <div class="card jhi-card frequency-card" *ngIf="frequentVerbs">
                 <div class="card-header">
-                    Most Frequent - Verbs
+                    Frequent Verbs
                 </div>
                 <div class="card-block overflow">
                     <ul class="list-group">
@@ -125,7 +175,7 @@
         <div class="col-md-3">
             <div class="card jhi-card frequency-card" *ngIf="leastFrequentVerbs">
                 <div class="card-header">
-                    Least Frequent - Verbs
+                    Infrequent Verbs
                 </div>
                 <div class="card-block overflow">
                     <ul class="list-group">
@@ -135,28 +185,6 @@
                             <jhi-voice-button [message]="verb.key"></jhi-voice-button>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row margin-top-l">
-        <div class="col-md-12">
-            <div class="card jhi-card overflow">
-                <div class="card-header">
-                    Verb Tenses
-                </div>
-                <div class="card-block p-1">
-                    <div class="row margin-top-l justify-content-center">
-                        <div class="col-md-10">
-                            <ngx-charts-pie-grid
-                                [view]="viewTenses"
-                                [scheme]="'nightLights'"
-                                [results]="tenses"
-                                (select)="onSelectTense($event)">
-                            </ngx-charts-pie-grid>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

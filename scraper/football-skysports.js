@@ -2,7 +2,7 @@ var cheerio = require('cheerio');
 var request = require('request');
 var fs = require('fs');
 
-var resultsUrl = "http://www.skysports.com/premier-league-results";
+var resultsUrl = "http://www.skysports.com/champions-league-results";
 
 request(resultsUrl, function (error, response, html) {
   if (error) {
@@ -51,7 +51,7 @@ request(resultsUrl, function (error, response, html) {
   function save() {
     ++count;
     if (count === urls.length) {
-      fs.writeFile("./content/premier-league-17", text, {flag: 'w'}, function (err) {
+      fs.writeFile("./content/tr-football-cl1718", text, {flag: 'w'}, function (err) {
         if (err) {
           return console.log(err);
         }

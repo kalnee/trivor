@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.math.BigInteger;
 
 @Document(collection = "insights")
-public class Insights extends AbstractInsights {
+public class Insights extends GenericInsights {
 
     @Id
     private BigInteger id;

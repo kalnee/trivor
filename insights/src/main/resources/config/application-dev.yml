@@ -58,7 +58,7 @@ cloud:
         queues:
             trivorInsights: trivor-insights-dev
         buckets:
-            trivorSubtitles: trivor-storage-dev
+            trivorStorage: trivor-storage-dev
         region:
             static: us-east-1
         credentials:

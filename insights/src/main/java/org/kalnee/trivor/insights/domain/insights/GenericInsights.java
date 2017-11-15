@@ -5,20 +5,19 @@ import org.kalnee.trivor.nlp.domain.*;
 import java.math.BigDecimal;
 import java.util.*;
 
-public class AbstractInsights {
+public class GenericInsights {
 
     private Integer numberOfSentences = 0;
-    private Map<SentimentEnum, BigDecimal> sentimentAnalysis = new HashMap<>();
-    private RateOfSpeech rateOfSpeech = new RateOfSpeech();
+    private Map<SentimentEnum, BigDecimal> sentimentAnalysis;
+    private RateOfSpeech rateOfSpeech;
     private Set<SentenceFrequency> frequentSentences = new HashSet<>();
     private Set<ChunkFrequency> frequentChunks = new HashSet<>();
     private List<FrequencyRate> frequencyRate = new ArrayList<>();
     private Set<PhrasalVerbUsage> phrasalVerbs = new HashSet<>();
 
     private Vocabulary vocabulary = new Vocabulary();
-    private VerbTenses verbTenses = new VerbTenses();
 
-    public AbstractInsights(Result result) {
+    public GenericInsights(Result result) {
         this.numberOfSentences = result.getNumberOfSentences();
         this.sentimentAnalysis = result.getSentimentAnalysis();
         this.rateOfSpeech = result.getRateOfSpeech();
@@ -27,10 +26,9 @@ public class AbstractInsights {
         this.frequencyRate = result.getFrequencyRate();
         this.phrasalVerbs = result.getPhrasalVerbs();
         this.vocabulary = result.getVocabulary();
-        this.verbTenses = result.getVerbTenses();
     }
 
-    public AbstractInsights() {
+    public GenericInsights() {
     }
 
     public Integer getNumberOfSentences() {
@@ -97,23 +95,14 @@ public class AbstractInsights {
         this.vocabulary = vocabulary;
     }
 
-    public VerbTenses getVerbTenses() {
-        return verbTenses;
-    }
-
-    public void setVerbTenses(VerbTenses verbTenses) {
-        this.verbTenses = verbTenses;
-    }
-
-    public void update(AbstractInsights abstractInsights) {
-        this.numberOfSentences = abstractInsights.getNumberOfSentences();
-        this.sentimentAnalysis = abstractInsights.getSentimentAnalysis();
-        this.rateOfSpeech = abstractInsights.getRateOfSpeech();
-        this.frequentSentences = abstractInsights.getFrequentSentences();
-        this.frequentChunks = abstractInsights.getFrequentChunks();
-        this.frequencyRate = abstractInsights.getFrequencyRate();
-        this.phrasalVerbs = abstractInsights.getPhrasalVerbs();
-        this.vocabulary = abstractInsights.getVocabulary();
-        this.verbTenses = abstractInsights.getVerbTenses();
+    public void update(GenericInsights genericInsights) {
+        this.numberOfSentences = genericInsights.getNumberOfSentences();
+        this.sentimentAnalysis = genericInsights.getSentimentAnalysis();
+        this.rateOfSpeech = genericInsights.getRateOfSpeech();
+        this.frequentSentences = genericInsights.getFrequentSentences();
+        this.frequentChunks = genericInsights.getFrequentChunks();
+        this.frequencyRate = genericInsights.getFrequencyRate();
+        this.phrasalVerbs = genericInsights.getPhrasalVerbs();
+        this.vocabulary = genericInsights.getVocabulary();
     }
 }

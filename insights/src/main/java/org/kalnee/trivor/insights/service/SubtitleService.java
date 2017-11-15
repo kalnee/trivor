@@ -13,6 +13,7 @@ import org.kalnee.trivor.nlp.insights.processors.SubtitleProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static org.kalnee.trivor.insights.domain.dto.TypeEnum.TV_SHOW;
@@ -31,9 +33,13 @@ import static org.kalnee.trivor.insights.domain.dto.TypeEnum.TV_SHOW;
 public class SubtitleService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SubtitleService.class);
+    private static final String TV_SHOW_FILENAME = "%s-S%dE%d.srt";
+    private static final String MOVIE_FILENAME = "%s.srt";
+    private static final String S3_URI = "s3://%s/%s";
 
     private final SubtitleRepository subtitleRepository;
     private final InsightsRepository insightsRepository;
+    private final String bucket;
 
     private final LoadingCache<String, TVShowDTO> tvShowCache = CacheBuilder.newBuilder()
         .build(
@@ -45,13 +51,18 @@ public class SubtitleService {
 
     @Autowired
     public SubtitleService(SubtitleRepository subtitleRepository,
-                           InsightsRepository insightsRepository) {
+                           InsightsRepository insightsRepository,
+                           @Value("${cloud.aws.buckets.trivorStorage}") String bucket) {
         this.subtitleRepository = subtitleRepository;
         this.insightsRepository = insightsRepository;
+        this.bucket = bucket;
     }
 
-    public void process(URI uri, SubtitleDTO subtitleDTO) {
+    public void process(SubtitleDTO subtitleDTO) {
         deleteIfExists(subtitleDTO);
+
+        final URI uri = URI.create(format(S3_URI, bucket, getFileName(subtitleDTO)));
+        LOGGER.info("Storage URI: {}", uri);
 
         final SubtitleProcessor subtitleProcessor = new SubtitleProcessor.Builder(uri)
                 .withDuration(subtitleDTO.getDuration())
@@ -67,6 +78,19 @@ public class SubtitleService {
         insightsRepository.save(new Insights(subtitle.getImdbId(), subtitle.getId(), subtitleProcessor.getResult()));
 
         LOGGER.info("Insights created successfully.");
+    }
+
+    private String getFileName(SubtitleDTO subtitleDTO) {
+        String filename;
+
+        if (TV_SHOW.equals(subtitleDTO.getType())) {
+            filename = format(
+                TV_SHOW_FILENAME, subtitleDTO.getImdbId(), subtitleDTO.getSeason(), subtitleDTO.getEpisode()
+            );
+        } else {
+            filename = format(MOVIE_FILENAME, subtitleDTO.getImdbId());
+        }
+        return filename;
     }
 
     private void deleteIfExists(SubtitleDTO subtitleDTO) {

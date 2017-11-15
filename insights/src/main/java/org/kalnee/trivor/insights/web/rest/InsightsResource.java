@@ -3,6 +3,9 @@ package org.kalnee.trivor.insights.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.kalnee.trivor.insights.domain.insights.Insights;
 import org.kalnee.trivor.insights.service.InsightService;
+import org.kalnee.trivor.nlp.domain.ChunkFrequency;
+import org.kalnee.trivor.nlp.domain.PhrasalVerbUsage;
+import org.kalnee.trivor.nlp.domain.SentenceFrequency;
 import org.kalnee.trivor.nlp.domain.WordUsage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +39,30 @@ public class InsightsResource {
         return ResponseEntity.ok().body(insightService.getInsightsSummary(imdbId));
     }
 
+    @GetMapping("/sentences/frequency")
+    @Timed
+    public ResponseEntity<List<SentenceFrequency>> findSentencesFrequency(@RequestParam("imdbId") String imdbId,
+                                                                          @RequestParam(value = "limit", required = false) Integer limit) {
+        return ResponseEntity.ok().body(
+            insightService.findSentencesFrequencyByImdbId(imdbId, limit)
+        );
+    }
+
+    @GetMapping("/chunks/frequency")
+    @Timed
+    public ResponseEntity<List<ChunkFrequency>> findChunksFrequency(@RequestParam("imdbId") String imdbId,
+                                                                    @RequestParam(value = "limit", required = false) Integer limit) {
+        return ResponseEntity.ok().body(
+            insightService.findChunksFrequencyByImdbId(imdbId, limit)
+        );
+    }
+
+    @GetMapping("/phrasal-verbs/usage")
+    @Timed
+    public ResponseEntity<List<PhrasalVerbUsage>> findPhrasalVerbsUsageByImdbId(@RequestParam("imdbId") String imdbId) {
+        return ResponseEntity.ok().body(insightService.findPhrasalVerbsUsageByImdbId(imdbId));
+    }
+
     @GetMapping("/vocabulary/{vocabulary}/frequency")
     @Timed
     public ResponseEntity<Map<String, Integer>> findVocabularyFrequencyByImdbId(
@@ -55,14 +82,6 @@ public class InsightsResource {
         return ResponseEntity.ok().body(
             insightService.findVocabularyUsageByImdbAndSeasonAndEpisode(vocabulary, imdbId, season, episode)
         );
-    }
-
-    @GetMapping("/verb-tenses/{tense}/usage")
-    @Timed
-    public ResponseEntity<Set<String>> findVerbTensesUsageByImdbId(
-        @PathVariable("tense") String tense,
-        @RequestParam("imdbId") String imdbId) {
-        return ResponseEntity.ok().body(insightService.findVerbTensesUsageByImdbId(tense, imdbId));
     }
 
     @GetMapping("/{insight}/genres/{genre}")

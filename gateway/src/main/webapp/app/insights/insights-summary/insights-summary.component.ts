@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {InsightsService} from '../insights.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {SentenceFrequency} from '../sentence-frequency.model';
+import {ChunkFrequency} from '../chunk-frequency.model';
+import {PhrasalVerbsSentences} from '../phrasal-verb-sentences.model';
 
 @Component({
     selector: 'jhi-insights-summary',
@@ -14,11 +17,9 @@ export class InsightsSummaryComponent implements OnInit {
     sentimentAnalysis: any;
 
     frequency = [];
-    tenses = [];
     frequencyRate = [];
 
     viewFrequency: any[] = [630, 210];
-    viewTenses: any[] = [900, 500];
     viewFrequencyRate: any[] = [500, 200];
 
     summary: any;
@@ -28,6 +29,9 @@ export class InsightsSummaryComponent implements OnInit {
     leastFrequentNouns: any;
     frequentVerbs: any;
     leastFrequentVerbs: any;
+    frequentSentences: SentenceFrequency[];
+    frequentChunks: ChunkFrequency[];
+    frequentPhrasalVerbs: PhrasalVerbsSentences[];
 
     constructor(private insightsService: InsightsService,
                 private route: ActivatedRoute,
@@ -45,31 +49,45 @@ export class InsightsSummaryComponent implements OnInit {
                 this.rateOfSpeech = summary['rate-of-speech'];
                 this.sentimentAnalysis = summary['sentiment-analysis'];
                 this.pushFrequencyInsights(summary);
-                this.pushTenseInsights(summary);
                 this.pushFrequencyRateInsight(summary);
             }, (error: any) => {
                 console.error(`Error trying to get summary for ${params['imdbId']}: ${error}`);
                 this.error = error;
             });
 
-            this.insightsService.findVocabularyFrequencyByImdbId('nouns', params['imdbId'], 10)
+            this.insightsService.findVocabularyFrequencyByImdbId('nouns', params['imdbId'], 20)
                 .subscribe((nouns: any) => {
                     this.frequentNouns = nouns;
                 });
 
-            this.insightsService.findVocabularyFrequencyByImdbId('nouns', params['imdbId'], -10)
+            this.insightsService.findVocabularyFrequencyByImdbId('nouns', params['imdbId'], -20)
                 .subscribe((nouns: any) => {
                     this.leastFrequentNouns = nouns;
                 });
 
-            this.insightsService.findVocabularyFrequencyByImdbId('verbs', params['imdbId'], 10)
+            this.insightsService.findVocabularyFrequencyByImdbId('verbs', params['imdbId'], 20)
                 .subscribe((verbs: any) => {
                     this.frequentVerbs = verbs;
                 });
 
-            this.insightsService.findVocabularyFrequencyByImdbId('verbs', params['imdbId'], -10)
+            this.insightsService.findVocabularyFrequencyByImdbId('verbs', params['imdbId'], -20)
                 .subscribe((verbs: any) => {
                     this.leastFrequentVerbs = verbs;
+                });
+
+            this.insightsService.findSentencesFrequencyByImdbId(params['imdbId'], 50)
+                .subscribe((sentences: SentenceFrequency[]) => {
+                    this.frequentSentences = sentences;
+                });
+
+            this.insightsService.findChunksFrequencyByImdbId(params['imdbId'], 50)
+                .subscribe((chunks: ChunkFrequency[]) => {
+                    this.frequentChunks = chunks;
+                });
+
+            this.insightsService.findPhrasalVerbsByImdbId(params['imdbId'])
+                .subscribe((phrasalVerbs: PhrasalVerbsSentences[]) => {
+                    this.frequentPhrasalVerbs = phrasalVerbs;
                 });
         });
     }
@@ -77,11 +95,6 @@ export class InsightsSummaryComponent implements OnInit {
     onSelectFrequency(event) {
         const name = event.name.toLowerCase();
         this.router.navigate(['../frequency', name], {relativeTo: this.route});
-    }
-
-    onSelectTense(event) {
-        const name = event.name.toLowerCase().replace(/ /g, '-');
-        this.router.navigate(['../verb-tenses', name], {relativeTo: this.route});
     }
 
     private pushFrequencyInsights(summary: any) {
@@ -94,22 +107,6 @@ export class InsightsSummaryComponent implements OnInit {
             {'name': 'Modals', 'value': summary['modals-usage']},
             {'name': 'Comparatives', 'value': summary['comparatives-usage']},
             {'name': 'Superlatives', 'value': summary['superlatives-usage']}
-        ]);
-    }
-
-    private pushTenseInsights(summary: any) {
-        this.tenses.push(...[
-            {'name': 'Simple Present', 'value': summary['simple-present-tense']},
-            {'name': 'Simple Past', 'value': summary['simple-past-tense']},
-            {'name': 'Simple Future', 'value': summary['simple-future-tense']},
-            {'name': 'Present Progressive', 'value': summary['present-progressive-tense']},
-            {'name': 'Past Progressive', 'value': summary['past-progressive-tense']},
-            {'name': 'Future Progressive', 'value': summary['future-progressive-tense']},
-            {'name': 'Present Perfect', 'value': summary['present-perfect-tense']},
-            {'name': 'Past Perfect', 'value': summary['past-perfect-tense']},
-            {'name': 'Future Perfect', 'value': summary['future-perfect-tense']},
-            {'name': 'Non Sentences', 'value': summary['non-sentences']},
-            {'name': 'Mixed Tenses', 'value': summary['mixed-tense']}
         ]);
     }
 
@@ -137,11 +134,17 @@ export class InsightsSummaryComponent implements OnInit {
     }
 
     getSentimentClass(): string {
+        if (!this.sentimentAnalysis) {
+            return 'fa-minus';
+        }
         return parseFloat(this.sentimentAnalysis['POSITIVE']) > parseFloat(this.sentimentAnalysis['NEGATIVE'])
             ? 'fa-thumbs-up text-success' : 'fa-thumbs-down text-warning';
     }
 
     getSentimentTitle(): string {
+        if (!this.sentimentAnalysis) {
+            return 'None';
+        }
         const positive = parseFloat(this.sentimentAnalysis['POSITIVE']);
         const negative = parseFloat(this.sentimentAnalysis['NEGATIVE']);
         return positive > negative

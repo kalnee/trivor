@@ -4,16 +4,14 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.kalnee.trivor.insights.config.exception.NotFoundException;
-import org.kalnee.trivor.insights.domain.insights.InsightsAggregated;
-import org.kalnee.trivor.insights.domain.insights.Insights;
 import org.kalnee.trivor.insights.domain.Subtitle;
+import org.kalnee.trivor.insights.domain.insights.GenericInsights;
+import org.kalnee.trivor.insights.domain.insights.Insights;
+import org.kalnee.trivor.insights.domain.insights.InsightsAggregated;
 import org.kalnee.trivor.insights.repository.InsightsAggregatedRepository;
 import org.kalnee.trivor.insights.repository.InsightsRepository;
 import org.kalnee.trivor.insights.repository.SubtitleRepository;
-import org.kalnee.trivor.nlp.domain.FrequencyRate;
-import org.kalnee.trivor.nlp.domain.VerbTenses;
-import org.kalnee.trivor.nlp.domain.Vocabulary;
-import org.kalnee.trivor.nlp.domain.WordUsage;
+import org.kalnee.trivor.nlp.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 import static org.kalnee.trivor.nlp.domain.InsightsEnum.*;
 
@@ -96,55 +95,19 @@ public class InsightService {
     @SuppressWarnings("unchecked")
     public List<WordUsage> findVocabularyUsageByImdbAndSeasonAndEpisode(String vocabulary, String imdbId, Integer season,
                                                                         Integer episode) {
-        Insights insights;
+        GenericInsights insights;
 
         if (season != null && episode != null) {
             final Subtitle subtitle = subtitleRepository.findOneByImdbIdAndSeasonAndEpisode(imdbId, season, episode)
-                .orElseThrow(() -> new IllegalStateException("subtitle not found"));
+                .orElseThrow(NotFoundException::new);
             insights = insightsRepository.findOneByImdbIdAndSubtitleId(imdbId, subtitle.getId());
         } else {
-            insights = insightsRepository.findOneByImdbId(imdbId);
+            insights = aggInsightsRepository.findOneByImdbId(imdbId).orElseThrow(NotFoundException::new);
         }
 
         return getVocabularyStream(vocabulary).apply(insights.getVocabulary())
             .sorted(Comparator.<WordUsage>comparingInt(o -> o.getSentences().size()).reversed())
             .collect(toList());
-    }
-
-    @SuppressWarnings("unchecked")
-    public Set<String> findVerbTensesUsageByImdbId(String tense, String imdbId) {
-        return insightsRepository.findAllByImdbId(imdbId).stream()
-            .flatMap(i -> getVerbTenseStream(tense).apply(i.getVerbTenses()))
-            .collect(toSet());
-    }
-
-    private Function<VerbTenses, Stream<String>> getVerbTenseStream(String tense) {
-        switch (tense) {
-            case "simple-present":
-                return v -> v.getSimplePresent().stream();
-            case "simple-past":
-                return v -> v.getSimplePast().stream();
-            case "simple-future":
-                return v -> v.getSimpleFuture().stream();
-            case "present-progressive":
-                return v -> v.getPresentProgressive().stream();
-            case "past-progressive":
-                return v -> v.getPastProgressive().stream();
-            case "future-progressive":
-                return v -> v.getFutureProgressive().stream();
-            case "present-perfect":
-                return v -> v.getPresentPerfect().stream();
-            case "past-perfect":
-                return v -> v.getPastPerfect().stream();
-            case "future-perfect":
-                return v -> v.getFuturePerfect().stream();
-            case "non-sentences":
-                return v -> v.getNonSentences().stream();
-            case "mixed-tenses":
-                return v -> v.getMixedTenses().stream();
-            default:
-                throw new IllegalArgumentException("verb tense not existent");
-        }
     }
 
     public List<Insights> findInsightsByInsightAndGenre(String genre) {
@@ -173,7 +136,9 @@ public class InsightService {
             .orElseThrow(NotFoundException::new);
 
         summary.put(NUMBER_SENTENCES.getCode(), aggInsights.getNumberOfSentences());
-        summary.put(RATE_OF_SPEECH.getCode(), aggInsights.getRateOfSpeech().getRate().name());
+        summary.put(RATE_OF_SPEECH.getCode(),
+            aggInsights.getRateOfSpeech() != null ? aggInsights.getRateOfSpeech().getRate().name() : "NONE"
+        );
         summary.put(SENTIMENT_ANALYSIS.getCode(), aggInsights.getSentimentAnalysis());
 
         summary.put(FREQUENCY_RATE.getCode(), aggInsights.getFrequencyRate().stream()
@@ -188,18 +153,6 @@ public class InsightService {
         summary.put(COMPARATIVES_USAGE.getCode(), aggInsights.getVocabulary().getComparatives().size());
         summary.put(SUPERLATIVES_USAGE.getCode(), aggInsights.getVocabulary().getSuperlatives().size());
 
-        summary.put(SIMPLE_PRESENT.getCode(), aggInsights.getVerbTenses().getSimplePresent().size());
-        summary.put(SIMPLE_PAST.getCode(), aggInsights.getVerbTenses().getSimplePast().size());
-        summary.put(SIMPLE_FUTURE.getCode(), aggInsights.getVerbTenses().getSimpleFuture().size());
-        summary.put(PRESENT_PROGRESSIVE.getCode(), aggInsights.getVerbTenses().getPresentProgressive().size());
-        summary.put(PAST_PROGRESSIVE.getCode(), aggInsights.getVerbTenses().getPastProgressive().size());
-        summary.put(FUTURE_PROGRESSIVE.getCode(), aggInsights.getVerbTenses().getFutureProgressive().size());
-        summary.put(PRESENT_PERFECT.getCode(), aggInsights.getVerbTenses().getPresentPerfect().size());
-        summary.put(PAST_PERFECT.getCode(), aggInsights.getVerbTenses().getPastPerfect().size());
-        summary.put(FUTURE_PERFECT.getCode(), aggInsights.getVerbTenses().getFuturePerfect().size());
-        summary.put(NON_SENTENCES.getCode(), aggInsights.getVerbTenses().getNonSentences().size());
-        summary.put(MIXED_TENSE.getCode(), aggInsights.getVerbTenses().getMixedTenses().size());
-
         return summary;
     }
 
@@ -209,5 +162,39 @@ public class InsightService {
         } catch (ExecutionException e) {
             throw new IllegalStateException("an error occurred while fetching insights summary", e.getCause());
         }
+    }
+
+    public List<SentenceFrequency> findSentencesFrequencyByImdbId(String imdbId, Integer limit) {
+        final Comparator<SentenceFrequency> comparator = limit == null || limit < 0
+            ? comparing(SentenceFrequency::getFrequency)
+            : comparing(SentenceFrequency::getFrequency).reversed();
+
+        final InsightsAggregated aggInsights = aggInsightsRepository.findOneByImdbId(imdbId)
+            .orElseThrow(NotFoundException::new);
+        return aggInsights.getFrequentSentences().stream()
+            .sorted(comparator)
+            .limit(limit != null ? Math.abs(limit) : Long.MAX_VALUE)
+            .collect(toList());
+    }
+
+    public List<ChunkFrequency> findChunksFrequencyByImdbId(String imdbId, Integer limit) {
+        final Comparator<ChunkFrequency> comparator = limit == null || limit < 0
+            ? comparing(ChunkFrequency::getFrequency)
+            : comparing(ChunkFrequency::getFrequency).reversed();
+
+        final InsightsAggregated aggInsights = aggInsightsRepository.findOneByImdbId(imdbId)
+            .orElseThrow(NotFoundException::new);
+        return aggInsights.getFrequentChunks().stream()
+            .sorted(comparator)
+            .limit(limit != null ? Math.abs(limit) : Long.MAX_VALUE)
+            .collect(toList());
+    }
+
+    public List<PhrasalVerbUsage> findPhrasalVerbsUsageByImdbId(String imdbId) {
+        final InsightsAggregated aggInsights = aggInsightsRepository.findOneByImdbId(imdbId)
+            .orElseThrow(NotFoundException::new);
+        return aggInsights.getPhrasalVerbs().stream()
+            .sorted((p1, p2) -> p2.getSentences().size() - p1.getSentences().size())
+            .collect(toList());
     }
 }
